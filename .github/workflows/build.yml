@@ -1,0 +1,82 @@
+name: Build library
+
+# The project targets the Windows (legacy) framework, so UiPath's workflow
+# compiler only runs on a Windows runner - packing on Linux fails with
+# "Cannot execute Windows projects on Linux platform".
+on:
+  push:
+    branches: ["main", "claude/**"]
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  UIPCLI_VERSION: "25.10.22"
+  UIPATH_FEED: "https://uipath.pkgs.visualstudio.com/Public.Feeds/_packaging/UiPath-Official/nuget/v3/flat2"
+
+jobs:
+  pack:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Resolve package version
+        id: ver
+        shell: pwsh
+        run: |
+          if ("${{ github.ref_type }}" -eq "tag") {
+            $v = "${{ github.ref_name }}" -replace '^v', ''
+          } else {
+            # Untagged build: projectVersion plus the run number, to keep versions unique.
+            $v = (Get-Content project.json -Raw | ConvertFrom-Json).projectVersion
+            $v = "$v-ci.${{ github.run_number }}"
+          }
+          "version=$v" >> $env:GITHUB_OUTPUT
+          Write-Host "Packing version $v"
+
+      - name: Download UiPath CLI
+        shell: pwsh
+        run: |
+          $url = "$env:UIPATH_FEED/uipath.cli.windows/$env:UIPCLI_VERSION/uipath.cli.windows.$env:UIPCLI_VERSION.nupkg"
+          Invoke-WebRequest -Uri $url -OutFile uipcli.zip
+          Expand-Archive uipcli.zip -DestinationPath uipcli -Force
+
+      - name: Pack
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path output | Out-Null
+          dotnet uipcli/tools/net8.0/any/uipcli.dll package pack project.json `
+            -o output `
+            -v "${{ steps.ver.outputs.version }}" `
+            --repositoryUrl "${{ github.server_url }}/${{ github.repository }}" `
+            --repositoryCommit "${{ github.sha }}" `
+            --repositoryType git `
+            --traceLevel Information
+          if ($LASTEXITCODE -ne 0) { throw "uipcli pack failed with exit code $LASTEXITCODE" }
+          $pkg = Get-ChildItem output -Filter *.nupkg
+          if (-not $pkg) { throw "pack reported success but produced no .nupkg" }
+          Write-Host "Built $($pkg.Name)"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AI_SemanticSearch-${{ steps.ver.outputs.version }}
+          path: output/*.nupkg
+          if-no-files-found: error
+
+      - name: Publish release
+        if: github.ref_type == 'tag'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ github.ref_name }}" (Get-ChildItem output/*.nupkg).FullName `
+            --title "AI_SemanticSearch ${{ steps.ver.outputs.version }}" `
+            --notes "UiPath library package built from ``${{ github.sha }}``.
+
+          Install by adding the ``.nupkg`` to a local/custom NuGet feed in UiPath Studio, or upload it to Orchestrator."
