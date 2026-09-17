@@ -53,3 +53,24 @@ the "share" can be any folder.
 - **Multilingual**: with bge-m3, Arabic queries match English data and vice versa.
 - **Scores**: semantic = cosine similarity (~0.5–1.0 useful range); exact = 1.0 or 0;
   structured queries average across the queried keys.
+
+## Building the package
+
+The project targets the **Windows (legacy)** framework, so UiPath's workflow compiler only runs on
+Windows — packing on Linux fails with *"Cannot execute Windows projects on Linux platform"*.
+
+Builds therefore run in CI on a `windows-latest` runner ([.github/workflows/build.yml](.github/workflows/build.yml)):
+
+- **Push to a branch** → packs `<projectVersion>-ci.<run number>` and uploads the `.nupkg`
+  as a workflow artifact.
+- **Push a `v*` tag** (e.g. `v1.1.0`) → packs that version and publishes the `.nupkg`
+  as a [GitHub Release](../../releases).
+
+To build locally instead, on a Windows machine with the UiPath CLI:
+
+```powershell
+uipcli package pack project.json -o output -v 1.1.0
+```
+
+Consume the resulting `.nupkg` by adding its folder as a custom NuGet feed in UiPath Studio
+(*Settings → Manage Sources*), or by uploading it to Orchestrator.
