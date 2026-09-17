@@ -59,12 +59,15 @@ the "share" can be any folder.
 The project targets the **Windows (legacy)** framework, so UiPath's workflow compiler only runs on
 Windows — packing on Linux fails with *"Cannot execute Windows projects on Linux platform"*.
 
-Builds therefore run in CI on a `windows-latest` runner ([.github/workflows/build.yml](.github/workflows/build.yml)):
+Builds therefore run in CI on a `windows-latest` runner ([.github/workflows/build.yml](.github/workflows/build.yml)),
+with the UiPath Workflow Analyzer enabled.
 
-- **Push to a branch** → packs `<projectVersion>-ci.<run number>` and uploads the `.nupkg`
-  as a workflow artifact.
-- **Push a `v*` tag** (e.g. `v1.1.0`) → packs that version and publishes the `.nupkg`
-  as a [GitHub Release](../../releases).
+Releases are cut from `projectVersion` in `project.json`, not by pushing a tag:
+
+- **Bump `projectVersion`** and push → CI packs that version, publishes it as a
+  [GitHub Release](../../releases), and creates the matching `v<version>` tag.
+- **Push again without bumping** → CI packs `<projectVersion>-ci.<run number>` and uploads it as a
+  workflow artifact only, so a published release is never silently overwritten.
 
 To build locally instead, on a Windows machine with the UiPath CLI:
 

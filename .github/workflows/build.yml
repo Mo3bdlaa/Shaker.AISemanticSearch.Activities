@@ -26,19 +26,36 @@ jobs:
         with:
           dotnet-version: "8.0.x"
 
-      - name: Resolve package version
+      # Releases are cut by CI rather than by pushing a tag: bump projectVersion
+      # in project.json and the first build of that version publishes the release
+      # (creating the tag). Rebuilds of an already-released version produce a
+      # -ci.N artifact instead, so a release is never silently overwritten.
+      - name: Resolve version and release plan
         id: ver
         shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
+          $proj = (Get-Content project.json -Raw | ConvertFrom-Json).projectVersion
           if ("${{ github.ref_type }}" -eq "tag") {
-            $v = "${{ github.ref_name }}" -replace '^v', ''
+            $tag = "${{ github.ref_name }}"
+            $version = $tag -replace '^v', ''
+            $release = "true"
           } else {
-            # Untagged build: projectVersion plus the run number, to keep versions unique.
-            $v = (Get-Content project.json -Raw | ConvertFrom-Json).projectVersion
-            $v = "$v-ci.${{ github.run_number }}"
+            $tag = "v$proj"
+            gh release view $tag --repo $env:GITHUB_REPOSITORY *> $null
+            if ($LASTEXITCODE -eq 0) {
+              $version = "$proj-ci.${{ github.run_number }}"
+              $release = "false"
+            } else {
+              $version = $proj
+              $release = "true"
+            }
           }
-          "version=$v" >> $env:GITHUB_OUTPUT
-          Write-Host "Packing version $v"
+          "version=$version" >> $env:GITHUB_OUTPUT
+          "tag=$tag"         >> $env:GITHUB_OUTPUT
+          "release=$release" >> $env:GITHUB_OUTPUT
+          Write-Host "version=$version  tag=$tag  publish-release=$release"
 
       - name: Download UiPath CLI
         shell: pwsh
@@ -70,13 +87,24 @@ jobs:
           if-no-files-found: error
 
       - name: Publish release
-        if: github.ref_type == 'tag'
+        if: steps.ver.outputs.release == 'true'
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
+          REPO_URL: ${{ github.server_url }}/${{ github.repository }}
+          SHA: ${{ github.sha }}
         run: |
-          gh release create "${{ github.ref_name }}" (Get-ChildItem output/*.nupkg).FullName `
+          $pkg = (Get-ChildItem output/*.nupkg).FullName
+          $notes = @(
+            'UiPath library package for Windows targets, built from commit ' + $env:SHA + '.'
+            ''
+            '**Install:** download the .nupkg below, then either add its folder as a custom NuGet feed in UiPath Studio (Settings -> Manage Sources), or upload it to Orchestrator.'
+            ''
+            'See the [README](' + $env:REPO_URL + '#readme) for the public API, and [docs](' + $env:REPO_URL + '/tree/' + $env:SHA + '/docs) for the architecture and error-handling notes.'
+          ) -join "`n"
+          gh release create "${{ steps.ver.outputs.tag }}" $pkg `
+            --repo $env:GITHUB_REPOSITORY `
+            --target $env:SHA `
             --title "AI_SemanticSearch ${{ steps.ver.outputs.version }}" `
-            --notes "UiPath library package built from ``${{ github.sha }}``.
-
-          Install by adding the ``.nupkg`` to a local/custom NuGet feed in UiPath Studio, or upload it to Orchestrator."
+            --notes $notes
+          if ($LASTEXITCODE -ne 0) { throw "gh release create failed with exit code $LASTEXITCODE" }
