@@ -1,0 +1,39 @@
+name: Reset releases
+
+# One-shot maintenance: deletes the named releases AND their tags. Manual
+# dispatch only; never runs on its own. Removed again once its job is done.
+on:
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: "Space-separated tags to delete (release + tag)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  reset:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete releases and tags
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          for t in ${{ github.event.inputs.tags }}; do
+            if gh release view "$t" --repo "$REPO" >/dev/null 2>&1; then
+              echo "Deleting release $t (and its tag)"
+              gh release delete "$t" --repo "$REPO" --cleanup-tag --yes
+            else
+              echo "No release $t"
+            fi
+            if gh api "repos/$REPO/git/ref/tags/$t" >/dev/null 2>&1; then
+              echo "Deleting leftover tag $t"
+              gh api -X DELETE "repos/$REPO/git/refs/tags/$t"
+            fi
+          done
+          echo "--- remaining releases ---"; gh release list --repo "$REPO" || echo "(none)"
+          echo "--- remaining tags ---"; gh api "repos/$REPO/tags" --jq '.[].name' || echo "(none)"
