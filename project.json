@@ -51,7 +51,8 @@
         "helpers/ScoreChunks.xaml",
         "helpers/WriteStructuredChunks.xaml",
         "helpers/BuildFieldTable.xaml",
-        "helpers/EnsureSqliteNative.xaml"
+        "helpers/EnsureSqliteNative.xaml",
+        "Test/SmokeTest.xaml"
       ]
     },
     "processOptions": {

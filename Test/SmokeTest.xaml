@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Activity mc:Ignorable="sap sap2010" x:Class="SmokeTest" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_SharePath" Type="InArgument(x:String)" />
+    <x:Property Name="in_LockPath" Type="InArgument(x:String)" />
+    <x:Property Name="in_LocalDbPath" Type="InArgument(x:String)" />
+    <x:Property Name="in_LocalReadDbPath" Type="InArgument(x:String)" />
+    <x:Property Name="in_EmbeddingUrl" Type="InArgument(x:String)" />
+    <x:Property Name="in_ApiKey" Type="InArgument(x:String)" />
+    <x:Property Name="in_Model" Type="InArgument(x:String)" />
+    <x:Property Name="in_EmbeddingDim" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_LockTimeoutMs" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_TimeoutSec" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_MaxRetries" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_BatchSize" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_TopK" Type="InArgument(x:Int32)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>SmokeTest_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>System.Numerics</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Data.SqlClient</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Private.Xml</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Runtime.Numerics</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="SmokeTest" sap2010:WorkflowViewState.IdRef="Sequence_Smoke_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="sd:DataTable" Name="dtSheet" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dtResults" />
+      <Variable x:TypeArguments="scg:List(x:String)" Name="lsExactColumns" />
+      <Variable x:TypeArguments="scg:List(x:String)" Name="lsFilterColumns" />
+      <Variable x:TypeArguments="scg:List(x:String)" Name="lsIngestErrors" />
+      <Variable x:TypeArguments="x:String" Name="strQueryJson" />
+      <Variable x:TypeArguments="x:Int32" Name="intRowsWritten" />
+      <Variable x:TypeArguments="x:Boolean" Name="boolSuccess" />
+      <Variable x:TypeArguments="x:String" Name="strErrorMessage" />
+    </Sequence.Variables>
+    <ui:LogMessage DisplayName="Log Message - Smoke Test Start" sap2010:WorkflowViewState.IdRef="LogMessage_Smoke_1" Message="[&quot;SmokeTest: building in-memory fixture...&quot;]" />
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="' Builds the smoke-test fixture in memory, so the test needs no Excel file&#xA;' and no values baked into the workflow. Two single-row documents:&#xA;'   smoke-1  Rank=5  Harvard University&#xA;'   smoke-2  Rank=9  Stanford University&#xA;' &quot;Rank&quot; is ingested exact and then used as a FILTER at retrieval, so only&#xA;' smoke-1 may come back. &quot;Name&quot; stays semantic.&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;out_Sheet = New System.Data.DataTable()&#xA;out_ExactColumns = New System.Collections.Generic.List(Of String)()&#xA;out_FilterColumns = New System.Collections.Generic.List(Of String)()&#xA;out_QueryJson = &quot;&quot;&#xA;Try&#xA;    out_Sheet.Columns.Add(&quot;docId&quot;, GetType(String))&#xA;    out_Sheet.Columns.Add(&quot;Rank&quot;, GetType(String))&#xA;    out_Sheet.Columns.Add(&quot;Name&quot;, GetType(String))&#xA;    out_Sheet.Rows.Add(&quot;smoke-1&quot;, &quot;5&quot;, &quot;Harvard University&quot;)&#xA;    out_Sheet.Rows.Add(&quot;smoke-2&quot;, &quot;9&quot;, &quot;Stanford University&quot;)&#xA;&#xA;    out_ExactColumns.Add(&quot;docId&quot;)&#xA;    out_ExactColumns.Add(&quot;Rank&quot;)&#xA;    out_FilterColumns.Add(&quot;Rank&quot;)&#xA;&#xA;    ' Name is deliberately a loose match: semantic scoring should still rank it,&#xA;    ' while Rank as a filter must exclude smoke-2 outright.&#xA;    out_QueryJson = &quot;{&quot;&quot;Rank&quot;&quot;:&quot;&quot;5&quot;&quot;,&quot;&quot;Name&quot;&quot;:&quot;&quot;university&quot;&quot;}&quot;&#xA;&#xA;    out_Success = True&#xA;Catch ex As System.Exception&#xA;    out_ErrorMessage = &quot;BuildFixture failed: &quot; &amp; ex.Message&#xA;End Try&#xA;" DisplayName="Invoke Code - Build Fixture" sap2010:WorkflowViewState.IdRef="InvokeCode_Smoke_1">
+      <ui:InvokeCode.Arguments>
+        <OutArgument x:TypeArguments="sd:DataTable" x:Key="out_Sheet">[dtSheet]</OutArgument>
+        <OutArgument x:TypeArguments="scg:List(x:String)" x:Key="out_ExactColumns">[lsExactColumns]</OutArgument>
+        <OutArgument x:TypeArguments="scg:List(x:String)" x:Key="out_FilterColumns">[lsFilterColumns]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_QueryJson">[strQueryJson]</OutArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[boolSuccess]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[strErrorMessage]</OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:CheckTrue DisplayName="Check True - Build Fixture" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap2010:WorkflowViewState.IdRef="CheckTrue_Smoke_1" />
+    <ui:LogMessage DisplayName="Log Message - Ingesting" sap2010:WorkflowViewState.IdRef="LogMessage_Smoke_2" Message="[&quot;SmokeTest: ingesting fixture...&quot;]" />
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="IngestStructuredData.xaml - Invoke Workflow File" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_Smoke_1" UnSafe="False" WorkflowFileName="IngestStructuredData.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_SharePath">[in_SharePath]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_LockPath">[in_LockPath]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_LocalDbPath">[in_LocalDbPath]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_EmbeddingUrl">[in_EmbeddingUrl]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_ApiKey">[in_ApiKey]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Model">[in_Model]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_EmbeddingDim">[in_EmbeddingDim]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_LockTimeoutMs">[in_LockTimeoutMs]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_TimeoutSec">[in_TimeoutSec]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_MaxRetries">[in_MaxRetries]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_BatchSize">[in_BatchSize]</InArgument>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_Sheet">[dtSheet]</InArgument>
+        <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_ExactColumns">[lsExactColumns]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_DocIdColumn">docId</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Source">SmokeTest</InArgument>
+        <OutArgument x:TypeArguments="x:Int32" x:Key="out_RowsWritten">[intRowsWritten]</OutArgument>
+        <OutArgument x:TypeArguments="scg:List(x:String)" x:Key="out_Errors">[lsIngestErrors]</OutArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="' Ingest must complete without errors. RowsWritten = 0 is legitimate on a&#xA;' second run (skip-unchanged), so only reported errors fail the test.&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;Try&#xA;    If in_Errors IsNot Nothing AndAlso in_Errors.Count &gt; 0 Then&#xA;        Throw New System.Exception(&quot;ingest reported: &quot; &amp; String.Join(&quot; | &quot;, in_Errors.ToArray()))&#xA;    End If&#xA;    out_Success = True&#xA;Catch ex As System.Exception&#xA;    out_ErrorMessage = &quot;AssertIngest failed: &quot; &amp; ex.Message&#xA;End Try&#xA;" DisplayName="Invoke Code - Assert Ingest" sap2010:WorkflowViewState.IdRef="InvokeCode_Smoke_2">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_Errors">[lsIngestErrors]</InArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[boolSuccess]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[strErrorMessage]</OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:CheckTrue DisplayName="Check True - Assert Ingest" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap2010:WorkflowViewState.IdRef="CheckTrue_Smoke_2" />
+    <ui:LogMessage DisplayName="Log Message - Retrieving" sap2010:WorkflowViewState.IdRef="LogMessage_Smoke_3" Message="[&quot;SmokeTest: retrieving with Rank as a filter column...&quot;]" />
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="RetrieveStructuredData.xaml - Invoke Workflow File" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_Smoke_2" UnSafe="False" WorkflowFileName="RetrieveStructuredData.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_QueryJson">[strQueryJson]</InArgument>
+        <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_FilterColumns">[lsFilterColumns]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_SharePath">[in_SharePath]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_LocalDbPath">[in_LocalReadDbPath]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_EmbeddingUrl">[in_EmbeddingUrl]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_ApiKey">[in_ApiKey]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Model">[in_Model]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_TopK">[in_TopK]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_TimeoutSec">[in_TimeoutSec]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_MaxRetries">[in_MaxRetries]</InArgument>
+        <OutArgument x:TypeArguments="sd:DataTable" x:Key="out_dt_Results">[dtResults]</OutArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="' Regression guard for filter keys. Rank=5 is passed as a FILTER, so smoke-2&#xA;' (Rank=9) must be absent entirely - not merely ranked lower. If filter keys&#xA;' ever revert to scoring, this returns 2 rows and the test fails here.&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;Try&#xA;    If in_Results Is Nothing Then&#xA;        Throw New System.Exception(&quot;retrieval returned no table.&quot;)&#xA;    End If&#xA;    If in_Results.Rows.Count &lt;&gt; 1 Then&#xA;        Throw New System.Exception(&#xA;            &quot;expected exactly 1 row (only smoke-1 has Rank=5) but got &quot; &amp;&#xA;            in_Results.Rows.Count.ToString() &amp;&#xA;            &quot;. Filter columns appear to be scoring instead of excluding.&quot;)&#xA;    End If&#xA;    Dim docId As String = If(in_Results.Rows(0)(&quot;DocId&quot;), &quot;&quot;).ToString()&#xA;    If Not String.Equals(docId, &quot;smoke-1&quot;, StringComparison.OrdinalIgnoreCase) Then&#xA;        Throw New System.Exception(&quot;expected DocId 'smoke-1' but got '&quot; &amp; docId &amp; &quot;'.&quot;)&#xA;    End If&#xA;    out_Success = True&#xA;Catch ex As System.Exception&#xA;    out_ErrorMessage = &quot;AssertRetrieve failed: &quot; &amp; ex.Message&#xA;End Try&#xA;" DisplayName="Invoke Code - Assert Retrieve" sap2010:WorkflowViewState.IdRef="InvokeCode_Smoke_3">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_Results">[dtResults]</InArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[boolSuccess]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[strErrorMessage]</OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:CheckTrue DisplayName="Check True - Assert Retrieve" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap2010:WorkflowViewState.IdRef="CheckTrue_Smoke_3" />
+    <ui:LogMessage DisplayName="Log Message - Smoke Test Passed" sap2010:WorkflowViewState.IdRef="LogMessage_Smoke_4" Message="[&quot;SmokeTest: PASSED&quot;]" />
+  </Sequence>
+</Activity>
