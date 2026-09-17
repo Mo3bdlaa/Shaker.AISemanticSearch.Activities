@@ -5,7 +5,7 @@ name: Build library
 # "Cannot execute Windows projects on Linux platform".
 on:
   push:
-    branches: ["main", "claude/**"]
+    branches: ["main"]
     tags: ["v*"]
   workflow_dispatch:
 

@@ -3,7 +3,7 @@
   "Tooltip": "Per-field hybrid search: query with a JSON object of field/value pairs. Exact-mode fields match by string equality (score 1.0); semantic-mode fields match by similarity. A row's score is the average across the scored keys, so rows matching more keys rank higher. Keys listed in Filter Columns are hard filters: non-matching rows are excluded rather than ranked lower. Returns whole rows.",
   "HelpLink": null,
   "Color": null,
-  "OriginalIconFileName": null,
+  "OriginalIconFileName": "icons/RetrieveStructuredData.svg",
   "Arguments": [
     {
       "Name": "in_QueryJson",

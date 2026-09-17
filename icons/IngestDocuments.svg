@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none"
+     stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+  <title>Ingest Documents</title>
+  <!-- source document -->
+  <path d="M4 2.8h6.2L13 5.6V12" />
+  <path d="M10 2.8v3h3" />
+  <path d="M4 2.8v10.4" />
+  <path d="M6.2 6.6h2.4M6.2 9h4.4" />
+  <!-- flow into the store -->
+  <path d="M6 16.4h7.6" />
+  <path d="M11.4 14.2l2.2 2.2-2.2 2.2" />
+  <!-- vector store -->
+  <ellipse cx="18.4" cy="7.6" rx="3.2" ry="1.4" />
+  <path d="M15.2 7.6v8.8c0 .77 1.43 1.4 3.2 1.4s3.2-.63 3.2-1.4V7.6" />
+  <path d="M15.2 12c0 .77 1.43 1.4 3.2 1.4s3.2-.63 3.2-1.4" />
+</svg>

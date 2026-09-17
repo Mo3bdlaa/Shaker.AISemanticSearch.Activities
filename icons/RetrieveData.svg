@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none"
+     stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+  <title>Retrieve Data</title>
+  <!-- vector store being searched -->
+  <ellipse cx="7.4" cy="4.8" rx="4.6" ry="1.9" />
+  <path d="M2.8 4.8v9.9c0 1.05 2.06 1.9 4.6 1.9 .62 0 1.2-.05 1.74-.14" />
+  <path d="M2.8 9.75c0 1.05 2.06 1.9 4.6 1.9 .38 0 .75-.02 1.1-.06" />
+  <!-- semantic match / magnifier -->
+  <circle cx="15.6" cy="14.4" r="4.2" />
+  <path d="M18.7 17.5L21.6 20.4" />
+  <path d="M13.9 14.4h3.4" />
+</svg>
