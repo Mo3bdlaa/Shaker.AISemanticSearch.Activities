@@ -1,0 +1,147 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="WriteDocumentChunks" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_DbPath" Type="InArgument(x:String)" />
+    <x:Property Name="in_DocId" Type="InArgument(x:String)" />
+    <x:Property Name="in_Source" Type="InArgument(x:String)" />
+    <x:Property Name="in_ContentHash" Type="InArgument(x:String)" />
+    <x:Property Name="in_Chunks" Type="InArgument(scg:List(x:String))" />
+    <x:Property Name="in_Embeddings" Type="InArgument(scg:List(s:Double[]))" />
+    <x:Property Name="in_Model" Type="InArgument(x:String)" />
+    <x:Property Name="in_Dim" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_Metadata" Type="InArgument(x:String)" />
+  </x:Members>
+  <this:WriteDocumentChunks.in_DbPath>
+    <InArgument x:TypeArguments="x:String" />
+  </this:WriteDocumentChunks.in_DbPath>
+  <this:WriteDocumentChunks.in_DocId>
+    <InArgument x:TypeArguments="x:String" />
+  </this:WriteDocumentChunks.in_DocId>
+  <this:WriteDocumentChunks.in_Source>
+    <InArgument x:TypeArguments="x:String" />
+  </this:WriteDocumentChunks.in_Source>
+  <this:WriteDocumentChunks.in_ContentHash>
+    <InArgument x:TypeArguments="x:String" />
+  </this:WriteDocumentChunks.in_ContentHash>
+  <this:WriteDocumentChunks.in_Chunks>
+    <InArgument x:TypeArguments="scg:List(x:String)" />
+  </this:WriteDocumentChunks.in_Chunks>
+  <this:WriteDocumentChunks.in_Embeddings>
+    <InArgument x:TypeArguments="scg:List(s:Double[])" />
+  </this:WriteDocumentChunks.in_Embeddings>
+  <this:WriteDocumentChunks.in_Model>
+    <InArgument x:TypeArguments="x:String" />
+  </this:WriteDocumentChunks.in_Model>
+  <this:WriteDocumentChunks.in_Dim>
+    <InArgument x:TypeArguments="x:Int32" />
+  </this:WriteDocumentChunks.in_Dim>
+  <this:WriteDocumentChunks.in_Metadata>
+    <InArgument x:TypeArguments="x:String" />
+  </this:WriteDocumentChunks.in_Metadata>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>WriteDocumentChunks_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Numerics</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Runtime.Numerics</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="The transactional writer — the one that packs vectors to BLOBs and inserts. " DisplayName="WriteDocumentChunks" sap:VirtualizedContainerService.HintSize="1081,813.6566666666666" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:Boolean" Name="boolSuccess" />
+      <Variable x:TypeArguments="x:String" Name="strErrorMessage" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,175" sap2010:WorkflowViewState.IdRef="LogMessage_1" Message="[&quot;Writing Doc Chunks...&quot;]" />
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="' ================================================================&#xA;' WriteDocumentChunks  (PRIVATE — used by IngestDocuments)&#xA;' Writes ONE document's chunks in a single transaction:&#xA;'   1) delete this doc's old chunks (re-ingest replaces cleanly)&#xA;'   2) upsert the documents row (with the new hash)&#xA;'   3) insert each chunk + its embedding as a Float32 BLOB&#xA;' Embeddings arrive unit-normalized as Double(); we store them as&#xA;' Float32 (half the bytes, precision loss negligible after norm).&#xA;' Cosine downstream is just a dot product over these.&#xA;'&#xA;' in_Metadata: optional row JSON stored on every chunk of this doc&#xA;'   (used by the structured path). Pass &quot;&quot; for the free-text path.&#xA;' On failure: rolls back, sets out_Success=False + out_ErrorMessage,&#xA;'   and does NOT throw, so IngestDocuments can count it and continue.&#xA;' ================================================================&#xA;&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;&#xA;Try&#xA;    If in_Chunks.Count &lt;&gt; in_Embeddings.Count Then&#xA;        Throw New System.Exception(&quot;Chunk/embedding count mismatch: &quot; &amp;&#xA;            in_Chunks.Count.ToString() &amp; &quot; vs &quot; &amp; in_Embeddings.Count.ToString())&#xA;    End If&#xA;&#xA;    ' Normalize the optional metadata once (never bind Nothing).&#xA;    Dim meta As String = If(in_Metadata, &quot;&quot;)&#xA;&#xA;    Dim nowUtc As String = DateTime.UtcNow.ToString(&quot;o&quot;)&#xA;&#xA;    Using conn As New Microsoft.Data.Sqlite.SqliteConnection(&quot;Data Source=&quot; &amp; in_DbPath &amp; &quot;;Pooling=False&quot;)&#xA;        conn.Open()&#xA;&#xA;        ' Defensive even though the cross-machine lock means single writer.&#xA;        Using p As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xA;            p.CommandText = &quot;PRAGMA busy_timeout=5000;&quot;&#xA;            p.ExecuteNonQuery()&#xA;        End Using&#xA;&#xA;        Using txn As Microsoft.Data.Sqlite.SqliteTransaction = conn.BeginTransaction()&#xA;&#xA;            ' 1) clear old chunks for this doc&#xA;            Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xA;                cmd.Transaction = txn&#xA;                cmd.CommandText = &quot;DELETE FROM chunks WHERE doc_id=$id;&quot;&#xA;                cmd.Parameters.AddWithValue(&quot;$id&quot;, in_DocId)&#xA;                cmd.ExecuteNonQuery()&#xA;            End Using&#xA;&#xA;            ' 2) upsert the documents row&#xA;            Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xA;                cmd.Transaction = txn&#xA;                cmd.CommandText =&#xA;                    &quot;INSERT INTO documents(doc_id,source,content_hash,created_utc,updated_utc) &quot; &amp;&#xA;                    &quot;VALUES($id,$src,$hash,$now,$now) &quot; &amp;&#xA;                    &quot;ON CONFLICT(doc_id) DO UPDATE SET &quot; &amp;&#xA;                    &quot;  source=$src, content_hash=$hash, updated_utc=$now;&quot;&#xA;                cmd.Parameters.AddWithValue(&quot;$id&quot;, in_DocId)&#xA;                cmd.Parameters.AddWithValue(&quot;$src&quot;, If(in_Source, &quot;&quot;))   ' never bind Nothing&#xA;                cmd.Parameters.AddWithValue(&quot;$hash&quot;, in_ContentHash)&#xA;                cmd.Parameters.AddWithValue(&quot;$now&quot;, nowUtc)&#xA;                cmd.ExecuteNonQuery()&#xA;            End Using&#xA;&#xA;            ' 3) insert chunks — ONE command, re-bound per row (fast + clean)&#xA;            Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xA;                cmd.Transaction = txn&#xA;                cmd.CommandText =&#xA;                    &quot;INSERT INTO chunks(doc_id,chunk_index,content,embedding,dim,model,content_hash,metadata,created_utc) &quot; &amp;&#xA;                    &quot;VALUES($id,$ix,$content,$emb,$dim,$model,$hash,$meta,$now);&quot;&#xA;&#xA;                ' declare the parameters once, set Value each iteration&#xA;                Dim pId   = cmd.Parameters.Add(&quot;$id&quot;,      Microsoft.Data.Sqlite.SqliteType.Text)&#xA;                Dim pIx   = cmd.Parameters.Add(&quot;$ix&quot;,      Microsoft.Data.Sqlite.SqliteType.Integer)&#xA;                Dim pCont = cmd.Parameters.Add(&quot;$content&quot;, Microsoft.Data.Sqlite.SqliteType.Text)&#xA;                Dim pEmb  = cmd.Parameters.Add(&quot;$emb&quot;,     Microsoft.Data.Sqlite.SqliteType.Blob)&#xA;                Dim pDim  = cmd.Parameters.Add(&quot;$dim&quot;,     Microsoft.Data.Sqlite.SqliteType.Integer)&#xA;                Dim pMod  = cmd.Parameters.Add(&quot;$model&quot;,   Microsoft.Data.Sqlite.SqliteType.Text)&#xA;                Dim pHash = cmd.Parameters.Add(&quot;$hash&quot;,    Microsoft.Data.Sqlite.SqliteType.Text)&#xA;                Dim pMeta = cmd.Parameters.Add(&quot;$meta&quot;,    Microsoft.Data.Sqlite.SqliteType.Text)&#xA;                Dim pNow  = cmd.Parameters.Add(&quot;$now&quot;,     Microsoft.Data.Sqlite.SqliteType.Text)&#xA;&#xA;                For c As Integer = 0 To in_Chunks.Count - 1&#xA;                    Dim vec As Double() = in_Embeddings(c)&#xA;&#xA;                    ' guard: every vector must match the store's dimension&#xA;                    If vec.Length &lt;&gt; in_Dim Then&#xA;                        Throw New System.Exception(&quot;Dimension mismatch on chunk &quot; &amp; c.ToString() &amp;&#xA;                            &quot;: got &quot; &amp; vec.Length.ToString() &amp; &quot;, expected &quot; &amp; in_Dim.ToString())&#xA;                    End If&#xA;&#xA;                    ' pack Double() -&gt; Float32 -&gt; bytes (4 bytes per value)&#xA;                    Dim fvec(vec.Length - 1) As Single&#xA;                    For k As Integer = 0 To vec.Length - 1&#xA;                        fvec(k) = CSng(vec(k))&#xA;                    Next&#xA;                    Dim bytes(vec.Length * 4 - 1) As Byte&#xA;                    System.Buffer.BlockCopy(fvec, 0, bytes, 0, bytes.Length)&#xA;&#xA;                    pId.Value   = in_DocId&#xA;                    pIx.Value   = c&#xA;                    pCont.Value = in_Chunks(c)&#xA;                    pEmb.Value  = bytes&#xA;                    pDim.Value  = in_Dim&#xA;                    pMod.Value  = in_Model&#xA;                    pHash.Value = in_ContentHash&#xA;                    pMeta.Value = meta&#xA;                    pNow.Value  = nowUtc&#xA;                    cmd.ExecuteNonQuery()&#xA;                Next&#xA;            End Using&#xA;&#xA;            txn.Commit()        ' all-or-nothing for this document&#xA;        End Using&#xA;&#xA;        conn.Close()&#xA;    End Using&#xA;&#xA;    out_Success = True&#xA;&#xA;Catch ex As System.Exception&#xA;    ' Transaction auto-rolls-back when the Using block disposes without a&#xA;    ' commit, so a failure here leaves the store untouched for this doc.&#xA;    out_Success = False&#xA;    out_ErrorMessage = &quot;WriteDocumentChunks failed for doc '&quot; &amp; in_DocId &amp; &quot;': &quot; &amp; ex.Message&#xA;    If ex.InnerException IsNot Nothing Then&#xA;        out_ErrorMessage &amp;= &quot; | Inner: &quot; &amp; ex.InnerException.Message&#xA;    End If&#xA;End Try" DisplayName="Invoke Code - Write Document Chunks" sap:VirtualizedContainerService.HintSize="450,197" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_DbPath">[in_DbPath]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_DocId">[in_DocId]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Source">[in_Source]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_ContentHash">[in_ContentHash]</InArgument>
+        <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_Chunks">[in_Chunks]</InArgument>
+        <InArgument x:TypeArguments="scg:List(s:Double[])" x:Key="in_Embeddings">[in_Embeddings]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Model">[in_Model]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_Dim">[in_Dim]</InArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[boolSuccess]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[strErrorMessage]</OutArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Metadata">[in_Metadata]</InArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:CheckTrue DisplayName="Check True - strErrorMessage" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap:VirtualizedContainerService.HintSize="450,163" sap2010:WorkflowViewState.IdRef="CheckTrue_1" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,166" sap2010:WorkflowViewState.IdRef="LogMessage_2" Message="[&quot;Done Writing.&quot;]" />
+  </Sequence>
+</Activity>

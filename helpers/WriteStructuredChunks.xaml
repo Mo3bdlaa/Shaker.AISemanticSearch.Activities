@@ -1,0 +1,119 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="WriteStructuredChunks" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_DbPath" Type="InArgument(x:String)" />
+    <x:Property Name="in_Rows" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="in_RowEmbeddings" Type="InArgument(scg:List(s:Double[]))" />
+    <x:Property Name="in_Fields" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="in_FieldEmbeddings" Type="InArgument(scg:List(s:Double[]))" />
+    <x:Property Name="in_Model" Type="InArgument(x:String)" />
+    <x:Property Name="in_Dim" Type="InArgument(x:Int32)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>WriteStructuredChunks_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Private.Xml</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="WriteStructuredChunks" sap:VirtualizedContainerService.HintSize="1224,718" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:Boolean" Name="boolSuccess" />
+      <Variable x:TypeArguments="x:String" Name="strErrorMessage" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="416,173" sap2010:WorkflowViewState.IdRef="LogMessage_1" Message="[&quot;Writing Structured Chunks...&quot;]" />
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="' ================================================================&#xD;&#xA;' WriteStructuredChunks  (PRIVATE - used by IngestStructured)&#xD;&#xA;' One transaction. For each record: clear its old chunks + chunk_fields,&#xD;&#xA;' upsert the documents row, insert the row-JSON chunk (embedded, so the&#xD;&#xA;' free-text Retrieve can also find structured rows), then insert one&#xD;&#xA;' chunk_fields row per field. Semantic fields carry a Float32 vector;&#xD;&#xA;' exact fields store NULL embedding and are matched by string at query.&#xD;&#xA;'&#xD;&#xA;' Vector alignment contract (caller must honour):&#xD;&#xA;'   in_RowEmbeddings   aligned to in_Rows order (row-JSON vectors)&#xD;&#xA;'   in_FieldEmbeddings aligned to Mode=&quot;semantic&quot; rows of in_Fields,&#xD;&#xA;'                      in in_Fields row order.&#xD;&#xA;' On failure: rolls back (Using disposes txn uncommitted), flags only.&#xD;&#xA;' ================================================================&#xD;&#xA;out_Success = False&#xD;&#xA;out_ErrorMessage = &quot;&quot;&#xD;&#xA;&#xD;&#xA;Try&#xD;&#xA;    If in_Rows.Rows.Count &lt;&gt; in_RowEmbeddings.Count Then&#xD;&#xA;        Throw New System.Exception(&quot;Row/embedding count mismatch: &quot; &amp; in_Rows.Rows.Count.ToString() &amp; &quot; vs &quot; &amp; in_RowEmbeddings.Count.ToString())&#xD;&#xA;    End If&#xD;&#xA;&#xD;&#xA;    Dim nowUtc As String = DateTime.UtcNow.ToString(&quot;o&quot;)&#xD;&#xA;    Dim sha As System.Security.Cryptography.SHA256 = System.Security.Cryptography.SHA256.Create()&#xD;&#xA;&#xD;&#xA;    Using conn As New Microsoft.Data.Sqlite.SqliteConnection(&quot;Data Source=&quot; &amp; in_DbPath &amp; &quot;;Pooling=False&quot;)&#xD;&#xA;        conn.Open()&#xD;&#xA;        Using p As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xD;&#xA;            p.CommandText = &quot;PRAGMA busy_timeout=5000;&quot;&#xD;&#xA;            p.ExecuteNonQuery()&#xD;&#xA;        End Using&#xD;&#xA;&#xD;&#xA;        Using txn As Microsoft.Data.Sqlite.SqliteTransaction = conn.BeginTransaction()&#xD;&#xA;&#xD;&#xA;            Dim chunkIdByRow As New System.Collections.Generic.Dictionary(Of Integer, Long)()&#xD;&#xA;            Dim docIdByRow As New System.Collections.Generic.Dictionary(Of Integer, String)()&#xD;&#xA;&#xD;&#xA;            ' ---- pass 0: clear old data + upsert documents, ONCE per doc ----&#xD;&#xA;            ' Deleting inside the row loop wiped earlier rows sharing a doc_id&#xD;&#xA;            ' and orphaned their chunk_fields. Clear each distinct doc once,&#xD;&#xA;            ' and stamp documents with a DOC-LEVEL hash (all row JSONs in row&#xD;&#xA;            ' order) so unchanged docs can be skipped on re-runs.&#xD;&#xA;            ' NOTE: hash formula must match FilterUnchanged in IngestStructuredData.&#xD;&#xA;            Dim docBuf As New System.Collections.Generic.Dictionary(Of String, System.Text.StringBuilder)()&#xD;&#xA;            Dim docSource As New System.Collections.Generic.Dictionary(Of String, String)()&#xD;&#xA;            For i As Integer = 0 To in_Rows.Rows.Count - 1&#xD;&#xA;                Dim rrow As System.Data.DataRow = in_Rows.Rows(i)&#xD;&#xA;                Dim d As String = rrow(&quot;DocId&quot;).ToString()&#xD;&#xA;                If Not docBuf.ContainsKey(d) Then&#xD;&#xA;                    docBuf(d) = New System.Text.StringBuilder()&#xD;&#xA;                    docSource(d) = rrow(&quot;Source&quot;).ToString()&#xD;&#xA;                End If&#xD;&#xA;                docBuf(d).Append(rrow(&quot;ContentJson&quot;).ToString()).Append(Convert.ToChar(10))&#xD;&#xA;            Next&#xD;&#xA;            ' Fold the field-mode configuration into the doc hash.&#xD;&#xA;            ' NOTE: signature formula must match FilterUnchanged in IngestStructuredData.&#xD;&#xA;            Dim sigDocByRow As New System.Collections.Generic.Dictionary(Of Integer, String)()&#xD;&#xA;            For i As Integer = 0 To in_Rows.Rows.Count - 1&#xD;&#xA;                sigDocByRow(CInt(in_Rows.Rows(i)(&quot;RowKey&quot;))) = in_Rows.Rows(i)(&quot;DocId&quot;).ToString()&#xD;&#xA;            Next&#xD;&#xA;            Dim modeSig As New System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.SortedSet(Of String))()&#xD;&#xA;            For f As Integer = 0 To in_Fields.Rows.Count - 1&#xD;&#xA;                Dim sigDid As String = Nothing&#xD;&#xA;                If sigDocByRow.TryGetValue(CInt(in_Fields.Rows(f)(&quot;RowKey&quot;)), sigDid) Then&#xD;&#xA;                    If Not modeSig.ContainsKey(sigDid) Then modeSig(sigDid) = New System.Collections.Generic.SortedSet(Of String)(StringComparer.Ordinal)&#xD;&#xA;                    modeSig(sigDid).Add(in_Fields.Rows(f)(&quot;FieldKey&quot;).ToString() &amp; &quot;:&quot; &amp; in_Fields.Rows(f)(&quot;Mode&quot;).ToString().ToLowerInvariant())&#xD;&#xA;                End If&#xD;&#xA;            Next&#xD;&#xA;            For Each kv As System.Collections.Generic.KeyValuePair(Of String, System.Text.StringBuilder) In docBuf&#xD;&#xA;                Dim sig As String = &quot;&quot;&#xD;&#xA;                If modeSig.ContainsKey(kv.Key) Then sig = String.Join(&quot;;&quot;, modeSig(kv.Key))&#xD;&#xA;                kv.Value.Append(&quot;|modes|&quot;).Append(sig)&#xD;&#xA;            Next&#xD;&#xA;            For Each kv As System.Collections.Generic.KeyValuePair(Of String, System.Text.StringBuilder) In docBuf&#xD;&#xA;                Dim dhb As Byte() = sha.ComputeHash(System.Text.Encoding.UTF8.GetBytes(kv.Value.ToString()))&#xD;&#xA;                Dim dsb As New System.Text.StringBuilder()&#xD;&#xA;                For Each bb As Byte In dhb&#xD;&#xA;                    dsb.Append(bb.ToString(&quot;x2&quot;))&#xD;&#xA;                Next&#xD;&#xA;                Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xD;&#xA;                    cmd.Transaction = txn&#xD;&#xA;                    cmd.CommandText = &quot;DELETE FROM chunk_fields WHERE doc_id=$id;&quot;&#xD;&#xA;                    cmd.Parameters.AddWithValue(&quot;$id&quot;, kv.Key)&#xD;&#xA;                    cmd.ExecuteNonQuery()&#xD;&#xA;                End Using&#xD;&#xA;                Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xD;&#xA;                    cmd.Transaction = txn&#xD;&#xA;                    cmd.CommandText = &quot;DELETE FROM chunks WHERE doc_id=$id;&quot;&#xD;&#xA;                    cmd.Parameters.AddWithValue(&quot;$id&quot;, kv.Key)&#xD;&#xA;                    cmd.ExecuteNonQuery()&#xD;&#xA;                End Using&#xD;&#xA;                Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xD;&#xA;                    cmd.Transaction = txn&#xD;&#xA;                    cmd.CommandText = &quot;INSERT INTO documents(doc_id,source,content_hash,created_utc,updated_utc) VALUES($id,$src,$hash,$now,$now) ON CONFLICT(doc_id) DO UPDATE SET source=$src, content_hash=$hash, updated_utc=$now;&quot;&#xD;&#xA;                    cmd.Parameters.AddWithValue(&quot;$id&quot;, kv.Key)&#xD;&#xA;                    cmd.Parameters.AddWithValue(&quot;$src&quot;, docSource(kv.Key))&#xD;&#xA;                    cmd.Parameters.AddWithValue(&quot;$hash&quot;, dsb.ToString())&#xD;&#xA;                    cmd.Parameters.AddWithValue(&quot;$now&quot;, nowUtc)&#xD;&#xA;                    cmd.ExecuteNonQuery()&#xD;&#xA;                End Using&#xD;&#xA;            Next&#xD;&#xA;&#xD;&#xA;            ' ---- pass 1: chunks (row JSON) ----&#xD;&#xA;            For i As Integer = 0 To in_Rows.Rows.Count - 1&#xD;&#xA;                Dim rrow As System.Data.DataRow = in_Rows.Rows(i)&#xD;&#xA;                Dim rowKey As Integer = CInt(rrow(&quot;RowKey&quot;))&#xD;&#xA;                Dim docId As String = rrow(&quot;DocId&quot;).ToString()&#xD;&#xA;                Dim contentJson As String = rrow(&quot;ContentJson&quot;).ToString()&#xD;&#xA;                docIdByRow(rowKey) = docId&#xD;&#xA;&#xD;&#xA;                Dim rowVec As Double() = in_RowEmbeddings(i)&#xD;&#xA;                If rowVec.Length &lt;&gt; in_Dim Then&#xD;&#xA;                    Throw New System.Exception(&quot;Row vector dim mismatch at row &quot; &amp; i.ToString() &amp; &quot;: got &quot; &amp; rowVec.Length.ToString() &amp; &quot;, expected &quot; &amp; in_Dim.ToString())&#xD;&#xA;                End If&#xD;&#xA;&#xD;&#xA;                Dim hb As Byte() = sha.ComputeHash(System.Text.Encoding.UTF8.GetBytes(contentJson))&#xD;&#xA;                Dim sb As New System.Text.StringBuilder()&#xD;&#xA;                For Each bb As Byte In hb&#xD;&#xA;                    sb.Append(bb.ToString(&quot;x2&quot;))&#xD;&#xA;                Next&#xD;&#xA;                Dim hash As String = sb.ToString()&#xD;&#xA;&#xD;&#xA;                Dim fvec(rowVec.Length - 1) As Single&#xD;&#xA;                For k As Integer = 0 To rowVec.Length - 1&#xD;&#xA;                    fvec(k) = CSng(rowVec(k))&#xD;&#xA;                Next&#xD;&#xA;                Dim bytes(rowVec.Length * 4 - 1) As Byte&#xD;&#xA;                System.Buffer.BlockCopy(fvec, 0, bytes, 0, bytes.Length)&#xD;&#xA;&#xD;&#xA;                Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xD;&#xA;                    cmd.Transaction = txn&#xD;&#xA;                    cmd.CommandText = &quot;INSERT INTO chunks(doc_id,chunk_index,content,embedding,dim,model,content_hash,metadata,created_utc) VALUES($id,$ix,$content,$emb,$dim,$model,$hash,$meta,$now);&quot;&#xD;&#xA;                    cmd.Parameters.AddWithValue(&quot;$id&quot;, docId)&#xD;&#xA;                    cmd.Parameters.AddWithValue(&quot;$ix&quot;, rowKey)&#xD;&#xA;                    cmd.Parameters.AddWithValue(&quot;$content&quot;, contentJson)&#xD;&#xA;                    cmd.Parameters.AddWithValue(&quot;$emb&quot;, bytes)&#xD;&#xA;                    cmd.Parameters.AddWithValue(&quot;$dim&quot;, in_Dim)&#xD;&#xA;                    cmd.Parameters.AddWithValue(&quot;$model&quot;, in_Model)&#xD;&#xA;                    cmd.Parameters.AddWithValue(&quot;$hash&quot;, hash)&#xD;&#xA;                    cmd.Parameters.AddWithValue(&quot;$meta&quot;, contentJson)&#xD;&#xA;                    cmd.Parameters.AddWithValue(&quot;$now&quot;, nowUtc)&#xD;&#xA;                    cmd.ExecuteNonQuery()&#xD;&#xA;                End Using&#xD;&#xA;&#xD;&#xA;                Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xD;&#xA;                    cmd.Transaction = txn&#xD;&#xA;                    cmd.CommandText = &quot;SELECT last_insert_rowid();&quot;&#xD;&#xA;                    chunkIdByRow(rowKey) = CLng(cmd.ExecuteScalar())&#xD;&#xA;                End Using&#xD;&#xA;            Next&#xD;&#xA;&#xD;&#xA;            ' ---- pass 2: chunk_fields, consuming semantic vectors in field order ----&#xD;&#xA;            Dim semIdx As Integer = 0&#xD;&#xA;            Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xD;&#xA;                cmd.Transaction = txn&#xD;&#xA;                cmd.CommandText = &quot;INSERT INTO chunk_fields(chunk_id,doc_id,field_key,field_value,field_mode,embedding,dim) VALUES($cid,$did,$key,$val,$mode,$emb,$dim);&quot;&#xD;&#xA;                Dim pCid = cmd.Parameters.Add(&quot;$cid&quot;, Microsoft.Data.Sqlite.SqliteType.Integer)&#xD;&#xA;                Dim pDid = cmd.Parameters.Add(&quot;$did&quot;, Microsoft.Data.Sqlite.SqliteType.Text)&#xD;&#xA;                Dim pKey = cmd.Parameters.Add(&quot;$key&quot;, Microsoft.Data.Sqlite.SqliteType.Text)&#xD;&#xA;                Dim pVal = cmd.Parameters.Add(&quot;$val&quot;, Microsoft.Data.Sqlite.SqliteType.Text)&#xD;&#xA;                Dim pMode = cmd.Parameters.Add(&quot;$mode&quot;, Microsoft.Data.Sqlite.SqliteType.Text)&#xD;&#xA;                Dim pEmb = cmd.Parameters.Add(&quot;$emb&quot;, Microsoft.Data.Sqlite.SqliteType.Blob)&#xD;&#xA;                Dim pDim = cmd.Parameters.Add(&quot;$dim&quot;, Microsoft.Data.Sqlite.SqliteType.Integer)&#xD;&#xA;&#xD;&#xA;                For f As Integer = 0 To in_Fields.Rows.Count - 1&#xD;&#xA;                    Dim frow As System.Data.DataRow = in_Fields.Rows(f)&#xD;&#xA;                    Dim rowKey As Integer = CInt(frow(&quot;RowKey&quot;))&#xD;&#xA;                    If Not chunkIdByRow.ContainsKey(rowKey) Then&#xD;&#xA;                        Throw New System.Exception(&quot;Field references unknown RowKey &quot; &amp; rowKey.ToString() &amp; &quot; (in_Fields not aligned with in_Rows).&quot;)&#xD;&#xA;                    End If&#xD;&#xA;                    Dim mode As String = frow(&quot;Mode&quot;).ToString()&#xD;&#xA;&#xD;&#xA;                    pCid.Value = chunkIdByRow(rowKey)&#xD;&#xA;                    pDid.Value = docIdByRow(rowKey)&#xD;&#xA;                    pKey.Value = frow(&quot;FieldKey&quot;).ToString()&#xD;&#xA;                    pVal.Value = frow(&quot;FieldValue&quot;).ToString()&#xD;&#xA;                    pMode.Value = mode&#xD;&#xA;&#xD;&#xA;                    If String.Equals(mode, &quot;semantic&quot;, StringComparison.OrdinalIgnoreCase) Then&#xD;&#xA;                        Dim fv As Double() = in_FieldEmbeddings(semIdx)&#xD;&#xA;                        semIdx += 1&#xD;&#xA;                        If fv.Length &lt;&gt; in_Dim Then&#xD;&#xA;                            Throw New System.Exception(&quot;Field vector dim mismatch at field &quot; &amp; f.ToString() &amp; &quot;: got &quot; &amp; fv.Length.ToString() &amp; &quot;, expected &quot; &amp; in_Dim.ToString())&#xD;&#xA;                        End If&#xD;&#xA;                        Dim ffvec(fv.Length - 1) As Single&#xD;&#xA;                        For k As Integer = 0 To fv.Length - 1&#xD;&#xA;                            ffvec(k) = CSng(fv(k))&#xD;&#xA;                        Next&#xD;&#xA;                        Dim fbytes(fv.Length * 4 - 1) As Byte&#xD;&#xA;                        System.Buffer.BlockCopy(ffvec, 0, fbytes, 0, fbytes.Length)&#xD;&#xA;                        pEmb.Value = fbytes&#xD;&#xA;                        pDim.Value = in_Dim&#xD;&#xA;                    Else&#xD;&#xA;                        pEmb.Value = DBNull.Value&#xD;&#xA;                        pDim.Value = 0&#xD;&#xA;                    End If&#xD;&#xA;                    cmd.ExecuteNonQuery()&#xD;&#xA;                Next&#xD;&#xA;            End Using&#xD;&#xA;&#xD;&#xA;            If semIdx &lt;&gt; in_FieldEmbeddings.Count Then&#xD;&#xA;                Throw New System.Exception(&quot;Semantic field/embedding mismatch: consumed &quot; &amp; semIdx.ToString() &amp; &quot; but received &quot; &amp; in_FieldEmbeddings.Count.ToString() &amp; &quot;. in_FieldEmbeddings must align to Mode='semantic' rows of in_Fields.&quot;)&#xD;&#xA;            End If&#xD;&#xA;&#xD;&#xA;            txn.Commit()&#xD;&#xA;        End Using&#xD;&#xA;        conn.Close()&#xD;&#xA;    End Using&#xD;&#xA;    sha.Dispose()&#xD;&#xA;    out_Success = True&#xD;&#xA;&#xD;&#xA;Catch ex As System.Exception&#xD;&#xA;    out_Success = False&#xD;&#xA;    out_ErrorMessage = &quot;WriteStructuredChunks failed: &quot; &amp; ex.Message&#xD;&#xA;    If ex.InnerException IsNot Nothing Then out_ErrorMessage &amp;= &quot; | Inner: &quot; &amp; ex.InnerException.Message&#xD;&#xA;End Try&#xD;&#xA;" DisplayName="Invoke Code - WriteStructuredChunks" sap:VirtualizedContainerService.HintSize="416,197" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_DbPath">[in_DbPath]</InArgument>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_Rows">[in_Rows]</InArgument>
+        <InArgument x:TypeArguments="scg:List(s:Double[])" x:Key="in_RowEmbeddings">[in_RowEmbeddings]</InArgument>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_Fields">[in_Fields]</InArgument>
+        <InArgument x:TypeArguments="scg:List(s:Double[])" x:Key="in_FieldEmbeddings">[in_FieldEmbeddings]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Model">[in_Model]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_Dim">[in_Dim]</InArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[boolSuccess]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[strErrorMessage]</OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:CheckTrue DisplayName="Check True - strErrorMessage" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap:VirtualizedContainerService.HintSize="416,161" sap2010:WorkflowViewState.IdRef="CheckTrue_1" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="416,164" sap2010:WorkflowViewState.IdRef="LogMessage_2" Message="[&quot;Done&quot;]" />
+  </Sequence>
+</Activity>

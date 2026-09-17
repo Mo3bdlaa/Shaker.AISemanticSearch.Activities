@@ -1,0 +1,129 @@
+{
+  "DisplayName": "Retrieve Data (Semantic)",
+  "Tooltip": "Semantic free-text search over the whole store. Embeds the query, scores every chunk by cosine similarity, returns the top-K rows. Multilingual: Arabic queries match English data and vice versa.",
+  "HelpLink": null,
+  "Color": null,
+  "OriginalIconFileName": null,
+  "Arguments": [
+    {
+      "Name": "in_Query",
+      "DisplayName": "Query Text",
+      "Category": "Input",
+      "Tooltip": "Natural-language search text. The whole stored row/chunk is matched semantically, so phrases work better than single keywords.",
+      "Placeholder": "e.g. أفضل جامعة في أمريكا للتكنولوجيا",
+      "Widget": null,
+      "IsRequired": true,
+      "IsPrincipal": true,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_SharePath",
+      "DisplayName": "Store Path (Canonical)",
+      "Category": "Vector Store",
+      "Tooltip": "Full path of the canonical store.db (usually on a network share). Never opened directly - a local copy is synced first, only when the share is newer.",
+      "Placeholder": "\\\\server\\share\\rag\\store.db",
+      "Widget": "FilePicker",
+      "IsRequired": true,
+      "IsPrincipal": false,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_LocalDbPath",
+      "DisplayName": "Local Copy Path",
+      "Category": "Vector Store",
+      "Tooltip": "Where this machine keeps its local read copy of the store, e.g. C:\\rag\\read\\store.db. Created automatically.",
+      "Placeholder": "C:\\rag\\read\\store.db",
+      "Widget": "FilePicker",
+      "IsRequired": true,
+      "IsPrincipal": false,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_EmbeddingUrl",
+      "DisplayName": "Embedding Endpoint",
+      "Category": "Embedding Service",
+      "Tooltip": "OpenAI-compatible embeddings endpoint (POST .../v1/embeddings). The query is embedded with the same model used at ingest.",
+      "Placeholder": "http://host:port/v1/embeddings",
+      "Widget": null,
+      "IsRequired": true,
+      "IsPrincipal": false,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_ApiKey",
+      "DisplayName": "API Key",
+      "Category": "Embedding Service",
+      "Tooltip": "Bearer token for the embedding endpoint. Leave empty for anonymous endpoints. Source from an Orchestrator Credential asset - never hardcode.",
+      "Placeholder": null,
+      "Widget": null,
+      "IsRequired": false,
+      "IsPrincipal": false,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_Model",
+      "DisplayName": "Embedding Model",
+      "Category": "Embedding Service",
+      "Tooltip": "Model name sent to the endpoint. MUST match the model the store was ingested with (stored in the meta table, e.g. BAAI/bge-m3) or scores are meaningless.",
+      "Placeholder": "BAAI/bge-m3",
+      "Widget": null,
+      "IsRequired": true,
+      "IsPrincipal": false,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_TopK",
+      "DisplayName": "Top K Results",
+      "Category": "Tuning",
+      "Tooltip": "How many best-matching rows to return. Typical: 5.",
+      "Placeholder": "5",
+      "Widget": null,
+      "IsRequired": true,
+      "IsPrincipal": true,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_TimeoutSec",
+      "DisplayName": "Timeout (sec)",
+      "Category": "Tuning",
+      "Tooltip": "HTTP timeout per embedding call. Allow extra headroom for cold model starts (e.g. 120).",
+      "Placeholder": "120",
+      "Widget": null,
+      "IsRequired": false,
+      "IsPrincipal": false,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_MaxRetries",
+      "DisplayName": "Max Retries",
+      "Category": "Tuning",
+      "Tooltip": "Retries for transient embedding failures (5xx, timeouts, 429). Permanent 4xx errors fail immediately without retrying.",
+      "Placeholder": "2",
+      "Widget": null,
+      "IsRequired": false,
+      "IsPrincipal": false,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "out_dt_Results",
+      "DisplayName": "Results",
+      "Category": "Output",
+      "Tooltip": "DataTable ranked best-first. Columns: Rank (Int32), DocId (String), ChunkIndex (Int32), Content (the full stored row JSON / chunk text), Score (Double, cosine similarity).",
+      "Placeholder": null,
+      "Widget": null,
+      "IsRequired": false,
+      "IsPrincipal": true,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    }
+  ]
+}

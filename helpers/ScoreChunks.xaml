@@ -1,0 +1,128 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="ScoreChunks" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_DbPath" Type="InArgument(x:String)" />
+    <x:Property Name="in_QueryVector" Type="InArgument(s:Double[])" />
+    <x:Property Name="in_TopN" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_Model" Type="InArgument(x:String)" />
+    <x:Property Name="out_Results" Type="OutArgument(sd:DataTable)" />
+  </x:Members>
+  <this:ScoreChunks.in_DbPath>
+    <InArgument x:TypeArguments="x:String" />
+  </this:ScoreChunks.in_DbPath>
+  <this:ScoreChunks.in_QueryVector>
+    <InArgument x:TypeArguments="s:Double[]" />
+  </this:ScoreChunks.in_QueryVector>
+  <this:ScoreChunks.in_TopN>
+    <InArgument x:TypeArguments="x:Int32" />
+  </this:ScoreChunks.in_TopN>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>ScoreChunks_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Numerics</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Data.SqlClient</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Private.Xml</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Runtime.Numerics</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="ScoreChunks" sap:VirtualizedContainerService.HintSize="1081,813.6566666666666" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:Boolean" Name="boolSuccess" />
+      <Variable x:TypeArguments="x:String" Name="strErrorMessage" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,175" sap2010:WorkflowViewState.IdRef="LogMessage_1" Message="[&quot;Score Chunks...&quot;]" />
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="' ================================================================&#xA;' ScoreChunks  (PRIVATE - used by Retrieve)&#xA;' Brute-force cosine search. Reads every chunk's embedding BLOB,&#xA;' dot-products it with the unit-normalized query vector (dot = cosine&#xA;' because both sides are unit length), returns the top-N as a DataTable&#xA;' sorted best-first. Two passes: pass 1 scores with ids only (cheap on&#xA;' memory), pass 2 fetches content for just the N winners.&#xA;' Free-text path only; structured-semantic scoring lives in&#xA;' ScoreFieldsSemantic (reads chunk_fields, not chunks).&#xA;' On failure: out_Success=False + out_ErrorMessage, empty table back.&#xA;' ================================================================&#xA;&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;&#xA;' Build the result shape up front so an empty store / a failure returns&#xA;' an empty table (not Nothing).&#xA;out_Results = New System.Data.DataTable()&#xA;out_Results.Columns.Add(&quot;Rank&quot;, GetType(Integer))&#xA;out_Results.Columns.Add(&quot;DocId&quot;, GetType(String))&#xA;out_Results.Columns.Add(&quot;ChunkIndex&quot;, GetType(Integer))&#xA;out_Results.Columns.Add(&quot;Content&quot;, GetType(String))&#xA;out_Results.Columns.Add(&quot;Score&quot;, GetType(Double))&#xA;&#xA;Try&#xA;    Dim qlen As Integer = in_QueryVector.Length&#xA;&#xA;    ' Hold ONLY numbers for all chunks (8 bytes each) - never content -&#xA;    ' so this scans tens of thousands of rows without ballooning memory.&#xA;    Dim ids As New System.Collections.Generic.List(Of Long)()&#xA;    Dim scores As New System.Collections.Generic.List(Of Double)()&#xA;&#xA;    Using conn As New Microsoft.Data.Sqlite.SqliteConnection(&quot;Data Source=&quot; &amp; in_DbPath &amp; &quot;;Pooling=False&quot;)&#xA;        conn.Open()&#xA;        ' ---- Guard: the store belongs to exactly ONE embedding model ----&#xA;        ' Vectors from two different models are not comparable: cosine over&#xA;        ' them yields plausible-looking numbers that mean nothing. The dim&#xA;        ' check below only catches models of DIFFERENT size, and 1024 is a&#xA;        ' very common size - so compare the recorded model name too.&#xA;        ' Names compare with the provider/org prefix stripped, so&#xA;        ' &quot;BAAI/bge-m3&quot; and &quot;bge-m3&quot; are the same model. A version or tag&#xA;        ' suffix is NOT stripped - &quot;bge-large-en&quot; and &quot;bge-large-en-v1.5&quot;&#xA;        ' are different models that happen to share a dimension.&#xA;        ' No recorded model (brand-new or empty store) = nothing to compare.&#xA;        Dim storedModel As String = Nothing&#xA;        Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xA;            cmd.CommandText = &quot;SELECT value FROM meta WHERE key = 'embedding_model';&quot;&#xA;            Dim o As Object = cmd.ExecuteScalar()&#xA;            If o IsNot Nothing AndAlso Not Convert.IsDBNull(o) Then storedModel = o.ToString()&#xA;        End Using&#xA;&#xA;        If Not String.IsNullOrWhiteSpace(storedModel) Then&#xA;            Dim have As String = storedModel.Trim().ToLowerInvariant()&#xA;            If have.LastIndexOf(&quot;/&quot;c) &gt;= 0 Then have = have.Substring(have.LastIndexOf(&quot;/&quot;c) + 1)&#xA;            Dim want As String = If(in_Model, &quot;&quot;).Trim().ToLowerInvariant()&#xA;            If want.LastIndexOf(&quot;/&quot;c) &gt;= 0 Then want = want.Substring(want.LastIndexOf(&quot;/&quot;c) + 1)&#xA;            If have &lt;&gt; want Then&#xA;                Throw New System.Exception(&#xA;                    &quot;Embedding model mismatch. This store was built with '&quot; &amp; storedModel &amp;&#xA;                    &quot;' but this query was embedded with '&quot; &amp; If(in_Model, &quot;&quot;) &amp;&#xA;                    &quot;'. Scores across two different models are meaningless - &quot; &amp;&#xA;                    &quot;retrieve with the model the store was ingested with.&quot;)&#xA;            End If&#xA;        End If&#xA;&#xA;&#xA;        ' ---- Pass 1: score every chunk ------------------------------&#xA;        Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xA;            cmd.CommandText = &quot;SELECT id, embedding FROM chunks;&quot;&#xA;            Using rd As Microsoft.Data.Sqlite.SqliteDataReader = cmd.ExecuteReader()&#xA;                Do While rd.Read()&#xA;                    Dim id As Long = rd.GetInt64(0)&#xA;                    Dim blob As Byte() = CType(rd(&quot;embedding&quot;), Byte())&#xA;&#xA;                    ' Guard: a stored vector of a different dimension means the&#xA;                    ' store was built with another model than this query. Fail&#xA;                    ' loud - silently scoring mismatched dims is meaningless.&#xA;                    Dim flen As Integer = blob.Length \ 4&#xA;                    If flen &lt;&gt; qlen Then&#xA;                        Throw New System.Exception(&#xA;                            &quot;Embedding dimension mismatch: stored=&quot; &amp; flen.ToString() &amp;&#xA;                            &quot;, query=&quot; &amp; qlen.ToString() &amp;&#xA;                            &quot;. The store was built with a different model.&quot;)&#xA;                    End If&#xA;&#xA;                    ' Unpack Float32[] from the BLOB and dot with the query.&#xA;                    Dim fvec(flen - 1) As Single&#xA;                    System.Buffer.BlockCopy(blob, 0, fvec, 0, blob.Length)&#xA;                    Dim dot As Double = 0&#xA;                    For d As Integer = 0 To flen - 1&#xA;                        dot += in_QueryVector(d) * CDbl(fvec(d))&#xA;                    Next&#xA;&#xA;                    ids.Add(id)&#xA;                    scores.Add(dot)&#xA;                Loop&#xA;            End Using&#xA;        End Using&#xA;&#xA;        If ids.Count &gt; 0 Then&#xA;            ' ---- Rank: Array.Sort sorts BOTH arrays by score ascending,&#xA;            '      no LINQ (same family that bit us with .Value(Of T)). ----&#xA;            Dim scoreArr As Double() = scores.ToArray()&#xA;            Dim idArr As Long() = ids.ToArray()&#xA;            Array.Sort(scoreArr, idArr)&#xA;&#xA;            ' Walk from the high-score end to collect the top N, best-first.&#xA;            Dim n As Integer = Math.Min(in_TopN, idArr.Length)&#xA;            Dim winnerIds As New System.Collections.Generic.List(Of Long)()&#xA;            Dim winnerScore As New System.Collections.Generic.Dictionary(Of Long, Double)()&#xA;            Dim idx As Integer = idArr.Length - 1&#xA;            Do While winnerIds.Count &lt; n AndAlso idx &gt;= 0&#xA;                winnerIds.Add(idArr(idx))&#xA;                winnerScore(idArr(idx)) = scoreArr(idx)&#xA;                idx -= 1&#xA;            Loop&#xA;&#xA;            If winnerIds.Count &gt; 0 Then&#xA;                ' ---- Pass 2: fetch content for ONLY the winners ----------&#xA;                ' winnerIds are DB-generated integers (not user input), so the&#xA;                ' IN-list concatenation is injection-safe here.&#xA;                Dim inList As String = String.Join(&quot;,&quot;, winnerIds)&#xA;                Dim details As New System.Collections.Generic.Dictionary(Of Long, String())()&#xA;                Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xA;                    cmd.CommandText =&#xA;                        &quot;SELECT id, doc_id, chunk_index, content FROM chunks WHERE id IN (&quot; &amp; inList &amp; &quot;);&quot;&#xA;                    Using rd As Microsoft.Data.Sqlite.SqliteDataReader = cmd.ExecuteReader()&#xA;                        Do While rd.Read()&#xA;                            Dim rid As Long = rd.GetInt64(0)&#xA;                            Dim arr(2) As String&#xA;                            arr(0) = rd(&quot;doc_id&quot;).ToString()&#xA;                            arr(1) = rd(&quot;chunk_index&quot;).ToString()&#xA;                            arr(2) = rd(&quot;content&quot;).ToString()&#xA;                            details(rid) = arr&#xA;                        Loop&#xA;                    End Using&#xA;                End Using&#xA;&#xA;                ' ---- Emit rows in best-first order ----------------------&#xA;                Dim rank As Integer = 1&#xA;                For Each wid As Long In winnerIds&#xA;                    If details.ContainsKey(wid) Then&#xA;                        Dim drow As System.Data.DataRow = out_Results.NewRow()&#xA;                        drow(&quot;Rank&quot;) = rank&#xA;                        drow(&quot;DocId&quot;) = details(wid)(0)&#xA;                        drow(&quot;ChunkIndex&quot;) = Integer.Parse(details(wid)(1))&#xA;                        drow(&quot;Content&quot;) = details(wid)(2)&#xA;                        drow(&quot;Score&quot;) = winnerScore(wid)&#xA;                        out_Results.Rows.Add(drow)&#xA;                        rank += 1&#xA;                    End If&#xA;                Next&#xA;            End If&#xA;        End If&#xA;    End Using&#xA;&#xA;    out_Success = True&#xA;&#xA;Catch ex As System.Exception&#xA;    out_Success = False&#xA;    If out_Results IsNot Nothing Then out_Results.Rows.Clear()   ' drop any partial rows&#xA;    out_ErrorMessage = &quot;ScoreChunks failed: &quot; &amp; ex.Message&#xA;    If ex.InnerException IsNot Nothing Then&#xA;        out_ErrorMessage &amp;= &quot; | Inner: &quot; &amp; ex.InnerException.Message&#xA;    End If&#xA;End Try&#xA;" DisplayName="Invoke Code - ScoreChunks" sap:VirtualizedContainerService.HintSize="450,197" sap2010:WorkflowViewState.IdRef="InvokeCode_2">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_DbPath">[in_DbPath]</InArgument>
+        <InArgument x:TypeArguments="s:Double[]" x:Key="in_QueryVector">[in_QueryVector]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_TopN">[in_TopN]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Model">[in_Model]</InArgument>
+        <OutArgument x:TypeArguments="sd:DataTable" x:Key="out_Results">[out_Results]</OutArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[boolSuccess]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[strErrorMessage]</OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:CheckTrue DisplayName="Check True - strErrorMessage" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap:VirtualizedContainerService.HintSize="450,163" sap2010:WorkflowViewState.IdRef="CheckTrue_1" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,166" sap2010:WorkflowViewState.IdRef="LogMessage_2" Message="[&quot;Done.&quot;]" />
+  </Sequence>
+</Activity>

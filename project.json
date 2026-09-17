@@ -1,0 +1,73 @@
+{
+  "name": "AI_SemanticSearch",
+  "projectId": "48b981f2-432c-457b-93ff-3815c75efe1e",
+  "description": "Retrieval Library without Generation Part (a RAG without 'G' :))",
+  "main": "IngestDocuments.xaml",
+  "dependencies": {
+    "Microsoft.Data.Sqlite": "10.0.9",
+    "SQLitePCLRaw.bundle_green": "2.1.11",
+    "UiPath.CodedWorkflows": "24.10.2",
+    "UiPath.System.Activities": "22.10.5"
+  },
+  "webServices": [],
+  "entitiesStores": [],
+  "schemaVersion": "4.0",
+  "studioVersion": "26.0.194.0",
+  "projectVersion": "1.1.0",
+  "runtimeOptions": {
+    "autoDispose": false,
+    "netFrameworkLazyLoading": false,
+    "isPausable": true,
+    "isAttended": false,
+    "requiresUserInteraction": true,
+    "supportsPersistence": false,
+    "workflowSerialization": "NewtonsoftJson",
+    "excludedLoggedData": [
+      "Private:*",
+      "*password*",
+      "*apikey*"
+    ],
+    "executionType": "Workflow",
+    "readyForPiP": false,
+    "startsInPiP": false,
+    "mustRestoreAllDependencies": true,
+    "pipType": "ChildSession"
+  },
+  "designOptions": {
+    "projectProfile": "Developement",
+    "outputType": "Library",
+    "libraryOptions": {
+      "privateWorkflows": [
+        "helpers/AcquireWriteLock.xaml",
+        "helpers/ReleaseWriteLock.xaml",
+        "helpers/PublishDatabase.xaml",
+        "helpers/SyncLocalCopy.xaml",
+        "helpers/EmbedTexts.xaml",
+        "helpers/ChunkText.xaml",
+        "helpers/CheckDocument.xaml",
+        "helpers/WriteDocumentChunks.xaml",
+        "helpers/InitializeStore.xaml",
+        "helpers/ScoreFieldsSemantic.xaml",
+        "helpers/ScoreChunks.xaml",
+        "helpers/WriteStructuredChunks.xaml",
+        "helpers/BuildFieldTable.xaml",
+        "helpers/EnsureSqliteNative.xaml",
+        "docs/AGENTS.md"
+      ]
+    },
+    "processOptions": {
+      "ignoredFiles": [
+        "store.db",
+        "store.db-wal",
+        "store.db-shm"
+      ]
+    },
+    "fileInfoCollection": [],
+    "saveToCloud": false
+  },
+  "expressionLanguage": "VisualBasic",
+  "isTemplate": false,
+  "templateProjectData": {},
+  "publishData": {},
+  "targetFramework": "Windows"
+}

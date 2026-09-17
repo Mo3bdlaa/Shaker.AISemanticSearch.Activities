@@ -1,0 +1,15 @@
+# UiPath machine-local / cache
+.local/
+
+# Build output
+*.nupkg
+output/
+
+# SQLite store artifacts (runtime data, never source)
+store.db
+store.db-wal
+store.db-shm
+
+# OS
+.DS_Store
+Thumbs.db

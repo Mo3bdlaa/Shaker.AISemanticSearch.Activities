@@ -1,0 +1,119 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="CheckDocument" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_DbPath" Type="InArgument(x:String)" />
+    <x:Property Name="in_DocId" Type="InArgument(x:String)" />
+    <x:Property Name="in_Text" Type="InArgument(x:String)" />
+    <x:Property Name="out_NewHash" Type="OutArgument(x:String)" />
+    <x:Property Name="out_NeedsWrite" Type="OutArgument(x:Boolean)" />
+  </x:Members>
+  <this:CheckDocument.in_DbPath>
+    <InArgument x:TypeArguments="x:String" />
+  </this:CheckDocument.in_DbPath>
+  <this:CheckDocument.in_DocId>
+    <InArgument x:TypeArguments="x:String" />
+  </this:CheckDocument.in_DocId>
+  <this:CheckDocument.in_Text>
+    <InArgument x:TypeArguments="x:String" />
+  </this:CheckDocument.in_Text>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>CheckDocument_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="Decides whether a document needs (re)writing, so you don't waste embedding calls on unchanged docs. " DisplayName="CheckDocument" sap:VirtualizedContainerService.HintSize="1081,813.6566666666666" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:Boolean" Name="boolSuccess" />
+      <Variable x:TypeArguments="x:String" Name="strErrorMessage" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,175" sap2010:WorkflowViewState.IdRef="LogMessage_1" Message="[&quot;Checking If Current Doc changed before reingesting...&quot;]" />
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="' ================================================================&#xA;' CheckDocument  (PRIVATE - used by IngestDocuments)&#xA;' Computes a content hash of the doc text and compares it to what's&#xA;' already stored. out_NeedsWrite is True only if the doc is new OR its&#xA;' text changed - that's what makes re-ingesting the same batch cheap.&#xA;' Works for free-text AND structured rows: for a structured row in_Text&#xA;' is the row JSON, so an unchanged row hashes equal and is skipped.&#xA;' On failure: sets out_Success=False + out_ErrorMessage, and leaves&#xA;' out_NeedsWrite=False so we never request a write we couldn't validate.&#xA;' ================================================================&#xA;&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;out_NewHash = &quot;&quot;&#xA;out_NeedsWrite = False&#xA;&#xA;Try&#xA;    ' --- hash the incoming text (SHA256 -&gt; lowercase hex) ----------&#xA;    Dim newHash As String&#xA;    Using sha As System.Security.Cryptography.SHA256 = System.Security.Cryptography.SHA256.Create()&#xA;        Dim raw As Byte() = System.Text.Encoding.UTF8.GetBytes(If(in_Text, &quot;&quot;))&#xA;        Dim hb As Byte() = sha.ComputeHash(raw)&#xA;        newHash = System.BitConverter.ToString(hb).Replace(&quot;-&quot;, &quot;&quot;).ToLowerInvariant()&#xA;    End Using&#xA;    out_NewHash = newHash&#xA;&#xA;    ' --- read the stored hash for this doc, if it exists -----------&#xA;    Dim stored As String = Nothing&#xA;    Using conn As New Microsoft.Data.Sqlite.SqliteConnection(&quot;Data Source=&quot; &amp; in_DbPath &amp; &quot;;Pooling=False&quot;)&#xA;        conn.Open()&#xA;        Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xA;            cmd.CommandText = &quot;SELECT content_hash FROM documents WHERE doc_id=$id LIMIT 1;&quot;&#xA;            cmd.Parameters.AddWithValue(&quot;$id&quot;, in_DocId)&#xA;            Dim r As Object = cmd.ExecuteScalar()           ' Nothing if no row&#xA;            If r IsNot Nothing AndAlso Not (TypeOf r Is System.DBNull) Then&#xA;                stored = r.ToString()&#xA;            End If&#xA;        End Using&#xA;        conn.Close()&#xA;    End Using&#xA;&#xA;    ' New doc, or text changed -&gt; needs writing.&#xA;    out_NeedsWrite = (stored Is Nothing) OrElse (Not String.Equals(stored, newHash, StringComparison.Ordinal))&#xA;&#xA;    out_Success = True&#xA;&#xA;Catch ex As System.Exception&#xA;    ' Could not determine change state (locked db, bad path, etc.).&#xA;    ' Signal failure and DO NOT request a write we couldn't validate.&#xA;    out_Success = False&#xA;    out_NeedsWrite = False&#xA;    out_ErrorMessage = &quot;CheckDocument failed for doc '&quot; &amp; in_DocId &amp; &quot;': &quot; &amp; ex.Message&#xA;    If ex.InnerException IsNot Nothing Then&#xA;        out_ErrorMessage &amp;= &quot; | Inner: &quot; &amp; ex.InnerException.Message&#xA;    End If&#xA;End Try&#xA;" DisplayName="Invoke Code - CheckDocument" sap:VirtualizedContainerService.HintSize="450,197" sap2010:WorkflowViewState.IdRef="InvokeCode_2">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_DbPath">[in_DbPath]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_DocId">[in_DocId]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Text">[in_Text]</InArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_NewHash">[out_NewHash]</OutArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_NeedsWrite">[out_NeedsWrite]</OutArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[boolSuccess]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[strErrorMessage]</OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:CheckTrue DisplayName="Check True - strErrorMessage" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap:VirtualizedContainerService.HintSize="450,163" sap2010:WorkflowViewState.IdRef="CheckTrue_1" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,166" sap2010:WorkflowViewState.IdRef="LogMessage_2" Message="[&quot;Checked, Document Needs reingestion?: &quot; + out_NeedsWrite.ToString]" />
+  </Sequence>
+</Activity>

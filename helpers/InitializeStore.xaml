@@ -1,0 +1,123 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_DbPath" Type="InArgument(x:String)" />
+    <x:Property Name="in_EmbeddingModel" Type="InArgument(x:String)" />
+    <x:Property Name="in_EmbeddingDim" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_BusyTimeoutMs" Type="InArgument(x:Int32)" />
+  </x:Members>
+  <this:Main.in_DbPath>
+    <InArgument x:TypeArguments="x:String" />
+  </this:Main.in_DbPath>
+  <this:Main.in_EmbeddingModel>
+    <InArgument x:TypeArguments="x:String" />
+  </this:Main.in_EmbeddingModel>
+  <this:Main.in_EmbeddingDim>
+    <InArgument x:TypeArguments="x:Int32" />
+  </this:Main.in_EmbeddingDim>
+  <this:Main.in_BusyTimeoutMs>
+    <InArgument x:TypeArguments="x:Int32" />
+  </this:Main.in_BusyTimeoutMs>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Numerics</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Runtime.Numerics</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="InitializeStore" sap:VirtualizedContainerService.HintSize="1081,813.6566666666666" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="strErrorMessage" />
+      <Variable x:TypeArguments="x:Boolean" Name="boolSuccess" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,175" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="[UiPath.Core.Activities.LogLevel.Info]" Message="[&quot;Initializing Vector Store...&quot;]" />
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="' ================================================================&#xA;' InitializeStore&#xA;' Creates/opens a LOCAL SQLite working DB, applies pragmas for safe&#xA;' single-writer concurrency, and ensures the schema exists.&#xA;' Run against a LOCAL path only — never the network share. The share&#xA;' only ever receives finished file copies (handled later, in publish).&#xA;'&#xA;' Schema:&#xA;'   documents     : one row per ingested source document.&#xA;'   chunks        : retrievable units (free-text path). 'embedding' is a&#xA;'                   BLOB of unit-normalized Float32, so cosine = dot.&#xA;'                   'metadata' holds row JSON for structured rows.&#xA;'   chunk_fields  : structured-semantic path. ONE embedded value per&#xA;'                   (row, key) — so a query can semantically compare its&#xA;'                   value to each chunk's value FOR THE SAME KEY only.&#xA;'   meta          : store-level facts (model + dimension) so retrieval&#xA;'                   can confirm a query vector is compatible.&#xA;'&#xA;' On failure: sets out_Success=False and out_ErrorMessage instead of&#xA;' throwing, so the caller branches on the flag.&#xA;' ================================================================&#xA;&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;&#xA;Try&#xA;    ' Microsoft.Data.Sqlite connects with nothing but the file path.&#xA;    Dim connString As String = &quot;Data Source=&quot; &amp; in_DbPath &amp; &quot;;Pooling=False&quot;&#xA;&#xA;    Using conn As New Microsoft.Data.Sqlite.SqliteConnection(connString)&#xA;        conn.Open()&#xA;&#xA;        ' --- PRAGMAs ----------------------------------------------&#xA;        ' WAL: readers can run alongside the single writer. SAFE here only&#xA;        '      because this file is local to one machine.&#xA;        ' busy_timeout: if briefly locked, wait this many ms instead of&#xA;        '      failing with SQLITE_BUSY.&#xA;        ' synchronous=NORMAL: balanced durability/speed under WAL.&#xA;        Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xA;            cmd.CommandText =&#xA;                &quot;PRAGMA journal_mode=WAL;&quot; &amp;&#xA;                &quot;PRAGMA busy_timeout=&quot; &amp; in_BusyTimeoutMs.ToString() &amp; &quot;;&quot; &amp;&#xA;                &quot;PRAGMA synchronous=NORMAL;&quot;&#xA;            cmd.ExecuteNonQuery()&#xA;        End Using&#xA;&#xA;        ' --- Schema -----------------------------------------------&#xA;        Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xA;            cmd.CommandText =&#xA;                &quot;CREATE TABLE IF NOT EXISTS documents (&quot; &amp;&#xA;                &quot;  doc_id TEXT PRIMARY KEY,&quot; &amp;&#xA;                &quot;  source TEXT,&quot; &amp;&#xA;                &quot;  content_hash TEXT,&quot; &amp;&#xA;                &quot;  created_utc TEXT,&quot; &amp;&#xA;                &quot;  updated_utc TEXT);&quot; &amp;&#xA;                &quot;CREATE TABLE IF NOT EXISTS chunks (&quot; &amp;&#xA;                &quot;  id INTEGER PRIMARY KEY AUTOINCREMENT,&quot; &amp;&#xA;                &quot;  doc_id TEXT,&quot; &amp;&#xA;                &quot;  chunk_index INTEGER,&quot; &amp;&#xA;                &quot;  content TEXT,&quot; &amp;&#xA;                &quot;  embedding BLOB,&quot; &amp;&#xA;                &quot;  dim INTEGER,&quot; &amp;&#xA;                &quot;  model TEXT,&quot; &amp;&#xA;                &quot;  content_hash TEXT,&quot; &amp;&#xA;                &quot;  metadata TEXT,&quot; &amp;&#xA;                &quot;  created_utc TEXT);&quot; &amp;&#xA;                &quot;CREATE INDEX IF NOT EXISTS ix_chunks_doc ON chunks(doc_id);&quot; &amp;&#xA;                &quot;CREATE TABLE IF NOT EXISTS chunk_fields (&quot; &amp;&#xA;                &quot;  id INTEGER PRIMARY KEY AUTOINCREMENT,&quot; &amp;&#xA;                &quot;  chunk_id INTEGER,&quot; &amp;&#xA;                &quot;  doc_id TEXT,&quot; &amp;&#xA;                &quot;  field_key TEXT,&quot; &amp;&#xA;                &quot;  field_value TEXT,&quot; &amp;&#xA;                &quot;  field_mode TEXT,&quot; &amp;        ' 'semantic' or 'exact' — set per key at ingest&#xA;                &quot;  embedding BLOB,&quot; &amp;          ' unit-normalized vector of field_value (NULL for exact-only keys)&#xA;                &quot;  dim INTEGER);&quot; &amp;&#xA;                &quot;CREATE INDEX IF NOT EXISTS ix_fields_key ON chunk_fields(field_key);&quot; &amp;&#xA;                &quot;CREATE INDEX IF NOT EXISTS ix_fields_chunk ON chunk_fields(chunk_id);&quot; &amp;&#xA;                &quot;CREATE TABLE IF NOT EXISTS meta (&quot; &amp;&#xA;                &quot;  key TEXT PRIMARY KEY,&quot; &amp;&#xA;                &quot;  value TEXT);&quot;&#xA;            cmd.ExecuteNonQuery()&#xA;        End Using&#xA;&#xA;        ' --- Verify / record embedding identity (idempotent) ------&#xA;        ' A store belongs to exactly ONE embedding model: vectors from two&#xA;        ' different models are not comparable, so a mixed store silently&#xA;        ' produces meaningless scores forever. The FIRST ingest stamps the&#xA;        ' identity; every later one must MATCH it or we refuse to write.&#xA;        ' Names compare with the provider/org prefix stripped, so&#xA;        ' &quot;BAAI/bge-m3&quot; and &quot;bge-m3&quot; are the same model. A version or tag&#xA;        ' suffix is NOT stripped - &quot;bge-large-en&quot; and &quot;bge-large-en-v1.5&quot;&#xA;        ' are different models that happen to share a dimension.&#xA;        Dim storedModel As String = Nothing&#xA;        Dim storedDim As String = Nothing&#xA;        Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xA;            cmd.CommandText = &quot;SELECT key, value FROM meta WHERE key IN ('embedding_model','embedding_dim');&quot;&#xA;            Using rd As Microsoft.Data.Sqlite.SqliteDataReader = cmd.ExecuteReader()&#xA;                Do While rd.Read()&#xA;                    If rd.GetString(0) = &quot;embedding_model&quot; Then&#xA;                        storedModel = rd(&quot;value&quot;).ToString()&#xA;                    Else&#xA;                        storedDim = rd(&quot;value&quot;).ToString()&#xA;                    End If&#xA;                Loop&#xA;            End Using&#xA;        End Using&#xA;&#xA;        If Not String.IsNullOrWhiteSpace(storedModel) Then&#xA;            Dim have As String = storedModel.Trim().ToLowerInvariant()&#xA;            If have.LastIndexOf(&quot;/&quot;c) &gt;= 0 Then have = have.Substring(have.LastIndexOf(&quot;/&quot;c) + 1)&#xA;            Dim want As String = If(in_EmbeddingModel, &quot;&quot;).Trim().ToLowerInvariant()&#xA;            If want.LastIndexOf(&quot;/&quot;c) &gt;= 0 Then want = want.Substring(want.LastIndexOf(&quot;/&quot;c) + 1)&#xA;            If have &lt;&gt; want Then&#xA;                Throw New System.Exception(&#xA;                    &quot;Embedding model mismatch. This store was built with '&quot; &amp; storedModel &amp;&#xA;                    &quot;' but this ingest passed '&quot; &amp; If(in_EmbeddingModel, &quot;&quot;) &amp;&#xA;                    &quot;'. Vectors from different models are not comparable - ingest into a &quot; &amp;&#xA;                    &quot;different store path, or delete this store and re-ingest everything.&quot;)&#xA;            End If&#xA;        End If&#xA;&#xA;        If Not String.IsNullOrWhiteSpace(storedDim) AndAlso storedDim.Trim() &lt;&gt; in_EmbeddingDim.ToString() Then&#xA;            Throw New System.Exception(&#xA;                &quot;Embedding dimension mismatch. This store was built with dim=&quot; &amp; storedDim.Trim() &amp;&#xA;                &quot; but this ingest passed dim=&quot; &amp; in_EmbeddingDim.ToString() &amp;&#xA;                &quot;. Ingest into a different store path, or delete this store and re-ingest everything.&quot;)&#xA;        End If&#xA;&#xA;        Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xA;            cmd.CommandText =&#xA;                &quot;INSERT OR REPLACE INTO meta(key,value) VALUES('embedding_model',$m);&quot; &amp;&#xA;                &quot;INSERT OR REPLACE INTO meta(key,value) VALUES('embedding_dim',$d);&quot;&#xA;            cmd.Parameters.AddWithValue(&quot;$m&quot;, in_EmbeddingModel)&#xA;            cmd.Parameters.AddWithValue(&quot;$d&quot;, in_EmbeddingDim.ToString())&#xA;            cmd.ExecuteNonQuery()&#xA;        End Using&#xA;&#xA;        conn.Close()&#xA;    End Using&#xA;&#xA;    out_Success = True&#xA;&#xA;Catch ex As System.Exception&#xA;    ' Surface a clear, caller-readable message. InnerException often holds&#xA;    ' the real SQLite reason (locked file, bad path, missing native lib).&#xA;    out_Success = False&#xA;    out_ErrorMessage = &quot;InitializeStore failed for '&quot; &amp; in_DbPath &amp; &quot;': &quot; &amp; ex.Message&#xA;    If ex.InnerException IsNot Nothing Then&#xA;        out_ErrorMessage &amp;= &quot; | Inner: &quot; &amp; ex.InnerException.Message&#xA;    End If&#xA;End Try" DisplayName="Invoke Code - InitializeStore" sap:VirtualizedContainerService.HintSize="450,197" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_DbPath">[in_DbPath]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_EmbeddingModel">[in_EmbeddingModel]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_EmbeddingDim">[in_EmbeddingDim]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_BusyTimeoutMs">[in_BusyTimeoutMs]</InArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[strErrorMessage]</OutArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[boolSuccess]</OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:CheckTrue DisplayName="Check True - strErrorMessage" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap:VirtualizedContainerService.HintSize="450,163" sap2010:WorkflowViewState.IdRef="CheckTrue_1" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,166" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="[UiPath.Core.Activities.LogLevel.Info]" Message="[&quot;Store Initialized&quot;]" />
+  </Sequence>
+</Activity>

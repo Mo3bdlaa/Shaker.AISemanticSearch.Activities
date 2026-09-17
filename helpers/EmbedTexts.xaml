@@ -1,0 +1,135 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="EmbededText" this:EmbededText.in_Texts="[New List(Of String)]" this:EmbededText.in_BatchSize="16" this:EmbededText.in_TimeoutSec="100" this:EmbededText.in_MaxRetries="2" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_Texts" Type="InArgument(scg:List(x:String))" />
+    <x:Property Name="in_EmbeddingUrl" Type="InArgument(x:String)" />
+    <x:Property Name="in_ApiKey" Type="InArgument(x:String)" />
+    <x:Property Name="in_Model" Type="InArgument(x:String)" />
+    <x:Property Name="in_BatchSize" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_TimeoutSec" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_MaxRetries" Type="InArgument(x:Int32)" />
+    <x:Property Name="out_Embeddings" Type="OutArgument(scg:List(s:Double[]))" />
+  </x:Members>
+  <this:EmbededText.in_EmbeddingUrl>
+    <InArgument x:TypeArguments="x:String">
+      <Literal x:TypeArguments="x:String" Value="" />
+    </InArgument>
+  </this:EmbededText.in_EmbeddingUrl>
+  <this:EmbededText.in_ApiKey>
+    <InArgument x:TypeArguments="x:String">
+      <Literal x:TypeArguments="x:String" Value="" />
+    </InArgument>
+  </this:EmbededText.in_ApiKey>
+  <this:EmbededText.in_Model>
+    <InArgument x:TypeArguments="x:String">
+      <Literal x:TypeArguments="x:String" Value="" />
+    </InArgument>
+  </this:EmbededText.in_Model>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>EmbededText_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Numerics</x:String>
+      <x:String>Newtonsoft.Json</x:String>
+      <x:String>Newtonsoft.Json.Linq</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Runtime.Numerics</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="EmbedTexts" sap:VirtualizedContainerService.HintSize="1081,813.6566666666666" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:Boolean" Name="boolSuccess" />
+      <Variable x:TypeArguments="x:String" Name="strErrorMessage" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,175" sap2010:WorkflowViewState.IdRef="LogMessage_1" Message="[&quot;Embedding Text...&quot;]" />
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="' ================================================================&#xA;' EmbedTexts  (PRIVATE - used by IngestDocuments, Retrieve, and the&#xA;'             structured path for field-value embedding)&#xA;' Calls the embedding model and returns one UNIT-NORMALIZED vector&#xA;' per input text (as Double()). Unit length =&gt; cosine is a dot product.&#xA;' Batched so we don't HTTP once per chunk; retried so a blip doesn't&#xA;' fail the whole run.&#xA;'&#xA;' Shared &amp; format-agnostic: free-text chunks, query strings, and&#xA;' structured 'semantic' field values all go through here unchanged.&#xA;' 'exact' fields are NOT sent here (the structured writer skips them).&#xA;' Empty/Nothing in_Texts is valid (e.g. a row with only exact fields)&#xA;' and returns an empty list, not an error.&#xA;'&#xA;' &gt;&gt;&gt; OpenAI-style endpoint (.../v1/embeddings):&#xA;'     REQUEST : {&quot;model&quot;:&quot;...&quot;,&quot;input&quot;:[&quot;t1&quot;,&quot;t2&quot;, ...]}&#xA;'     RESPONSE: {&quot;data&quot;:[{&quot;embedding&quot;:[...],&quot;index&quot;:0}, ...]}&#xA;' Results are re-ordered by &quot;index&quot; so the chunk&lt;-&gt;vector pairing is&#xA;' correct even if the server returns a batch out of order.&#xA;' On failure: out_Success=False + out_ErrorMessage, out_Embeddings empty.&#xA;' ================================================================&#xA;&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;out_Embeddings = New System.Collections.Generic.List(Of Double())()&#xA;&#xA;Try&#xA;    ' Empty/Nothing input is valid -&gt; empty result (structured rows whose&#xA;    ' queried fields are all 'exact' have nothing to embed).&#xA;    If in_Texts IsNot Nothing AndAlso in_Texts.Count &gt; 0 Then&#xA;&#xA;        ' One HttpClient reused for every batch in this call.&#xA;        Using client As New System.Net.Http.HttpClient()&#xA;            client.Timeout = TimeSpan.FromSeconds(in_TimeoutSec)&#xA;&#xA;            ' Bearer auth only if a key was supplied.&#xA;            If Not String.IsNullOrEmpty(in_ApiKey) Then&#xA;                client.DefaultRequestHeaders.Authorization =&#xA;                    New System.Net.Http.Headers.AuthenticationHeaderValue(&quot;Bearer&quot;, in_ApiKey)&#xA;            End If&#xA;&#xA;            Dim total As Integer = in_Texts.Count&#xA;            Dim i As Integer = 0&#xA;&#xA;            Do While i &lt; total&#xA;                Dim takeN As Integer = Math.Min(in_BatchSize, total - i)&#xA;                Dim batch As System.Collections.Generic.List(Of String) = in_Texts.GetRange(i, takeN)&#xA;&#xA;                ' ===== ADAPT POINT 1 - build the request body ============&#xA;                Dim payload As New Newtonsoft.Json.Linq.JObject()&#xA;                payload(&quot;model&quot;) = in_Model&#xA;                payload(&quot;input&quot;) = New Newtonsoft.Json.Linq.JArray(batch.ToArray())&#xA;                Dim bodyJson As String = payload.ToString(Newtonsoft.Json.Formatting.None)&#xA;                ' =========================================================&#xA;&#xA;                ' POST with retry.&#xA;                Dim attempt As Integer = 0&#xA;                Dim respText As String = Nothing&#xA;                Dim lastStatus As Integer = 0&#xA;                Do&#xA;                    attempt += 1&#xA;                    lastStatus = 0&#xA;                    Try&#xA;                        Using content As New System.Net.Http.StringContent(&#xA;                                bodyJson, System.Text.Encoding.UTF8, &quot;application/json&quot;)&#xA;                            Dim resp As System.Net.Http.HttpResponseMessage =&#xA;                                client.PostAsync(in_EmbeddingUrl, content).GetAwaiter().GetResult()&#xA;                            respText = resp.Content.ReadAsStringAsync().GetAwaiter().GetResult()&#xA;                            lastStatus = CInt(resp.StatusCode)&#xA;                            If Not resp.IsSuccessStatusCode Then&#xA;                                Throw New System.Exception(&#xA;                                    &quot;Embedding HTTP &quot; &amp; CInt(resp.StatusCode).ToString() &amp; &quot;: &quot; &amp; respText)&#xA;                            End If&#xA;                        End Using&#xA;                        Exit Do&#xA;                    Catch ex As System.Exception&#xA;                        ' 4xx (except 408 timeout / 429 throttle) is a permanent client&#xA;                        ' error - retrying cannot fix it, so fail fast.&#xA;                        Dim permanentClientError As Boolean =&#xA;                            lastStatus &gt;= 400 AndAlso lastStatus &lt; 500 AndAlso&#xA;                            lastStatus &lt;&gt; 408 AndAlso lastStatus &lt;&gt; 429&#xA;                        If permanentClientError OrElse attempt &gt; in_MaxRetries Then&#xA;                            Throw New System.Exception(&#xA;                                &quot;Embedding failed after &quot; &amp; attempt.ToString() &amp; &quot; attempt(s): &quot; &amp; ex.Message)&#xA;                        End If&#xA;                        System.Threading.Thread.Sleep(500 * attempt)   ' 500ms, 1000ms, ...&#xA;                    End Try&#xA;                Loop&#xA;&#xA;                ' ===== ADAPT POINT 2 - locate the vectors in the response =&#xA;                Dim root As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.Linq.JObject.Parse(respText)&#xA;                Dim dataArr As Newtonsoft.Json.Linq.JArray = CType(root(&quot;data&quot;), Newtonsoft.Json.Linq.JArray)&#xA;&#xA;                ' Re-order strictly by each item's &quot;index&quot; (no LINQ, so no import&#xA;                ' worries). OpenAI-style guarantees index = 0..count-1 per batch,&#xA;                ' so we just drop each item into its slot.&#xA;                Dim ordered(dataArr.Count - 1) As Newtonsoft.Json.Linq.JToken&#xA;                For Each src As Newtonsoft.Json.Linq.JToken In dataArr&#xA;                    Dim idx As Integer = src(&quot;index&quot;).ToObject(Of Integer)()&#xA;                    ordered(idx) = src&#xA;                Next&#xA;                ' =========================================================&#xA;&#xA;                ' Normalize each returned vector to unit length.&#xA;                For Each item As Newtonsoft.Json.Linq.JToken In ordered&#xA;                    Dim embArr As Newtonsoft.Json.Linq.JArray = CType(item(&quot;embedding&quot;), Newtonsoft.Json.Linq.JArray)&#xA;                    Dim vec(embArr.Count - 1) As Double&#xA;                    Dim sumSq As Double = 0&#xA;                    For d As Integer = 0 To embArr.Count - 1&#xA;                        vec(d) = embArr(d).ToObject(Of Double)()&#xA;                        sumSq += vec(d) * vec(d)&#xA;                    Next&#xA;                    Dim norm As Double = Math.Sqrt(sumSq)&#xA;                    If norm &gt; 0 Then&#xA;                        For d As Integer = 0 To vec.Length - 1&#xA;                            vec(d) = vec(d) / norm&#xA;                        Next&#xA;                    End If&#xA;                    out_Embeddings.Add(vec)&#xA;                Next&#xA;&#xA;                i += takeN&#xA;            Loop&#xA;        End Using&#xA;&#xA;        ' One vector per input, or something went wrong.&#xA;        If out_Embeddings.Count &lt;&gt; in_Texts.Count Then&#xA;            Throw New System.Exception(&quot;Embedding count mismatch: got &quot; &amp; out_Embeddings.Count.ToString() &amp;&#xA;                &quot; for &quot; &amp; in_Texts.Count.ToString() &amp; &quot; inputs.&quot;)&#xA;        End If&#xA;&#xA;    End If&#xA;&#xA;    out_Success = True&#xA;&#xA;Catch ex As System.Exception&#xA;    out_Success = False&#xA;    out_Embeddings = New System.Collections.Generic.List(Of Double())()   ' clean/empty on failure&#xA;    out_ErrorMessage = &quot;EmbedTexts failed: &quot; &amp; ex.Message&#xA;    If ex.InnerException IsNot Nothing Then&#xA;        out_ErrorMessage &amp;= &quot; | Inner: &quot; &amp; ex.InnerException.Message&#xA;    End If&#xA;End Try&#xA;" DisplayName="Invoke Code - EmbedTexts" sap:VirtualizedContainerService.HintSize="450,197" sap2010:WorkflowViewState.IdRef="InvokeCode_2">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_Texts">[in_Texts]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_EmbeddingUrl">[in_EmbeddingUrl]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_ApiKey">[in_ApiKey]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Model">[in_Model]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_BatchSize">[in_BatchSize]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_TimeoutSec">[in_TimeoutSec]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_MaxRetries">[in_MaxRetries]</InArgument>
+        <OutArgument x:TypeArguments="scg:List(s:Double[])" x:Key="out_Embeddings">[out_Embeddings]</OutArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[boolSuccess]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[strErrorMessage]</OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:CheckTrue DisplayName="Check True - strErrorMessage" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap:VirtualizedContainerService.HintSize="450,163" sap2010:WorkflowViewState.IdRef="CheckTrue_1" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,166" sap2010:WorkflowViewState.IdRef="LogMessage_2" Message="[&quot;Done&quot;]" />
+  </Sequence>
+</Activity>

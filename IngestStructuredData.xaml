@@ -1,0 +1,382 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Activity mc:Ignorable="sap sap2010" x:Class="IngestStructured" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:si="clr-namespace:System.IO;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_SharePath" Type="InArgument(x:String)" />
+    <x:Property Name="in_LockPath" Type="InArgument(x:String)" />
+    <x:Property Name="in_LocalDbPath" Type="InArgument(x:String)" />
+    <x:Property Name="in_EmbeddingUrl" Type="InArgument(x:String)" />
+    <x:Property Name="in_ApiKey" Type="InArgument(x:String)" />
+    <x:Property Name="in_Model" Type="InArgument(x:String)" />
+    <x:Property Name="in_EmbeddingDim" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_LockTimeoutMs" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_TimeoutSec" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_MaxRetries" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_BatchSize" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_dt_Sheet" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="in_ExactColumns" Type="InArgument(scg:List(x:String))" />
+    <x:Property Name="in_DocIdColumn" Type="InArgument(x:String)" />
+    <x:Property Name="in_Source" Type="InArgument(x:String)" />
+    <x:Property Name="out_RowsWritten" Type="OutArgument(x:Int32)" />
+    <x:Property Name="out_Errors" Type="OutArgument(scg:List(x:String))" />
+  </x:Members>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Numerics</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Activities.Runtime.Collections</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Runtime.Numerics</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="IngestStructured" sap:VirtualizedContainerService.HintSize="832,585.6566666666666" sap2010:WorkflowViewState.IdRef="Sequence_7">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="si:FileStream" Name="lockStream" />
+      <Variable x:TypeArguments="x:Boolean" Name="lockOk" />
+      <Variable x:TypeArguments="x:String" Name="lockErr" />
+      <Variable x:TypeArguments="x:Boolean" Name="opOk" />
+      <Variable x:TypeArguments="x:String" Name="opErr" />
+      <Variable x:TypeArguments="sd:DataTable" Name="rows" />
+      <Variable x:TypeArguments="sd:DataTable" Name="fields" />
+      <Variable x:TypeArguments="scg:List(x:String)" Name="rowContents" />
+      <Variable x:TypeArguments="scg:List(x:String)" Name="semValues" />
+      <Variable x:TypeArguments="scg:List(s:Double[])" Name="rowEmb" />
+      <Variable x:TypeArguments="scg:List(s:Double[])" Name="fieldEmb" />
+      <Variable x:TypeArguments="x:Int32" Name="intSkippedDocs" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Sequence DisplayName="Ingest Structured" sap:VirtualizedContainerService.HintSize="484,188" sap2010:WorkflowViewState.IdRef="Sequence_10">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <Sequence DisplayName="Initialization" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_1">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <ui:MultipleAssign DisplayName="Multiple Assign - Init" sap:VirtualizedContainerService.HintSize="430,155" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
+          <ui:MultipleAssign.AssignOperations>
+            <scg:List x:TypeArguments="ui:AssignOperation" Capacity="2">
+              <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_1">
+                <ui:AssignOperation.To>
+                  <OutArgument x:TypeArguments="x:Int32">[out_RowsWritten]</OutArgument>
+                </ui:AssignOperation.To>
+                <ui:AssignOperation.Value>
+                  <InArgument x:TypeArguments="x:Int32">0</InArgument>
+                </ui:AssignOperation.Value>
+              </ui:AssignOperation>
+              <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_2">
+                <ui:AssignOperation.To>
+                  <OutArgument x:TypeArguments="scg:List(x:String)">[out_Errors]</OutArgument>
+                </ui:AssignOperation.To>
+                <ui:AssignOperation.Value>
+                  <InArgument x:TypeArguments="scg:List(x:String)">[New List(Of String)]</InArgument>
+                </ui:AssignOperation.Value>
+              </ui:AssignOperation>
+            </scg:List>
+          </ui:MultipleAssign.AssignOperations>
+        </ui:MultipleAssign>
+      </Sequence>
+      <Sequence DisplayName="Ingest Structured" sap:VirtualizedContainerService.HintSize="524,3345" sap2010:WorkflowViewState.IdRef="Sequence_6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="lib\EnsureSqliteNative.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="490,146" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_9" UnSafe="False" WorkflowFileName="helpers\EnsureSqliteNative.xaml">
+          <ui:InvokeWorkflowFile.Arguments>
+            <scg:Dictionary x:TypeArguments="x:String, Argument" />
+          </ui:InvokeWorkflowFile.Arguments>
+        </ui:InvokeWorkflowFile>
+        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="helpers\AcquireWriteLock.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="490,146" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="helpers\AcquireWriteLock.xaml">
+          <ui:InvokeWorkflowFile.Arguments>
+            <OutArgument x:TypeArguments="x:Boolean" x:Key="out_lockOk">[lockOk]</OutArgument>
+            <InArgument x:TypeArguments="x:Int32" x:Key="in_TimeoutMs">[in_LockTimeoutMs]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_LockPath">[in_LockPath]</InArgument>
+            <InArgument x:TypeArguments="x:Int32" x:Key="in_RetryDelayMs">500</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_OwnerInfo">[Environment.MachineName]</InArgument>
+            <OutArgument x:TypeArguments="si:FileStream" x:Key="out_LockStream">[lockStream]</OutArgument>
+            <OutArgument x:TypeArguments="x:String" x:Key="out_lockErr">[lockErr]</OutArgument>
+          </ui:InvokeWorkflowFile.Arguments>
+        </ui:InvokeWorkflowFile>
+        <If Condition="[lockOk]" DisplayName="If - lock acquired" sap:VirtualizedContainerService.HintSize="490,2993" sap2010:WorkflowViewState.IdRef="If_1">
+          <If.Then>
+            <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="488,2615" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+              <TryCatch.Try>
+                <Sequence DisplayName="Try" sap:VirtualizedContainerService.HintSize="486,2083" sap2010:WorkflowViewState.IdRef="Sequence_2">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:InvokeCode ContinueOnError="{x:Null}" Code="' PullForWrite - bring the latest canonical db local so we UPDATE it.&#xA;' First ingest ever: share has no db yet -&gt; skip, and InitializeStore&#xA;' creates a fresh local one.&#xA;' The share lock already serializes robot-vs-robot writes. The LOCAL file&#xA;' can still be briefly held by a previous run's pooled connections, an AV&#xA;' scan, or a reader on this machine - so retry with an interval until&#xA;' in_BudgetMs is exhausted instead of aborting on the first sharing violation.&#xA;' Contract: sets out_Success/out_ErrorMessage; the CheckTrue after throws.&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;Try&#xA;    Dim dir As String = System.IO.Path.GetDirectoryName(in_LocalDbPath)&#xA;    If Not String.IsNullOrEmpty(dir) AndAlso Not System.IO.Directory.Exists(dir) Then&#xA;        System.IO.Directory.CreateDirectory(dir)&#xA;    End If&#xA;    ' Release pooled SQLite handles this executor may still hold on the&#xA;    ' local db from an earlier run - they silently block file deletes.&#xA;    Microsoft.Data.Sqlite.SqliteConnection.ClearAllPools()&#xA;    Dim budgetMs As Integer = in_BudgetMs&#xA;    If budgetMs &lt;= 0 Then budgetMs = 30000&#xA;    Dim deadline As DateTime = DateTime.UtcNow.AddMilliseconds(budgetMs)&#xA;    Dim lastErr As System.Exception = Nothing&#xA;    Dim done As Boolean = False&#xA;    Do&#xA;        Try&#xA;            ' Clear stale WAL side-files or a leftover -wal would be replayed&#xA;            ' onto the freshly-copied db and corrupt our view of it.&#xA;            For Each ext As String In New String() {&quot;-wal&quot;, &quot;-shm&quot;}&#xA;                Dim side As String = in_LocalDbPath &amp; ext&#xA;                If System.IO.File.Exists(side) Then System.IO.File.Delete(side)&#xA;            Next&#xA;            If System.IO.File.Exists(in_SharePath) Then&#xA;                System.IO.File.Copy(in_SharePath, in_LocalDbPath, True)&#xA;            ElseIf System.IO.File.Exists(in_LocalDbPath) Then&#xA;                System.IO.File.Delete(in_LocalDbPath)&#xA;            End If&#xA;            done = True&#xA;        Catch ioex As System.IO.IOException&#xA;            ' Someone still holds the file - wait, then retry.&#xA;            lastErr = ioex&#xA;            Microsoft.Data.Sqlite.SqliteConnection.ClearAllPools()&#xA;            System.Threading.Thread.Sleep(1000)&#xA;        Catch uaex As System.UnauthorizedAccessException&#xA;            lastErr = uaex&#xA;            System.Threading.Thread.Sleep(1000)&#xA;        End Try&#xA;    Loop Until done OrElse DateTime.UtcNow &gt;= deadline&#xA;    If Not done Then&#xA;        Dim detail As String = &quot;&quot;&#xA;        If lastErr IsNot Nothing Then detail = &quot; Last error: &quot; &amp; lastErr.Message&#xA;        Throw New System.Exception(&quot;Local db still in use after &quot; &amp; budgetMs.ToString() &amp; &quot;ms of retries.&quot; &amp; detail)&#xA;    End If&#xA;    out_Success = True&#xA;Catch ex As System.Exception&#xA;    out_ErrorMessage = &quot;PullForWrite failed: &quot; &amp; ex.Message&#xA;    If ex.InnerException IsNot Nothing Then out_ErrorMessage &amp;= &quot; | Inner: &quot; &amp; ex.InnerException.Message&#xA;End Try" DisplayName="Invoke Code - PullForWrite" sap:VirtualizedContainerService.HintSize="452,197" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+                    <ui:InvokeCode.Arguments>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_LocalDbPath">[in_LocalDbPath]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_SharePath">[in_SharePath]</InArgument>
+                      <InArgument x:TypeArguments="x:Int32" x:Key="in_BudgetMs">[in_LockTimeoutMs]</InArgument>
+                      <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[opOk]</OutArgument>
+                      <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[opErr]</OutArgument>
+                    </ui:InvokeCode.Arguments>
+                  </ui:InvokeCode>
+                  <ui:CheckTrue DisplayName="Check True - PullForWrite" ErrorMessage="[opErr]" Expression="[opOk]" sap:VirtualizedContainerService.HintSize="452,163" sap2010:WorkflowViewState.IdRef="CheckTrue_101" />
+                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="helpers\InitializeStore.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="452,146" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="helpers\InitializeStore.xaml">
+                    <ui:InvokeWorkflowFile.Arguments>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_DbPath">[in_LocalDbPath]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_EmbeddingModel">[in_Model]</InArgument>
+                      <InArgument x:TypeArguments="x:Int32" x:Key="in_EmbeddingDim">[in_EmbeddingDim]</InArgument>
+                      <InArgument x:TypeArguments="x:Int32" x:Key="in_BusyTimeoutMs">5000</InArgument>
+                    </ui:InvokeWorkflowFile.Arguments>
+                  </ui:InvokeWorkflowFile>
+                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="helpers\BuildFieldTable.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="452,146" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="helpers\BuildFieldTable.xaml">
+                    <ui:InvokeWorkflowFile.Arguments>
+                      <InArgument x:TypeArguments="sd:DataTable" x:Key="in_Sheet">[in_dt_Sheet]</InArgument>
+                      <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_ExactColumns">[in_ExactColumns]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_DocIdColumn">[in_DocIdColumn]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_Source">[in_Source]</InArgument>
+                      <OutArgument x:TypeArguments="sd:DataTable" x:Key="out_Rows">[rows]</OutArgument>
+                      <OutArgument x:TypeArguments="sd:DataTable" x:Key="out_Fields">[fields]</OutArgument>
+                    </ui:InvokeWorkflowFile.Arguments>
+                  </ui:InvokeWorkflowFile>
+                  <ui:InvokeCode ContinueOnError="{x:Null}" Code="' FilterUnchanged - drop docs whose content is identical to what the store&#xA;' already holds, so re-runs embed and write NOTHING for unchanged docs.&#xA;' Doc identity: DOC-LEVEL hash = SHA256 over all row ContentJson values in&#xA;' row order, LF-joined. NOTE: formula must match pass 0 of&#xA;' WriteStructuredChunks - if they drift, docs are always rewritten (safe).&#xA;' Contract: sets out_Success/out_ErrorMessage; the CheckTrue after throws.&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;out_SkippedDocs = 0&#xA;Try&#xA;&#xA;Dim docBuf As New System.Collections.Generic.Dictionary(Of String, System.Text.StringBuilder)()&#xA;For Each r As System.Data.DataRow In in_Rows.Rows&#xA;    Dim id As String = r(&quot;DocId&quot;).ToString()&#xA;    If Not docBuf.ContainsKey(id) Then docBuf(id) = New System.Text.StringBuilder()&#xA;    docBuf(id).Append(r(&quot;ContentJson&quot;).ToString()).Append(Convert.ToChar(10))&#xA;Next&#xA;&#xA;' Fold the field-mode configuration into the doc hash, so changing which&#xA;' columns are exact vs semantic triggers a rewrite (content alone would skip).&#xA;' NOTE: signature formula must match pass 0 of WriteStructuredChunks.&#xA;Dim docByRow As New System.Collections.Generic.Dictionary(Of Integer, String)()&#xA;For Each r As System.Data.DataRow In in_Rows.Rows&#xA;    docByRow(CInt(r(&quot;RowKey&quot;))) = r(&quot;DocId&quot;).ToString()&#xA;Next&#xA;Dim modeSig As New System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.SortedSet(Of String))()&#xA;For Each f As System.Data.DataRow In in_Fields.Rows&#xA;    Dim did As String = Nothing&#xA;    If docByRow.TryGetValue(CInt(f(&quot;RowKey&quot;)), did) Then&#xA;        If Not modeSig.ContainsKey(did) Then modeSig(did) = New System.Collections.Generic.SortedSet(Of String)(StringComparer.Ordinal)&#xA;        modeSig(did).Add(f(&quot;FieldKey&quot;).ToString() &amp; &quot;:&quot; &amp; f(&quot;Mode&quot;).ToString().ToLowerInvariant())&#xA;    End If&#xA;Next&#xA;For Each kv As System.Collections.Generic.KeyValuePair(Of String, System.Text.StringBuilder) In docBuf&#xA;    Dim sig As String = &quot;&quot;&#xA;    If modeSig.ContainsKey(kv.Key) Then sig = String.Join(&quot;;&quot;, modeSig(kv.Key))&#xA;    kv.Value.Append(&quot;|modes|&quot;).Append(sig)&#xA;Next&#xA;&#xA;Dim docHash As New System.Collections.Generic.Dictionary(Of String, String)()&#xA;Using sha As System.Security.Cryptography.SHA256 = System.Security.Cryptography.SHA256.Create()&#xA;    For Each kv As System.Collections.Generic.KeyValuePair(Of String, System.Text.StringBuilder) In docBuf&#xA;        Dim hb As Byte() = sha.ComputeHash(System.Text.Encoding.UTF8.GetBytes(kv.Value.ToString()))&#xA;        docHash(kv.Key) = System.BitConverter.ToString(hb).Replace(&quot;-&quot;, &quot;&quot;).ToLowerInvariant()&#xA;    Next&#xA;End Using&#xA;&#xA;Dim unchanged As New System.Collections.Generic.HashSet(Of String)()&#xA;If System.IO.File.Exists(in_DbPath) Then&#xA;    Using conn As New Microsoft.Data.Sqlite.SqliteConnection(&quot;Data Source=&quot; &amp; in_DbPath &amp; &quot;;Pooling=False&quot;)&#xA;        conn.Open()&#xA;        For Each kv As System.Collections.Generic.KeyValuePair(Of String, String) In docHash&#xA;            Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xA;                cmd.CommandText = &quot;SELECT content_hash FROM documents WHERE doc_id=$id LIMIT 1;&quot;&#xA;                cmd.Parameters.AddWithValue(&quot;$id&quot;, kv.Key)&#xA;                Dim stored As Object = cmd.ExecuteScalar()&#xA;                If stored IsNot Nothing AndAlso Not (TypeOf stored Is System.DBNull) AndAlso String.Equals(stored.ToString(), kv.Value, StringComparison.Ordinal) Then&#xA;                    unchanged.Add(kv.Key)&#xA;                End If&#xA;            End Using&#xA;        Next&#xA;        conn.Close()&#xA;    End Using&#xA;End If&#xA;&#xA;If unchanged.Count &gt; 0 Then&#xA;    Dim dropKeys As New System.Collections.Generic.HashSet(Of Integer)()&#xA;    For i As Integer = in_Rows.Rows.Count - 1 To 0 Step -1&#xA;        If unchanged.Contains(in_Rows.Rows(i)(&quot;DocId&quot;).ToString()) Then&#xA;            dropKeys.Add(CInt(in_Rows.Rows(i)(&quot;RowKey&quot;)))&#xA;            in_Rows.Rows(i).Delete()&#xA;        End If&#xA;    Next&#xA;    in_Rows.AcceptChanges()&#xA;    For i As Integer = in_Fields.Rows.Count - 1 To 0 Step -1&#xA;        If dropKeys.Contains(CInt(in_Fields.Rows(i)(&quot;RowKey&quot;))) Then in_Fields.Rows(i).Delete()&#xA;    Next&#xA;    in_Fields.AcceptChanges()&#xA;End If&#xA;out_SkippedDocs = unchanged.Count&#xA;&#xA;out_Success = True&#xA;Catch ex As System.Exception&#xA;    out_ErrorMessage = &quot;FilterUnchanged failed: &quot; &amp; ex.Message&#xA;    If ex.InnerException IsNot Nothing Then out_ErrorMessage &amp;= &quot; | Inner: &quot; &amp; ex.InnerException.Message&#xA;End Try&#xA;" DisplayName="Invoke Code - FilterUnchanged" sap:VirtualizedContainerService.HintSize="452,197" sap2010:WorkflowViewState.IdRef="InvokeCode_90">
+                    <ui:InvokeCode.Arguments>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_DbPath">[in_LocalDbPath]</InArgument>
+                      <InArgument x:TypeArguments="sd:DataTable" x:Key="in_Rows">[rows]</InArgument>
+                      <InArgument x:TypeArguments="sd:DataTable" x:Key="in_Fields">[fields]</InArgument>
+                      <OutArgument x:TypeArguments="x:Int32" x:Key="out_SkippedDocs">[intSkippedDocs]</OutArgument>
+                      <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[opOk]</OutArgument>
+                      <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[opErr]</OutArgument>
+                    </ui:InvokeCode.Arguments>
+                  </ui:InvokeCode>
+                  <ui:CheckTrue DisplayName="Check True - FilterUnchanged" ErrorMessage="[opErr]" Expression="[opOk]" sap:VirtualizedContainerService.HintSize="452,163" sap2010:WorkflowViewState.IdRef="CheckTrue_102" />
+                  <ui:LogMessage DisplayName="Log Message - filter result" sap:VirtualizedContainerService.HintSize="452,166" sap2010:WorkflowViewState.IdRef="LogMessage_90" Level="Info" Message="[&quot;FilterUnchanged: skipped &quot; &amp; intSkippedDocs.ToString() &amp; &quot; unchanged doc(s); &quot; &amp; rows.Rows.Count.ToString() &amp; &quot; row(s) to write.&quot;]" />
+                  <ui:InvokeCode ContinueOnError="{x:Null}" Code="' BuildEmbedInputs - flatten BuildFieldTable outputs into the two embed&#xA;' inputs. SemValues MUST be in in_Fields row order so it aligns with how&#xA;' WriteStructuredChunks consumes the semantic vectors.&#xA;' Contract: sets out_Success/out_ErrorMessage; the CheckTrue after throws.&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;out_RowContents = New System.Collections.Generic.List(Of String)()&#xA;out_SemValues = New System.Collections.Generic.List(Of String)()&#xA;Try&#xA;    For Each r As System.Data.DataRow In in_Rows.Rows&#xA;        out_RowContents.Add(r(&quot;ContentJson&quot;).ToString())&#xA;    Next&#xA;    For Each f As System.Data.DataRow In in_Fields.Rows&#xA;        If String.Equals(f(&quot;Mode&quot;).ToString(), &quot;semantic&quot;, System.StringComparison.OrdinalIgnoreCase) Then&#xA;            out_SemValues.Add(f(&quot;FieldValue&quot;).ToString())&#xA;        End If&#xA;    Next&#xA;    out_Success = True&#xA;Catch ex As System.Exception&#xA;    out_ErrorMessage = &quot;BuildEmbedInputs failed: &quot; &amp; ex.Message&#xA;    If ex.InnerException IsNot Nothing Then out_ErrorMessage &amp;= &quot; | Inner: &quot; &amp; ex.InnerException.Message&#xA;End Try" DisplayName="Invoke Code - BuildEmbedInputs" sap:VirtualizedContainerService.HintSize="452,197" sap2010:WorkflowViewState.IdRef="InvokeCode_2">
+                    <ui:InvokeCode.Arguments>
+                      <InArgument x:TypeArguments="sd:DataTable" x:Key="in_Rows">[rows]</InArgument>
+                      <InArgument x:TypeArguments="sd:DataTable" x:Key="in_Fields">[fields]</InArgument>
+                      <OutArgument x:TypeArguments="scg:List(x:String)" x:Key="out_RowContents">[rowContents]</OutArgument>
+                      <OutArgument x:TypeArguments="scg:List(x:String)" x:Key="out_SemValues">[semValues]</OutArgument>
+                      <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[opOk]</OutArgument>
+                      <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[opErr]</OutArgument>
+                    </ui:InvokeCode.Arguments>
+                  </ui:InvokeCode>
+                  <ui:CheckTrue DisplayName="Check True - BuildEmbedInputs" ErrorMessage="[opErr]" Expression="[opOk]" sap:VirtualizedContainerService.HintSize="452,163" sap2010:WorkflowViewState.IdRef="CheckTrue_103" />
+                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="helpers\EmbedTexts.xaml - Invoke Workflow File (rows)" sap:VirtualizedContainerService.HintSize="452,146" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="helpers\EmbedTexts.xaml">
+                    <ui:InvokeWorkflowFile.Arguments>
+                      <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_Texts">[rowContents]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_EmbeddingUrl">[in_EmbeddingUrl]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_ApiKey">[in_ApiKey]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_Model">[in_Model]</InArgument>
+                      <InArgument x:TypeArguments="x:Int32" x:Key="in_BatchSize">[in_BatchSize]</InArgument>
+                      <InArgument x:TypeArguments="x:Int32" x:Key="in_TimeoutSec">[in_TimeoutSec]</InArgument>
+                      <InArgument x:TypeArguments="x:Int32" x:Key="in_MaxRetries">[in_MaxRetries]</InArgument>
+                      <OutArgument x:TypeArguments="scg:List(s:Double[])" x:Key="out_Embeddings">[rowEmb]</OutArgument>
+                    </ui:InvokeWorkflowFile.Arguments>
+                  </ui:InvokeWorkflowFile>
+                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="helpers\EmbedTexts.xaml - Invoke Workflow File (fields)" sap:VirtualizedContainerService.HintSize="452,146" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="helpers\EmbedTexts.xaml">
+                    <ui:InvokeWorkflowFile.Arguments>
+                      <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_Texts">[semValues]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_EmbeddingUrl">[in_EmbeddingUrl]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_ApiKey">[in_ApiKey]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_Model">[in_Model]</InArgument>
+                      <InArgument x:TypeArguments="x:Int32" x:Key="in_BatchSize">[in_BatchSize]</InArgument>
+                      <InArgument x:TypeArguments="x:Int32" x:Key="in_TimeoutSec">[in_TimeoutSec]</InArgument>
+                      <InArgument x:TypeArguments="x:Int32" x:Key="in_MaxRetries">[in_MaxRetries]</InArgument>
+                      <OutArgument x:TypeArguments="scg:List(s:Double[])" x:Key="out_Embeddings">[fieldEmb]</OutArgument>
+                    </ui:InvokeWorkflowFile.Arguments>
+                  </ui:InvokeWorkflowFile>
+                  <If Condition="[semValues.Count = 0]" DisplayName="If - no semantic values" sap:VirtualizedContainerService.HintSize="452,390" sap2010:WorkflowViewState.IdRef="If_2">
+                    <If.Then>
+                      <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="450,226" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <Assign DisplayName="Assign - empty fieldEmb" sap:VirtualizedContainerService.HintSize="416,166" sap2010:WorkflowViewState.IdRef="Assign_1">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="scg:List(s:Double[])">[fieldEmb]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="scg:List(s:Double[])">[New System.Collections.Generic.List(Of Double())()]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                      </Sequence>
+                    </If.Then>
+                    <If.Else>
+                      <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,25" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </Sequence>
+                    </If.Else>
+                  </If>
+                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="helpers\WriteStructuredChunks.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="452,146" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_6" UnSafe="False" WorkflowFileName="helpers\WriteStructuredChunks.xaml">
+                    <ui:InvokeWorkflowFile.Arguments>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_DbPath">[in_LocalDbPath]</InArgument>
+                      <InArgument x:TypeArguments="sd:DataTable" x:Key="in_Rows">[rows]</InArgument>
+                      <InArgument x:TypeArguments="scg:List(s:Double[])" x:Key="in_RowEmbeddings">[rowEmb]</InArgument>
+                      <InArgument x:TypeArguments="sd:DataTable" x:Key="in_Fields">[fields]</InArgument>
+                      <InArgument x:TypeArguments="scg:List(s:Double[])" x:Key="in_FieldEmbeddings">[fieldEmb]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_Model">[in_Model]</InArgument>
+                      <InArgument x:TypeArguments="x:Int32" x:Key="in_Dim">[in_EmbeddingDim]</InArgument>
+                    </ui:InvokeWorkflowFile.Arguments>
+                  </ui:InvokeWorkflowFile>
+                  <Assign DisplayName="Assign - out_RowsWritten" sap:VirtualizedContainerService.HintSize="452,175" sap2010:WorkflowViewState.IdRef="Assign_2">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:Int32">[out_RowsWritten]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:Int32">[rows.Rows.Count]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <If Condition="[rows.Rows.Count &gt; 0]" DisplayName="If - anything written" sap:VirtualizedContainerService.HintSize="452,390" sap2010:WorkflowViewState.IdRef="If_90">
+                    <If.Then>
+                      <Sequence DisplayName="Then - checkpoint and publish" sap:VirtualizedContainerService.HintSize="450,400" sap2010:WorkflowViewState.IdRef="Sequence_90">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:InvokeCode ContinueOnError="{x:Null}" Code="' Checkpoint - fold the -wal side file into store.db and release every&#xA;' pooled connection handle, so the publish copy sees a complete, free file.&#xA;' Contract: sets out_Success/out_ErrorMessage; the CheckTrue after throws.&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;Try&#xA;    Microsoft.Data.Sqlite.SqliteConnection.ClearAllPools()&#xA;    Using conn As New Microsoft.Data.Sqlite.SqliteConnection(&quot;Data Source=&quot; &amp; in_LocalDbPath &amp; &quot;;Pooling=False&quot;)&#xA;        conn.Open()&#xA;        Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xA;            cmd.CommandText = &quot;PRAGMA wal_checkpoint(TRUNCATE);&quot;&#xA;            cmd.ExecuteNonQuery()&#xA;        End Using&#xA;        conn.Close()&#xA;    End Using&#xA;    Microsoft.Data.Sqlite.SqliteConnection.ClearAllPools()&#xA;    out_Success = True&#xA;Catch ex As System.Exception&#xA;    out_ErrorMessage = &quot;Checkpoint failed: &quot; &amp; ex.Message&#xA;    If ex.InnerException IsNot Nothing Then out_ErrorMessage &amp;= &quot; | Inner: &quot; &amp; ex.InnerException.Message&#xA;End Try" DisplayName="Invoke Code - Checkpoint" sap:VirtualizedContainerService.HintSize="416,197" sap2010:WorkflowViewState.IdRef="InvokeCode_3">
+                          <ui:InvokeCode.Arguments>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_LocalDbPath">[in_LocalDbPath]</InArgument>
+                            <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[opOk]</OutArgument>
+                            <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[opErr]</OutArgument>
+                          </ui:InvokeCode.Arguments>
+                        </ui:InvokeCode>
+                        <ui:CheckTrue DisplayName="Check True - Checkpoint" ErrorMessage="[opErr]" Expression="[opOk]" sap:VirtualizedContainerService.HintSize="416,163" sap2010:WorkflowViewState.IdRef="CheckTrue_104" />
+                        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="helpers\PublishDatabase.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="416,137" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_7" UnSafe="False" WorkflowFileName="helpers\PublishDatabase.xaml">
+                          <ui:InvokeWorkflowFile.Arguments>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_LocalDbPath">[in_LocalDbPath]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_SharePath">[in_SharePath]</InArgument>
+                          </ui:InvokeWorkflowFile.Arguments>
+                        </ui:InvokeWorkflowFile>
+                      </Sequence>
+                    </If.Then>
+                    <If.Else>
+                      <Sequence DisplayName="Else - nothing changed" sap:VirtualizedContainerService.HintSize="450,166" sap2010:WorkflowViewState.IdRef="Sequence_91">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:LogMessage DisplayName="Log Message - skip publish" sap:VirtualizedContainerService.HintSize="416,166" sap2010:WorkflowViewState.IdRef="LogMessage_91" Level="Info" Message="[&quot;All docs unchanged - skipping checkpoint and publish.&quot;]" />
+                      </Sequence>
+                    </If.Else>
+                  </If>
+                </Sequence>
+              </TryCatch.Try>
+              <TryCatch.Catches>
+                <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+                  <ActivityAction x:TypeArguments="s:Exception">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                    </ActivityAction.Argument>
+                    <Sequence DisplayName="Catch" sap:VirtualizedContainerService.HintSize="486,226" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Assign DisplayName="Assign - abort error" sap:VirtualizedContainerService.HintSize="452,166" sap2010:WorkflowViewState.IdRef="Assign_3">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="scg:List(x:String)">[out_Errors]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="scg:List(x:String)">[out_Errors.AsEnumerable.Concat({"STRUCTURED INGEST ABORTED: " &amp; exception.Message}).ToList]</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                    </Sequence>
+                  </ActivityAction>
+                </Catch>
+              </TryCatch.Catches>
+              <TryCatch.Finally>
+                <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="486,197" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="helpers\ReleaseWriteLock.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="452,137" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_8" UnSafe="False" WorkflowFileName="helpers\ReleaseWriteLock.xaml">
+                    <ui:InvokeWorkflowFile.Arguments>
+                      <InOutArgument x:TypeArguments="si:FileStream" x:Key="io_LockStream">[lockStream]</InOutArgument>
+                    </ui:InvokeWorkflowFile.Arguments>
+                  </ui:InvokeWorkflowFile>
+                </Sequence>
+              </TryCatch.Finally>
+            </TryCatch>
+          </If.Then>
+          <If.Else>
+            <Sequence DisplayName="Else - no lock" sap:VirtualizedContainerService.HintSize="488,226" sap2010:WorkflowViewState.IdRef="Sequence_5">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <Assign DisplayName="Assign - lock error" sap:VirtualizedContainerService.HintSize="454,166" sap2010:WorkflowViewState.IdRef="Assign_4">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="scg:List(x:String)">[out_Errors]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="scg:List(x:String)">[out_Errors.AsEnumerable.Concat({"LOCK NOT ACQUIRED: " &amp; lockErr}).ToList]</InArgument>
+                </Assign.Value>
+              </Assign>
+            </Sequence>
+          </If.Else>
+        </If>
+      </Sequence>
+    </Sequence>
+  </Sequence>
+</Activity>

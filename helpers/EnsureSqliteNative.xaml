@@ -1,0 +1,93 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="EnsureSqliteNative" VisualBasic.Settings="{x:Null}" sap2010:WorkflowViewState.IdRef="EnsureSqliteNative_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="EnsureSqliteNative" sap:VirtualizedContainerService.HintSize="1113,724" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:Boolean" Name="boolSuccess" />
+      <Variable x:TypeArguments="x:String" Name="strErrorMessage" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,175" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="[UiPath.Core.Activities.LogLevel.Info]" Message="[&quot;Ensuring Sqlite Native...&quot;]" />
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="' EnsureSqliteNative - idempotent. Copies the bundled native engine next to&#xA;' the running process (app base dir) the first time on any machine, then&#xA;' registers the SQLitePCLRaw provider. No-op on every subsequent call.&#xA;Try&#xA;    Dim baseDir As String = System.AppDomain.CurrentDomain.BaseDirectory&#xA;    Dim target As String = System.IO.Path.Combine(baseDir, &quot;e_sqlite3.dll&quot;)&#xA;    If Not System.IO.File.Exists(target) Then&#xA;        ' Probe candidate roots: design-time project dir, process base dir,&#xA;        ' and the installed package folder of this library (via its loaded&#xA;        ' assembly). Environment.CurrentDirectory alone is not reliable when&#xA;        ' the library runs inside a consuming process.&#xA;        Dim candidates As New System.Collections.Generic.List(Of String)&#xA;        candidates.Add(System.IO.Path.Combine(Environment.CurrentDirectory, &quot;lib\e_sqlite3.dll&quot;))&#xA;        candidates.Add(System.IO.Path.Combine(baseDir, &quot;lib\e_sqlite3.dll&quot;))&#xA;        For Each asm As System.Reflection.Assembly In System.AppDomain.CurrentDomain.GetAssemblies()&#xA;            Try&#xA;                If Not asm.IsDynamic AndAlso Not String.IsNullOrEmpty(asm.Location) AndAlso asm.GetName().Name.StartsWith(&quot;AI_SemanticSearch&quot;) Then&#xA;                    Dim asmDir As String = System.IO.Path.GetDirectoryName(asm.Location)&#xA;                    candidates.Add(System.IO.Path.Combine(asmDir, &quot;lib\e_sqlite3.dll&quot;))&#xA;                    candidates.Add(System.IO.Path.Combine(asmDir, &quot;e_sqlite3.dll&quot;))&#xA;                    candidates.Add(System.IO.Path.GetFullPath(System.IO.Path.Combine(asmDir, &quot;..\..\lib\e_sqlite3.dll&quot;)))&#xA;                End If&#xA;            Catch&#xA;            End Try&#xA;        Next&#xA;        For Each src As String In candidates&#xA;            If System.IO.File.Exists(src) Then&#xA;                System.IO.File.Copy(src, target, True)&#xA;                Exit For&#xA;            End If&#xA;        Next&#xA;    End If&#xA;    SQLitePCL.Batteries_V2.Init()&#xA;    out_Success = True&#xA;    out_ErrorMessage = &quot;&quot;&#xA;Catch ex As System.Exception&#xA;    out_Success = False&#xA;    out_ErrorMessage = &quot;EnsureSqliteNative failed: &quot; &amp; ex.ToString()&#xA;End Try" DisplayName="Invoke Code - Ensure Sqlite Native" sap:VirtualizedContainerService.HintSize="450,197" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+      <ui:InvokeCode.Arguments>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[boolSuccess]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[strErrorMessage]</OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:CheckTrue DisplayName="Check True - strErrorMessage" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap:VirtualizedContainerService.HintSize="450,163" sap2010:WorkflowViewState.IdRef="CheckTrue_1" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,166" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="[UiPath.Core.Activities.LogLevel.Info]" Message="[&quot;Done.&quot;]" />
+  </Sequence>
+</Activity>

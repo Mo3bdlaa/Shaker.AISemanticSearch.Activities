@@ -1,0 +1,132 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="AcquireWriteLock" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:si="clr-namespace:System.IO;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="out_lockOk" Type="OutArgument(x:Boolean)" />
+    <x:Property Name="in_TimeoutMs" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_LockPath" Type="InArgument(x:String)" />
+    <x:Property Name="in_RetryDelayMs" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_OwnerInfo" Type="InArgument(x:String)" />
+    <x:Property Name="out_LockStream" Type="OutArgument(si:FileStream)" />
+    <x:Property Name="out_lockErr" Type="OutArgument(x:String)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>AcquireWriteLock_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Numerics</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.AccessControl</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.DriveInfo</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.Watcher</AssemblyReference>
+      <AssemblyReference>System.IO.Packaging</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Runtime.Numerics</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="AcquireWriteLock" sap:VirtualizedContainerService.HintSize="1075,1074" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:Boolean" Name="boolSuccess" />
+      <Variable x:TypeArguments="x:String" Name="strErrorMessage" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,175" sap2010:WorkflowViewState.IdRef="LogMessage_1" Message="[&quot;Acquiring Write Lock...&quot;]" />
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="' ================================================================&#xA;' AcquireWriteLock&#xA;' Cross-machine single-writer gate. The LOCK IS THE HELD HANDLE,&#xA;' not the file's existence. While we keep out_LockStream open with&#xA;' FileShare.None, no other machine can open it -&gt; they wait.&#xA;' If we crash, the OS/SMB server releases the handle automatically,&#xA;' so the next writer gets in. No stale-file cleanup needed.&#xA;' out_LockStream MUST stay open until ReleaseWriteLock - do NOT wrap&#xA;' it in Using here; it has to survive across activities as a variable.&#xA;'&#xA;' FAILURE MODEL (IMPORTANT): a timeout is NOT an exception here - it is&#xA;' an expected &quot;someone else is writing&quot; outcome. We DO NOT throw; we set&#xA;' out_Success=False and leave out_LockStream=Nothing. THE CALLER MUST&#xA;' check out_Success and ABORT the ingest when it is False - never write&#xA;' without a held lock.&#xA;' ================================================================&#xA;&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;out_LockStream = Nothing&#xA;&#xA;Try&#xA;    ' Make sure the folder on the share exists (harmless if it already does).&#xA;    Dim lockDir As String = System.IO.Path.GetDirectoryName(in_LockPath)&#xA;    If Not String.IsNullOrEmpty(lockDir) AndAlso Not System.IO.Directory.Exists(lockDir) Then&#xA;        System.IO.Directory.CreateDirectory(lockDir)&#xA;    End If&#xA;&#xA;    Dim deadlineUtc As DateTime = DateTime.UtcNow.AddMilliseconds(in_TimeoutMs)&#xA;    Dim lastError As String = &quot;&quot;&#xA;&#xA;    Do&#xA;        Try&#xA;            ' OpenOrCreate: opens the existing lock file (or makes it) ...&#xA;            ' FileShare.None: ... and denies everyone else. THIS is the lock.&#xA;            out_LockStream = New System.IO.FileStream(&#xA;                in_LockPath,&#xA;                System.IO.FileMode.OpenOrCreate,&#xA;                System.IO.FileAccess.ReadWrite,&#xA;                System.IO.FileShare.None)&#xA;&#xA;            ' Stamp who holds it, purely for humans reading the file later.&#xA;            Dim stamp As Byte() = System.Text.Encoding.UTF8.GetBytes(&#xA;                in_OwnerInfo &amp; &quot; @ &quot; &amp; DateTime.UtcNow.ToString(&quot;o&quot;))&#xA;            out_LockStream.SetLength(0)           ' clear any previous owner's stamp&#xA;            out_LockStream.Write(stamp, 0, stamp.Length)&#xA;            out_LockStream.Flush()&#xA;&#xA;            out_Success = True&#xA;            Exit Do                                ' acquired - leave the loop&#xA;&#xA;        Catch ioEx As System.IO.IOException&#xA;            ' Almost always &quot;file in use&quot; = someone else holds the lock.&#xA;            ' (A bad path/permission also lands here and surfaces as the&#xA;            '  timeout message once the deadline passes.)&#xA;            lastError = ioEx.Message&#xA;            If DateTime.UtcNow &gt;= deadlineUtc Then&#xA;                ' Timed out waiting for the holder to release. Signal via the&#xA;                ' flag, DO NOT throw, and leave no half-open handle.&#xA;                out_ErrorMessage =&#xA;                    &quot;Could not acquire write lock within &quot; &amp; in_TimeoutMs.ToString() &amp;&#xA;                    &quot; ms. Last error: &quot; &amp; lastError&#xA;                out_LockStream = Nothing&#xA;                Exit Do&#xA;            End If&#xA;            System.Threading.Thread.Sleep(in_RetryDelayMs)&#xA;        End Try&#xA;    Loop&#xA;&#xA;Catch ex As System.Exception&#xA;    ' Unexpected failure (bad path, permissions, disk). Same flag contract.&#xA;    out_Success = False&#xA;    out_ErrorMessage = &quot;AcquireWriteLock failed for '&quot; &amp; in_LockPath &amp; &quot;': &quot; &amp; ex.Message&#xA;    If ex.InnerException IsNot Nothing Then&#xA;        out_ErrorMessage &amp;= &quot; | Inner: &quot; &amp; ex.InnerException.Message&#xA;    End If&#xA;    ' Never leave a partially-opened handle behind.&#xA;    Try&#xA;        If out_LockStream IsNot Nothing Then out_LockStream.Dispose()&#xA;    Catch&#xA;    End Try&#xA;    out_LockStream = Nothing&#xA;End Try&#xA;" DisplayName="Invoke Code - AcquireWriteLock" sap:VirtualizedContainerService.HintSize="450,197" sap2010:WorkflowViewState.IdRef="InvokeCode_2">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_LockPath">[in_LockPath]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_TimeoutMs">[in_TimeoutMs]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_RetryDelayMs">[in_RetryDelayMs]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_OwnerInfo">[in_OwnerInfo]</InArgument>
+        <OutArgument x:TypeArguments="si:FileStream" x:Key="out_LockStream">[out_LockStream]</OutArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[boolSuccess]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[strErrorMessage]</OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <Assign DisplayName="Assign - out_lockOk" sap:VirtualizedContainerService.HintSize="450,175" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Boolean">[out_lockOk]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Boolean">[boolSuccess AndAlso out_LockStream isNot Nothing]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Assign - out_lockErr" sap:VirtualizedContainerService.HintSize="450,175" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[out_lockErr]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[strErrorMessage]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:LogMessage DisplayName="Log Message - lock outcome" sap:VirtualizedContainerService.HintSize="450,166" sap2010:WorkflowViewState.IdRef="LogMessage_2" Message="[If(boolSuccess, &quot;Lock Acquired.&quot;, &quot;Lock NOT acquired: &quot; &amp; strErrorMessage)]" />
+  </Sequence>
+</Activity>

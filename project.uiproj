@@ -1,0 +1,6 @@
+{
+  "Name": "AI_SemanticSearch",
+  "ProjectType": "Library",
+  "Description": "Retrieval Library without Generation Part (a RAG without 'G' :))",
+  "MainFile": "IngestDocuments.xaml"
+}

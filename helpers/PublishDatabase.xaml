@@ -1,0 +1,109 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="PublishDatabase" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_LocalDbPath" Type="InArgument(x:String)" />
+    <x:Property Name="in_SharePath" Type="InArgument(x:String)" />
+  </x:Members>
+  <this:PublishDatabase.in_LocalDbPath>
+    <InArgument x:TypeArguments="x:String" />
+  </this:PublishDatabase.in_LocalDbPath>
+  <this:PublishDatabase.in_SharePath>
+    <InArgument x:TypeArguments="x:String" />
+  </this:PublishDatabase.in_SharePath>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>PublishDatabase_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="PublishDatabase" sap:VirtualizedContainerService.HintSize="1081,813.6566666666666" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:Boolean" Name="boolSuccess" />
+      <Variable x:TypeArguments="x:String" Name="strErrorMessage" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,175" sap2010:WorkflowViewState.IdRef="LogMessage_1" Message="[&quot;Publishing the DB...&quot;]" />
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="' ================================================================&#xA;' PublishDatabase  (PRIVATE - called inside the write lock)&#xA;' Makes the just-written LOCAL db the new canonical db on the share,&#xA;' WITHOUT ever running the engine over the share.&#xA;' Steps: copy local -&gt; store.db.new (a full, complete file), then&#xA;' atomically RENAME store.db.new -&gt; store.db. Rename-replace is atomic&#xA;' on the file server, so any reader sees either the whole old db or the&#xA;' whole new db - never a half-written file. This is the corruption guard.&#xA;' WAL note: we checkpoint+close in the ingest step BEFORE this runs, so&#xA;' the local store.db is self-contained and the -wal/-shm side files are&#xA;' already folded in. We copy ONLY store.db.&#xA;' Structured note: the file already contains chunk_fields; publishing is&#xA;' a whole-file copy/rename, so it is format-agnostic - no change needed.&#xA;' On failure: out_Success=False + out_ErrorMessage (a leftover .new is&#xA;' harmless; the next run's Copy overwrites it).&#xA;' ================================================================&#xA;&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;&#xA;Try&#xA;    Dim newPath As String = in_SharePath &amp; &quot;.new&quot;&#xA;    Dim maxAttempts As Integer = 3&#xA;    Dim attempt As Integer = 0&#xA;&#xA;    ' A reader mid-copy can briefly hold the share file open, which makes&#xA;    ' Replace fail transiently - retry a few times before giving up.&#xA;    Do&#xA;        attempt += 1&#xA;        Try&#xA;            ' 1) Copy the complete local db to a temp name on the share.&#xA;            '    Overwrite any leftover .new from a previously failed run.&#xA;            System.IO.File.Copy(in_LocalDbPath, newPath, True)&#xA;&#xA;            ' 2) Atomically swap it into place.&#xA;            If System.IO.File.Exists(in_SharePath) Then&#xA;                ' Replace keeps the swap atomic and hands back no backup file (Nothing).&#xA;                System.IO.File.Replace(newPath, in_SharePath, Nothing)&#xA;            Else&#xA;                ' First publish ever - nothing to replace, just name it.&#xA;                System.IO.File.Move(newPath, in_SharePath)&#xA;            End If&#xA;            Exit Do&#xA;        Catch ioEx As System.IO.IOException&#xA;            If attempt &gt;= maxAttempts Then Throw&#xA;            System.Threading.Thread.Sleep(750 * attempt)&#xA;        End Try&#xA;    Loop&#xA;&#xA;    out_Success = True&#xA;&#xA;Catch ex As System.Exception&#xA;    out_Success = False&#xA;    out_ErrorMessage = &quot;PublishDatabase failed (local='&quot; &amp; in_LocalDbPath &amp;&#xA;        &quot;', share='&quot; &amp; in_SharePath &amp; &quot;'): &quot; &amp; ex.Message&#xA;    If ex.InnerException IsNot Nothing Then&#xA;        out_ErrorMessage &amp;= &quot; | Inner: &quot; &amp; ex.InnerException.Message&#xA;    End If&#xA;End Try&#xA;" DisplayName="Invoke Code - PublishDatabase" sap:VirtualizedContainerService.HintSize="450,197" sap2010:WorkflowViewState.IdRef="InvokeCode_2">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_LocalDbPath">[in_LocalDbPath]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_SharePath">[in_SharePath]</InArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[boolSuccess]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[strErrorMessage]</OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:CheckTrue DisplayName="Check True - strErrorMessage" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap:VirtualizedContainerService.HintSize="450,163" sap2010:WorkflowViewState.IdRef="CheckTrue_1" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,166" sap2010:WorkflowViewState.IdRef="LogMessage_2" Message="[&quot;Published.&quot;]" />
+  </Sequence>
+</Activity>

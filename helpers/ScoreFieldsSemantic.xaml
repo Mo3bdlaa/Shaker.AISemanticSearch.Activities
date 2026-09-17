@@ -1,0 +1,128 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="ScoreFieldsSemantic" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="out_Results" Type="OutArgument(sd:DataTable)" />
+    <x:Property Name="in_TopN" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_QueryVectors" Type="InArgument(scg:List(s:Double[]))" />
+    <x:Property Name="in_QueryValues" Type="InArgument(scg:List(x:String))" />
+    <x:Property Name="in_QueryKeys" Type="InArgument(scg:List(x:String))" />
+    <x:Property Name="in_DbPath" Type="InArgument(x:String)" />
+    <x:Property Name="in_Model" Type="InArgument(x:String)" />
+  </x:Members>
+  <this:ScoreFieldsSemantic.in_TopN>
+    <InArgument x:TypeArguments="x:Int32" />
+  </this:ScoreFieldsSemantic.in_TopN>
+  <this:ScoreFieldsSemantic.in_QueryVectors>
+    <InArgument x:TypeArguments="scg:List(s:Double[])" />
+  </this:ScoreFieldsSemantic.in_QueryVectors>
+  <this:ScoreFieldsSemantic.in_QueryValues>
+    <InArgument x:TypeArguments="scg:List(x:String)" />
+  </this:ScoreFieldsSemantic.in_QueryValues>
+  <this:ScoreFieldsSemantic.in_QueryKeys>
+    <InArgument x:TypeArguments="scg:List(x:String)" />
+  </this:ScoreFieldsSemantic.in_QueryKeys>
+  <this:ScoreFieldsSemantic.in_DbPath>
+    <InArgument x:TypeArguments="x:String" />
+  </this:ScoreFieldsSemantic.in_DbPath>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>ScoreFieldsSemantic_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="ScoreFieldsSemantic" sap:VirtualizedContainerService.HintSize="1081,813.6566666666666" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="strErrorMessage" />
+      <Variable x:TypeArguments="x:Boolean" Name="boolSuccess" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,175" sap2010:WorkflowViewState.IdRef="LogMessage_1" Message="[&quot;Score Fields Semantic...&quot;]" />
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="' ================================================================&#xA;' ScoreFieldsSemantic  (PRIVATE - used by RetrieveStructured)&#xA;' Per-key match over chunk_fields. The STORED field_mode decides scoring:&#xA;'   semantic -&gt; cosine(queryVec(key), storedVec)   (both unit-normalized)&#xA;'   exact    -&gt; 1.0 if storedValue equals queryValue (case-insensitive) else 0&#xA;' A chunk's score = sum of per-key contributions / number of queried keys,&#xA;' so chunks matching more keys rank higher. Returns top-N shaped like&#xA;' ScoreChunks (Rank,DocId,ChunkIndex,Content,Score).&#xA;' Vector alignment: in_QueryVectors aligned to in_QueryKeys (one per key;&#xA;' exact keys' vectors go unused). Key match is ordinal, case-insensitive.&#xA;' On failure: out_Success=False + out_ErrorMessage, empty table back.&#xA;' ================================================================&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;out_Results = New System.Data.DataTable()&#xA;out_Results.Columns.Add(&quot;Rank&quot;, GetType(Integer))&#xA;out_Results.Columns.Add(&quot;DocId&quot;, GetType(String))&#xA;out_Results.Columns.Add(&quot;ChunkIndex&quot;, GetType(Integer))&#xA;out_Results.Columns.Add(&quot;Content&quot;, GetType(String))&#xA;out_Results.Columns.Add(&quot;Score&quot;, GetType(Double))&#xA;&#xA;Try&#xA;    Dim nKeys As Integer = in_QueryKeys.Count&#xA;    If nKeys = 0 Then&#xA;        Throw New System.Exception(&quot;No query keys supplied.&quot;)&#xA;    End If&#xA;    If in_QueryValues.Count &lt;&gt; nKeys OrElse in_QueryVectors.Count &lt;&gt; nKeys Then&#xA;        Throw New System.Exception(&quot;Query keys/values/vectors length mismatch.&quot;)&#xA;    End If&#xA;&#xA;    Dim keyIndex As New System.Collections.Generic.Dictionary(Of String, Integer)(System.StringComparer.OrdinalIgnoreCase)&#xA;    For i As Integer = 0 To nKeys - 1&#xA;        If Not keyIndex.ContainsKey(in_QueryKeys(i)) Then keyIndex(in_QueryKeys(i)) = i&#xA;    Next&#xA;&#xA;    Dim sumByChunk As New System.Collections.Generic.Dictionary(Of Long, Double)()&#xA;&#xA;    Using conn As New Microsoft.Data.Sqlite.SqliteConnection(&quot;Data Source=&quot; &amp; in_DbPath &amp; &quot;;Pooling=False&quot;)&#xA;        conn.Open()&#xA;        ' ---- Guard: the store belongs to exactly ONE embedding model ----&#xA;        ' Vectors from two different models are not comparable: cosine over&#xA;        ' them yields plausible-looking numbers that mean nothing. The dim&#xA;        ' check below only catches models of DIFFERENT size, and 1024 is a&#xA;        ' very common size - so compare the recorded model name too.&#xA;        ' Names compare with the provider/org prefix stripped, so&#xA;        ' &quot;BAAI/bge-m3&quot; and &quot;bge-m3&quot; are the same model. A version or tag&#xA;        ' suffix is NOT stripped - &quot;bge-large-en&quot; and &quot;bge-large-en-v1.5&quot;&#xA;        ' are different models that happen to share a dimension.&#xA;        ' No recorded model (brand-new or empty store) = nothing to compare.&#xA;        Dim storedModel As String = Nothing&#xA;        Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xA;            cmd.CommandText = &quot;SELECT value FROM meta WHERE key = 'embedding_model';&quot;&#xA;            Dim o As Object = cmd.ExecuteScalar()&#xA;            If o IsNot Nothing AndAlso Not Convert.IsDBNull(o) Then storedModel = o.ToString()&#xA;        End Using&#xA;&#xA;        If Not String.IsNullOrWhiteSpace(storedModel) Then&#xA;            Dim have As String = storedModel.Trim().ToLowerInvariant()&#xA;            If have.LastIndexOf(&quot;/&quot;c) &gt;= 0 Then have = have.Substring(have.LastIndexOf(&quot;/&quot;c) + 1)&#xA;            Dim want As String = If(in_Model, &quot;&quot;).Trim().ToLowerInvariant()&#xA;            If want.LastIndexOf(&quot;/&quot;c) &gt;= 0 Then want = want.Substring(want.LastIndexOf(&quot;/&quot;c) + 1)&#xA;            If have &lt;&gt; want Then&#xA;                Throw New System.Exception(&#xA;                    &quot;Embedding model mismatch. This store was built with '&quot; &amp; storedModel &amp;&#xA;                    &quot;' but this query was embedded with '&quot; &amp; If(in_Model, &quot;&quot;) &amp;&#xA;                    &quot;'. Scores across two different models are meaningless - &quot; &amp;&#xA;                    &quot;retrieve with the model the store was ingested with.&quot;)&#xA;            End If&#xA;        End If&#xA;&#xA;&#xA;        ' ---- scan only the queried keys; parameterized IN-list (keys are&#xA;        '      user input -&gt; never concatenate) ----&#xA;        Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xA;            Dim names As New System.Collections.Generic.List(Of String)()&#xA;            For i As Integer = 0 To nKeys - 1&#xA;                Dim pn As String = &quot;$k&quot; &amp; i.ToString()&#xA;                names.Add(pn)&#xA;                cmd.Parameters.AddWithValue(pn, in_QueryKeys(i))&#xA;            Next&#xA;            cmd.CommandText = &quot;SELECT chunk_id, field_key, field_value, field_mode, embedding FROM chunk_fields WHERE field_key IN (&quot; &amp; String.Join(&quot;,&quot;, names) &amp; &quot;);&quot;&#xA;&#xA;            Using rd As Microsoft.Data.Sqlite.SqliteDataReader = cmd.ExecuteReader()&#xA;                Do While rd.Read()&#xA;                    Dim cid As Long = rd.GetInt64(0)&#xA;                    Dim fkey As String = rd.GetString(1)&#xA;                    Dim fval As String = rd.GetString(2)&#xA;                    Dim fmode As String = rd.GetString(3)&#xA;                    Dim kidx As Integer = -1&#xA;                    If keyIndex.TryGetValue(fkey, kidx) Then&#xA;                        Dim contrib As Double = 0&#xA;                        If String.Equals(fmode, &quot;exact&quot;, StringComparison.OrdinalIgnoreCase) Then&#xA;                            If String.Equals(fval, in_QueryValues(kidx), StringComparison.OrdinalIgnoreCase) Then contrib = 1.0&#xA;                        ElseIf Not rd.IsDBNull(4) Then&#xA;                            Dim qv As Double() = in_QueryVectors(kidx)&#xA;                            If qv IsNot Nothing AndAlso qv.Length &gt; 0 Then&#xA;                                Dim blob As Byte() = CType(rd(4), Byte())&#xA;                                Dim flen As Integer = blob.Length \ 4&#xA;                                If flen &lt;&gt; qv.Length Then&#xA;                                    Throw New System.Exception(&quot;Embedding dim mismatch: stored=&quot; &amp; flen.ToString() &amp; &quot;, query=&quot; &amp; qv.Length.ToString() &amp; &quot; (key '&quot; &amp; fkey &amp; &quot;').&quot;)&#xA;                                End If&#xA;                                Dim fvec(flen - 1) As Single&#xA;                                System.Buffer.BlockCopy(blob, 0, fvec, 0, blob.Length)&#xA;                                Dim dot As Double = 0&#xA;                                For d As Integer = 0 To flen - 1&#xA;                                    dot += qv(d) * CDbl(fvec(d))&#xA;                                Next&#xA;                                contrib = dot&#xA;                            End If&#xA;                        End If&#xA;                        Dim cur As Double = 0&#xA;                        If sumByChunk.TryGetValue(cid, cur) Then&#xA;                            sumByChunk(cid) = cur + contrib&#xA;                        Else&#xA;                            sumByChunk(cid) = contrib&#xA;                        End If&#xA;                    End If&#xA;                Loop&#xA;            End Using&#xA;        End Using&#xA;&#xA;        If sumByChunk.Count &gt; 0 Then&#xA;            ' ---- rank: copy to arrays, Array.Sort ascending, walk from top ----&#xA;            Dim ids As Long() = New Long(sumByChunk.Count - 1) {}&#xA;            Dim scoreArr As Double() = New Double(sumByChunk.Count - 1) {}&#xA;            Dim n As Integer = 0&#xA;            For Each kv As System.Collections.Generic.KeyValuePair(Of Long, Double) In sumByChunk&#xA;                ids(n) = kv.Key&#xA;                scoreArr(n) = kv.Value / CDbl(nKeys)&#xA;                n += 1&#xA;            Next&#xA;            Array.Sort(scoreArr, ids)&#xA;&#xA;            Dim take As Integer = Math.Min(in_TopN, ids.Length)&#xA;            Dim winnerIds As New System.Collections.Generic.List(Of Long)()&#xA;            Dim winnerScore As New System.Collections.Generic.Dictionary(Of Long, Double)()&#xA;            Dim idx As Integer = ids.Length - 1&#xA;            Do While winnerIds.Count &lt; take AndAlso idx &gt;= 0&#xA;                winnerIds.Add(ids(idx))&#xA;                winnerScore(ids(idx)) = scoreArr(idx)&#xA;                idx -= 1&#xA;            Loop&#xA;&#xA;            If winnerIds.Count &gt; 0 Then&#xA;                ' winnerIds are DB ids -&gt; IN-list concatenation is injection-safe&#xA;                Dim inList As String = String.Join(&quot;,&quot;, winnerIds)&#xA;                Dim details As New System.Collections.Generic.Dictionary(Of Long, String())()&#xA;                Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xA;                    cmd.CommandText = &quot;SELECT id, doc_id, chunk_index, content FROM chunks WHERE id IN (&quot; &amp; inList &amp; &quot;);&quot;&#xA;                    Using rd As Microsoft.Data.Sqlite.SqliteDataReader = cmd.ExecuteReader()&#xA;                        Do While rd.Read()&#xA;                            Dim rid As Long = rd.GetInt64(0)&#xA;                            Dim arr(2) As String&#xA;                            arr(0) = rd(&quot;doc_id&quot;).ToString()&#xA;                            arr(1) = rd(&quot;chunk_index&quot;).ToString()&#xA;                            arr(2) = rd(&quot;content&quot;).ToString()&#xA;                            details(rid) = arr&#xA;                        Loop&#xA;                    End Using&#xA;                End Using&#xA;&#xA;                Dim rank As Integer = 1&#xA;                For Each wid As Long In winnerIds&#xA;                    If details.ContainsKey(wid) Then&#xA;                        Dim drow As System.Data.DataRow = out_Results.NewRow()&#xA;                        drow(&quot;Rank&quot;) = rank&#xA;                        drow(&quot;DocId&quot;) = details(wid)(0)&#xA;                        drow(&quot;ChunkIndex&quot;) = Integer.Parse(details(wid)(1))&#xA;                        drow(&quot;Content&quot;) = details(wid)(2)&#xA;                        drow(&quot;Score&quot;) = winnerScore(wid)&#xA;                        out_Results.Rows.Add(drow)&#xA;                        rank += 1&#xA;                    End If&#xA;                Next&#xA;            End If&#xA;        End If&#xA;    End Using&#xA;&#xA;    out_Success = True&#xA;&#xA;Catch ex As System.Exception&#xA;    out_Success = False&#xA;    If out_Results IsNot Nothing Then out_Results.Rows.Clear()&#xA;    out_ErrorMessage = &quot;ScoreFieldsSemantic failed: &quot; &amp; ex.Message&#xA;    If ex.InnerException IsNot Nothing Then out_ErrorMessage &amp;= &quot; | Inner: &quot; &amp; ex.InnerException.Message&#xA;End Try&#xA;" DisplayName="Invoke Code - ScoreFieldsSemantic" sap:VirtualizedContainerService.HintSize="450,197" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_DbPath">[in_DbPath]</InArgument>
+        <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_QueryKeys">[in_QueryKeys]</InArgument>
+        <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_QueryValues">[in_QueryValues]</InArgument>
+        <InArgument x:TypeArguments="scg:List(s:Double[])" x:Key="in_QueryVectors">[in_QueryVectors]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_TopN">[in_TopN]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Model">[in_Model]</InArgument>
+        <OutArgument x:TypeArguments="sd:DataTable" x:Key="out_Results">[out_Results]</OutArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[boolSuccess]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[strErrorMessage]</OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:CheckTrue DisplayName="Check True - strErrorMessage" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap:VirtualizedContainerService.HintSize="450,163" sap2010:WorkflowViewState.IdRef="CheckTrue_1" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,166" sap2010:WorkflowViewState.IdRef="LogMessage_2" Message="[&quot;Done&quot;]" />
+  </Sequence>
+</Activity>

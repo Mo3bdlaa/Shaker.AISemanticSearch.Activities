@@ -1,0 +1,118 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="ChunkText" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_Text" Type="InArgument(x:String)" />
+    <x:Property Name="in_ChunkSize" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_Overlap" Type="InArgument(x:Int32)" />
+    <x:Property Name="out_Chunks" Type="OutArgument(scg:List(x:String))" />
+  </x:Members>
+  <this:ChunkText.in_Text>
+    <InArgument x:TypeArguments="x:String" />
+  </this:ChunkText.in_Text>
+  <this:ChunkText.in_ChunkSize>
+    <InArgument x:TypeArguments="x:Int32" />
+  </this:ChunkText.in_ChunkSize>
+  <this:ChunkText.in_Overlap>
+    <InArgument x:TypeArguments="x:Int32" />
+  </this:ChunkText.in_Overlap>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>ChunkText_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Numerics</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Runtime.Numerics</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="ChunkText" sap:VirtualizedContainerService.HintSize="1081,813.6566666666666" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:Boolean" Name="boolSuccess" />
+      <Variable x:TypeArguments="x:String" Name="strErrorMessage" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,175" sap2010:WorkflowViewState.IdRef="LogMessage_1" Message="[&quot;Chunking Text...&quot;]" />
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="' ================================================================&#xA;' ChunkText  (PRIVATE - used by IngestDocuments)&#xA;' Splits ONE document's text into overlapping character windows.&#xA;' Character-based on purpose: no tokenizer dependency, predictable,&#xA;' language-agnostic. ~1000 chars ~= 250-400 tokens. Overlap keeps&#xA;' context across seams so a straddling answer still surfaces.&#xA;' Returns trimmed chunks in order, no empties. Caller assigns the&#xA;' chunk_index from list position.&#xA;' On failure: out_Success=False + out_ErrorMessage; out_Chunks stays&#xA;' an empty (non-null) list so the caller never NREs.&#xA;' Structured path note: structured rows are NOT chunked (each row's&#xA;' JSON is one atomic unit), so this helper is free-text-path only.&#xA;' ================================================================&#xA;&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;out_Chunks = New System.Collections.Generic.List(Of String)()&#xA;&#xA;Try&#xA;    ' Nothing/blank in -&gt; empty list out. The If-wrap also avoids a null&#xA;    ' reference on text.Length below.&#xA;    If Not String.IsNullOrWhiteSpace(in_Text) Then&#xA;&#xA;        Dim text As String = in_Text&#xA;        Dim n As Integer = text.Length&#xA;&#xA;        ' Guard the knobs so the loop ALWAYS moves forward:&#xA;        Dim size As Integer = Math.Max(1, in_ChunkSize)&#xA;        Dim overlap As Integer = in_Overlap&#xA;        If overlap &lt; 0 Then overlap = 0&#xA;        If overlap &gt; size - 1 Then overlap = size - 1   ' overlap must be &lt; size&#xA;&#xA;        Dim startPos As Integer = 0&#xA;        Do While startPos &lt; n&#xA;            Dim endPos As Integer = Math.Min(startPos + size, n)&#xA;&#xA;            ' --- optional: snap the cut back to whitespace so we don't split&#xA;            '     a word. Delete this block for a pure fixed window. ----------&#xA;            If endPos &lt; n Then&#xA;                Dim probe As Integer = endPos&#xA;                Do While probe &gt; startPos AndAlso Not Char.IsWhiteSpace(text(probe - 1))&#xA;                    probe -= 1&#xA;                Loop&#xA;                ' only accept the snap if it still leaves a reasonably full chunk&#xA;                If probe &gt; startPos + (size \ 2) Then&#xA;                    endPos = probe&#xA;                End If&#xA;            End If&#xA;            ' ----------------------------------------------------------------&#xA;&#xA;            Dim piece As String = text.Substring(startPos, endPos - startPos).Trim()&#xA;            If piece.Length &gt; 0 Then&#xA;                out_Chunks.Add(piece)&#xA;            End If&#xA;&#xA;            If endPos &gt;= n Then&#xA;                Exit Do&#xA;            End If&#xA;&#xA;            ' Advance, keeping 'overlap' chars of the previous window.&#xA;            Dim nextStart As Integer = endPos - overlap&#xA;            If nextStart &lt;= startPos Then&#xA;                nextStart = endPos                       ' safety: never stall&#xA;            End If&#xA;            startPos = nextStart&#xA;        Loop&#xA;&#xA;    End If&#xA;&#xA;    out_Success = True&#xA;&#xA;Catch ex As System.Exception&#xA;    out_Success = False&#xA;    out_ErrorMessage = &quot;ChunkText failed: &quot; &amp; ex.Message&#xA;    If ex.InnerException IsNot Nothing Then&#xA;        out_ErrorMessage &amp;= &quot; | Inner: &quot; &amp; ex.InnerException.Message&#xA;    End If&#xA;End Try&#xA;" DisplayName="Invoke Code - ChunkText" sap:VirtualizedContainerService.HintSize="450,197" sap2010:WorkflowViewState.IdRef="InvokeCode_2">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Text">[in_Text]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_ChunkSize">[in_ChunkSize]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_Overlap">[in_Overlap]</InArgument>
+        <OutArgument x:TypeArguments="scg:List(x:String)" x:Key="out_Chunks">[out_Chunks]</OutArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[boolSuccess]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[strErrorMessage]</OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:CheckTrue DisplayName="Check True - strErrorMessage" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap:VirtualizedContainerService.HintSize="450,163" sap2010:WorkflowViewState.IdRef="CheckTrue_1" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,166" sap2010:WorkflowViewState.IdRef="LogMessage_2" Message="[&quot;Chunked.&quot;]" />
+  </Sequence>
+</Activity>

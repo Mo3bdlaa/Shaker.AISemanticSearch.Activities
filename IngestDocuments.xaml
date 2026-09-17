@@ -1,0 +1,538 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Activity mc:Ignorable="sap sap2010" x:Class="IngestDocuments" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:si="clr-namespace:System.IO;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="out_Errors" Type="OutArgument(scg:List(x:String))" />
+    <x:Property Name="out_Failed" Type="OutArgument(x:Int32)" />
+    <x:Property Name="out_Skipped" Type="OutArgument(x:Int32)" />
+    <x:Property Name="out_Written" Type="OutArgument(x:Int32)" />
+    <x:Property Name="in_LockTimeoutMs" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_BatchSize" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_Overlap" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_ChunkSize" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_EmbeddingDim" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_Model" Type="InArgument(x:String)" />
+    <x:Property Name="in_ApiKey" Type="InArgument(x:String)" />
+    <x:Property Name="in_EmbeddingUrl" Type="InArgument(x:String)" />
+    <x:Property Name="in_LocalDbPath" Type="InArgument(x:String)" />
+    <x:Property Name="in_LockPath" Type="InArgument(x:String)" />
+    <x:Property Name="in_SharePath" Type="InArgument(x:String)" />
+    <x:Property Name="in_dt_Documents" Type="InArgument(sd:DataTable)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>IngestDocuments_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Numerics</x:String>
+      <x:String>System.Activities.Runtime.Collections</x:String>
+      <x:String>UiPath.DataTableUtilities</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Data.SqlClient</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.AccessControl</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.DriveInfo</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.Watcher</AssemblyReference>
+      <AssemblyReference>System.IO.Packaging</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Linq.Parallel</AssemblyReference>
+      <AssemblyReference>System.Linq.Queryable</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Private.Xml</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Runtime.Numerics</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="IngestDocuments" sap:VirtualizedContainerService.HintSize="1075,4797" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="si:FileStream" Name="lockStream" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Sequence DisplayName="Ingest Documents" sap:VirtualizedContainerService.HintSize="698,4774" sap2010:WorkflowViewState.IdRef="Sequence_34">
+      <Sequence.Variables>
+        <Variable x:TypeArguments="x:Boolean" Name="lockOk" />
+        <Variable x:TypeArguments="x:String" Name="lockErr" />
+        <Variable x:TypeArguments="x:Boolean" Name="opOk" />
+        <Variable x:TypeArguments="x:String" Name="opErr" />
+      </Sequence.Variables>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <Sequence DisplayName="Initialization" sap:VirtualizedContainerService.HintSize="664,309" sap2010:WorkflowViewState.IdRef="Sequence_35">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <ui:MultipleAssign DisplayName="Multiple Assign - Init Variables" sap:VirtualizedContainerService.HintSize="430,217" sap2010:WorkflowViewState.IdRef="MultipleAssign_7">
+          <ui:MultipleAssign.AssignOperations>
+            <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
+              <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_19">
+                <ui:AssignOperation.To>
+                  <OutArgument x:TypeArguments="x:Int32">[out_Written]</OutArgument>
+                </ui:AssignOperation.To>
+                <ui:AssignOperation.Value>
+                  <InArgument x:TypeArguments="x:Int32">0</InArgument>
+                </ui:AssignOperation.Value>
+              </ui:AssignOperation>
+              <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_20">
+                <ui:AssignOperation.To>
+                  <OutArgument x:TypeArguments="x:Int32">[out_Skipped]</OutArgument>
+                </ui:AssignOperation.To>
+                <ui:AssignOperation.Value>
+                  <InArgument x:TypeArguments="x:Int32">0</InArgument>
+                </ui:AssignOperation.Value>
+              </ui:AssignOperation>
+              <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_21">
+                <ui:AssignOperation.To>
+                  <OutArgument x:TypeArguments="x:Int32">[out_Failed]</OutArgument>
+                </ui:AssignOperation.To>
+                <ui:AssignOperation.Value>
+                  <InArgument x:TypeArguments="x:Int32">0</InArgument>
+                </ui:AssignOperation.Value>
+              </ui:AssignOperation>
+              <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_22">
+                <ui:AssignOperation.To>
+                  <OutArgument x:TypeArguments="scg:List(x:String)">[out_Errors]</OutArgument>
+                </ui:AssignOperation.To>
+                <ui:AssignOperation.Value>
+                  <InArgument x:TypeArguments="scg:List(x:String)">[New List(Of String)]</InArgument>
+                </ui:AssignOperation.Value>
+              </ui:AssignOperation>
+            </scg:List>
+          </ui:MultipleAssign.AssignOperations>
+        </ui:MultipleAssign>
+      </Sequence>
+      <Sequence DisplayName="Ingest Documents" sap:VirtualizedContainerService.HintSize="664,4382" sap2010:WorkflowViewState.IdRef="Sequence_46">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="lib\EnsureSqliteNative.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="630,146" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_26" UnSafe="False" WorkflowFileName="helpers\EnsureSqliteNative.xaml">
+          <ui:InvokeWorkflowFile.Arguments>
+            <scg:Dictionary x:TypeArguments="x:String, Argument" />
+          </ui:InvokeWorkflowFile.Arguments>
+        </ui:InvokeWorkflowFile>
+        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="helpers\AcquireWriteLock.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="630,146" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_18" UnSafe="False" WorkflowFileName="helpers\AcquireWriteLock.xaml">
+          <ui:InvokeWorkflowFile.Arguments>
+            <OutArgument x:TypeArguments="x:Boolean" x:Key="out_lockOk">[lockOk]</OutArgument>
+            <InArgument x:TypeArguments="x:Int32" x:Key="in_TimeoutMs">[in_LockTimeoutMs]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_LockPath">[in_LockPath]</InArgument>
+            <InArgument x:TypeArguments="x:Int32" x:Key="in_RetryDelayMs">500</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_OwnerInfo">[Environment.MachineName]</InArgument>
+            <OutArgument x:TypeArguments="si:FileStream" x:Key="out_LockStream">[lockStream]</OutArgument>
+            <OutArgument x:TypeArguments="x:String" x:Key="out_lockErr">[lockErr]</OutArgument>
+          </ui:InvokeWorkflowFile.Arguments>
+        </ui:InvokeWorkflowFile>
+        <If Condition="[lockOk]" DisplayName="If - lock acquired" sap:VirtualizedContainerService.HintSize="630,4007" sap2010:WorkflowViewState.IdRef="If_12">
+          <If.Then>
+            <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="628,3629" sap2010:WorkflowViewState.IdRef="TryCatch_5">
+              <TryCatch.Try>
+                <Sequence DisplayName="Try" sap:VirtualizedContainerService.HintSize="626,3097" sap2010:WorkflowViewState.IdRef="Sequence_42">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:InvokeCode ContinueOnError="{x:Null}" Code="' PullForWrite - bring the latest canonical db local so we UPDATE it.&#xA;' First ingest ever: share has no db yet -&gt; skip, and InitializeStore&#xA;' creates a fresh local one.&#xA;' The share lock already serializes robot-vs-robot writes. The LOCAL file&#xA;' can still be briefly held by a previous run's pooled connections, an AV&#xA;' scan, or a reader on this machine - so retry with an interval until&#xA;' in_BudgetMs is exhausted instead of aborting on the first sharing violation.&#xA;' Contract: sets out_Success/out_ErrorMessage; the CheckTrue after throws.&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;Try&#xA;    Dim dir As String = System.IO.Path.GetDirectoryName(in_LocalDbPath)&#xA;    If Not String.IsNullOrEmpty(dir) AndAlso Not System.IO.Directory.Exists(dir) Then&#xA;        System.IO.Directory.CreateDirectory(dir)&#xA;    End If&#xA;    ' Release pooled SQLite handles this executor may still hold on the&#xA;    ' local db from an earlier run - they silently block file deletes.&#xA;    Microsoft.Data.Sqlite.SqliteConnection.ClearAllPools()&#xA;    Dim budgetMs As Integer = in_BudgetMs&#xA;    If budgetMs &lt;= 0 Then budgetMs = 30000&#xA;    Dim deadline As DateTime = DateTime.UtcNow.AddMilliseconds(budgetMs)&#xA;    Dim lastErr As System.Exception = Nothing&#xA;    Dim done As Boolean = False&#xA;    Do&#xA;        Try&#xA;            ' Clear stale WAL side-files or a leftover -wal would be replayed&#xA;            ' onto the freshly-copied db and corrupt our view of it.&#xA;            For Each ext As String In New String() {&quot;-wal&quot;, &quot;-shm&quot;}&#xA;                Dim side As String = in_LocalDbPath &amp; ext&#xA;                If System.IO.File.Exists(side) Then System.IO.File.Delete(side)&#xA;            Next&#xA;            If System.IO.File.Exists(in_SharePath) Then&#xA;                System.IO.File.Copy(in_SharePath, in_LocalDbPath, True)&#xA;            ElseIf System.IO.File.Exists(in_LocalDbPath) Then&#xA;                System.IO.File.Delete(in_LocalDbPath)&#xA;            End If&#xA;            done = True&#xA;        Catch ioex As System.IO.IOException&#xA;            ' Someone still holds the file - wait, then retry.&#xA;            lastErr = ioex&#xA;            Microsoft.Data.Sqlite.SqliteConnection.ClearAllPools()&#xA;            System.Threading.Thread.Sleep(1000)&#xA;        Catch uaex As System.UnauthorizedAccessException&#xA;            lastErr = uaex&#xA;            System.Threading.Thread.Sleep(1000)&#xA;        End Try&#xA;    Loop Until done OrElse DateTime.UtcNow &gt;= deadline&#xA;    If Not done Then&#xA;        Dim detail As String = &quot;&quot;&#xA;        If lastErr IsNot Nothing Then detail = &quot; Last error: &quot; &amp; lastErr.Message&#xA;        Throw New System.Exception(&quot;Local db still in use after &quot; &amp; budgetMs.ToString() &amp; &quot;ms of retries.&quot; &amp; detail)&#xA;    End If&#xA;    out_Success = True&#xA;Catch ex As System.Exception&#xA;    out_ErrorMessage = &quot;PullForWrite failed: &quot; &amp; ex.Message&#xA;    If ex.InnerException IsNot Nothing Then out_ErrorMessage &amp;= &quot; | Inner: &quot; &amp; ex.InnerException.Message&#xA;End Try" DisplayName="Invoke Code - PullForWrite" sap:VirtualizedContainerService.HintSize="592,197" sap2010:WorkflowViewState.IdRef="InvokeCode_5">
+                    <ui:InvokeCode.Arguments>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_LocalDbPath">[in_LocalDbPath]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_SharePath">[in_SharePath]</InArgument>
+                      <InArgument x:TypeArguments="x:Int32" x:Key="in_BudgetMs">[in_LockTimeoutMs]</InArgument>
+                      <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[opOk]</OutArgument>
+                      <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[opErr]</OutArgument>
+                    </ui:InvokeCode.Arguments>
+                  </ui:InvokeCode>
+                  <ui:CheckTrue DisplayName="Check True - PullForWrite" ErrorMessage="[opErr]" Expression="[opOk]" sap:VirtualizedContainerService.HintSize="592,163" sap2010:WorkflowViewState.IdRef="CheckTrue_101" />
+                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="helpers\InitializeStore.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="592,146" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_19" UnSafe="False" WorkflowFileName="helpers\InitializeStore.xaml">
+                    <ui:InvokeWorkflowFile.Arguments>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_DbPath">[in_LocalDbPath]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_EmbeddingModel">[in_Model]</InArgument>
+                      <InArgument x:TypeArguments="x:Int32" x:Key="in_EmbeddingDim">[in_EmbeddingDim]</InArgument>
+                      <InArgument x:TypeArguments="x:Int32" x:Key="in_BusyTimeoutMs">5000</InArgument>
+                    </ui:InvokeWorkflowFile.Arguments>
+                  </ui:InvokeWorkflowFile>
+                  <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="{x:Null}" sap2010:Annotation.AnnotationText="- Loop on Documents&#xA;- Check if any needs rewrite&#xA;- Chunk -&gt; Embed -&gt; Write to local copy&#xA;- Each child checked via out_Success&#xA;- Table schema [DocId, Source, Text]" DataTable="[in_dt_Documents]" DisplayName="For Each Row in Data Table" sap:VirtualizedContainerService.HintSize="592,2360" sap2010:WorkflowViewState.IdRef="ForEachRow_3">
+                    <ui:ForEachRow.Body>
+                      <ActivityAction x:TypeArguments="sd:DataRow">
+                        <ActivityAction.Argument>
+                          <DelegateInArgument x:TypeArguments="sd:DataRow" Name="CurrentRow" />
+                        </ActivityAction.Argument>
+                        <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="559,2212" sap2010:WorkflowViewState.IdRef="Sequence_41">
+                          <Sequence.Variables>
+                            <Variable x:TypeArguments="x:String" Name="docId" />
+                            <Variable x:TypeArguments="x:String" Name="source" />
+                            <Variable x:TypeArguments="x:String" Name="text" />
+                            <Variable x:TypeArguments="x:String" Name="newHash" />
+                            <Variable x:TypeArguments="x:Boolean" Name="needsWrite" />
+                          </Sequence.Variables>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:MultipleAssign DisplayName="Multiple Assign - row fields" sap:VirtualizedContainerService.HintSize="524,195" sap2010:WorkflowViewState.IdRef="MultipleAssign_8">
+                            <ui:MultipleAssign.AssignOperations>
+                              <scg:List x:TypeArguments="ui:AssignOperation" Capacity="3">
+                                <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_23">
+                                  <ui:AssignOperation.To>
+                                    <OutArgument x:TypeArguments="x:String">[docId]</OutArgument>
+                                  </ui:AssignOperation.To>
+                                  <ui:AssignOperation.Value>
+                                    <InArgument x:TypeArguments="x:String">[CurrentRow("DocId").ToString()]</InArgument>
+                                  </ui:AssignOperation.Value>
+                                </ui:AssignOperation>
+                                <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_24">
+                                  <ui:AssignOperation.To>
+                                    <OutArgument x:TypeArguments="x:String">[source]</OutArgument>
+                                  </ui:AssignOperation.To>
+                                  <ui:AssignOperation.Value>
+                                    <InArgument x:TypeArguments="x:String">[CurrentRow("Source").ToString()]</InArgument>
+                                  </ui:AssignOperation.Value>
+                                </ui:AssignOperation>
+                                <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_25">
+                                  <ui:AssignOperation.To>
+                                    <OutArgument x:TypeArguments="x:String">[text]</OutArgument>
+                                  </ui:AssignOperation.To>
+                                  <ui:AssignOperation.Value>
+                                    <InArgument x:TypeArguments="x:String">[CurrentRow("Text").ToString()]</InArgument>
+                                  </ui:AssignOperation.Value>
+                                </ui:AssignOperation>
+                              </scg:List>
+                            </ui:MultipleAssign.AssignOperations>
+                          </ui:MultipleAssign>
+                          <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="524,1957" sap2010:WorkflowViewState.IdRef="TryCatch_6">
+                            <TryCatch.Try>
+                              <Sequence DisplayName="Try" sap:VirtualizedContainerService.HintSize="522,1520" sap2010:WorkflowViewState.IdRef="Sequence_38">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="helpers\CheckDocument.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="488,146" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_20" UnSafe="False" WorkflowFileName="helpers\CheckDocument.xaml">
+                                  <ui:InvokeWorkflowFile.Arguments>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_DbPath">[in_LocalDbPath]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_DocId">[docId]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_Text">[text]</InArgument>
+                                    <OutArgument x:TypeArguments="x:String" x:Key="out_NewHash">[newHash]</OutArgument>
+                                    <OutArgument x:TypeArguments="x:Boolean" x:Key="out_NeedsWrite">[needsWrite]</OutArgument>
+                                  </ui:InvokeWorkflowFile.Arguments>
+                                </ui:InvokeWorkflowFile>
+                                <If Condition="[needsWrite]" DisplayName="If - needsWrite" sap:VirtualizedContainerService.HintSize="488,1314" sap2010:WorkflowViewState.IdRef="If_14">
+                                  <If.Then>
+                                    <Sequence DisplayName="Then - needsWrite" sap:VirtualizedContainerService.HintSize="486,1019" sap2010:WorkflowViewState.IdRef="Sequence_37">
+                                      <Sequence.Variables>
+                                        <Variable x:TypeArguments="scg:List(x:String)" Name="chunks" />
+                                      </Sequence.Variables>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="helpers\ChunkText.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="452,146" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_21" UnSafe="False" WorkflowFileName="helpers\ChunkText.xaml">
+                                        <ui:InvokeWorkflowFile.Arguments>
+                                          <InArgument x:TypeArguments="x:String" x:Key="in_Text">[text]</InArgument>
+                                          <InArgument x:TypeArguments="x:Int32" x:Key="in_ChunkSize">[in_ChunkSize]</InArgument>
+                                          <InArgument x:TypeArguments="x:Int32" x:Key="in_Overlap">[in_Overlap]</InArgument>
+                                          <OutArgument x:TypeArguments="scg:List(x:String)" x:Key="out_Chunks">[chunks]</OutArgument>
+                                        </ui:InvokeWorkflowFile.Arguments>
+                                      </ui:InvokeWorkflowFile>
+                                      <If Condition="[chunks.Count &gt; 0]" DisplayName="If - chunks to write" sap:VirtualizedContainerService.HintSize="452,813" sap2010:WorkflowViewState.IdRef="If_13">
+                                        <If.Then>
+                                          <Sequence DisplayName="Then - write" sap:VirtualizedContainerService.HintSize="450,518" sap2010:WorkflowViewState.IdRef="Sequence_36">
+                                            <Sequence.Variables>
+                                              <Variable x:TypeArguments="scg:List(s:Double[])" Name="embeddings" />
+                                            </Sequence.Variables>
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="helpers\EmbedTexts.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="416,146" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_22" UnSafe="False" WorkflowFileName="helpers\EmbedTexts.xaml">
+                                              <ui:InvokeWorkflowFile.Arguments>
+                                                <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_Texts">[chunks]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_EmbeddingUrl">[in_EmbeddingUrl]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_ApiKey">[in_ApiKey]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_Model">[in_Model]</InArgument>
+                                                <InArgument x:TypeArguments="x:Int32" x:Key="in_BatchSize">[in_BatchSize]</InArgument>
+                                                <InArgument x:TypeArguments="x:Int32" x:Key="in_TimeoutSec">60</InArgument>
+                                                <InArgument x:TypeArguments="x:Int32" x:Key="in_MaxRetries">3</InArgument>
+                                                <OutArgument x:TypeArguments="scg:List(s:Double[])" x:Key="out_Embeddings">[embeddings]</OutArgument>
+                                              </ui:InvokeWorkflowFile.Arguments>
+                                            </ui:InvokeWorkflowFile>
+                                            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="helpers\WriteDocumentChunks.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="416,146" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_23" UnSafe="False" WorkflowFileName="helpers\WriteDocumentChunks.xaml">
+                                              <ui:InvokeWorkflowFile.Arguments>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_DbPath">[in_LocalDbPath]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_DocId">[docId]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_Source">[source]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_ContentHash">[newHash]</InArgument>
+                                                <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_Chunks">[chunks]</InArgument>
+                                                <InArgument x:TypeArguments="scg:List(s:Double[])" x:Key="in_Embeddings">[embeddings]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_Model">[in_Model]</InArgument>
+                                                <InArgument x:TypeArguments="x:Int32" x:Key="in_Dim">[in_EmbeddingDim]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_Metadata">[String.Empty]</InArgument>
+                                              </ui:InvokeWorkflowFile.Arguments>
+                                            </ui:InvokeWorkflowFile>
+                                            <Assign DisplayName="Assign - out_Written" sap:VirtualizedContainerService.HintSize="416,166" sap2010:WorkflowViewState.IdRef="Assign_9">
+                                              <Assign.To>
+                                                <OutArgument x:TypeArguments="x:Int32">[out_Written]</OutArgument>
+                                              </Assign.To>
+                                              <Assign.Value>
+                                                <InArgument x:TypeArguments="x:Int32">[out_Written + 1]</InArgument>
+                                              </Assign.Value>
+                                            </Assign>
+                                          </Sequence>
+                                        </If.Then>
+                                        <If.Else>
+                                          <Assign DisplayName="Assign - out_Skipped (empty doc)" sap:VirtualizedContainerService.HintSize="450,143" sap2010:WorkflowViewState.IdRef="Assign_10">
+                                            <Assign.To>
+                                              <OutArgument x:TypeArguments="x:Int32">[out_Skipped]</OutArgument>
+                                            </Assign.To>
+                                            <Assign.Value>
+                                              <InArgument x:TypeArguments="x:Int32">[out_Skipped + 1]</InArgument>
+                                            </Assign.Value>
+                                          </Assign>
+                                        </If.Else>
+                                      </If>
+                                    </Sequence>
+                                  </If.Then>
+                                  <If.Else>
+                                    <Assign DisplayName="Assign - out_Skipped (unchanged)" sap:VirtualizedContainerService.HintSize="486,143" sap2010:WorkflowViewState.IdRef="Assign_11">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Int32">[out_Skipped]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Int32">[out_Skipped + 1]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                  </If.Else>
+                                </If>
+                              </Sequence>
+                            </TryCatch.Try>
+                            <TryCatch.Catches>
+                              <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_5">
+                                <ActivityAction x:TypeArguments="s:Exception">
+                                  <ActivityAction.Argument>
+                                    <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                  </ActivityAction.Argument>
+                                  <Sequence DisplayName="Catch" sap:VirtualizedContainerService.HintSize="522,215" sap2010:WorkflowViewState.IdRef="Sequence_39">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:MultipleAssign DisplayName="Multiple Assign - Error" sap:VirtualizedContainerService.HintSize="488,155" sap2010:WorkflowViewState.IdRef="MultipleAssign_9">
+                                      <ui:MultipleAssign.AssignOperations>
+                                        <scg:List x:TypeArguments="ui:AssignOperation" Capacity="2">
+                                          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_26">
+                                            <ui:AssignOperation.To>
+                                              <OutArgument x:TypeArguments="x:Int32">[out_Failed]</OutArgument>
+                                            </ui:AssignOperation.To>
+                                            <ui:AssignOperation.Value>
+                                              <InArgument x:TypeArguments="x:Int32">[out_Failed + 1]</InArgument>
+                                            </ui:AssignOperation.Value>
+                                          </ui:AssignOperation>
+                                          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_27">
+                                            <ui:AssignOperation.To>
+                                              <OutArgument x:TypeArguments="scg:List(x:String)">[out_Errors]</OutArgument>
+                                            </ui:AssignOperation.To>
+                                            <ui:AssignOperation.Value>
+                                              <InArgument x:TypeArguments="scg:List(x:String)">[out_Errors.AsEnumerable.Concat({docId + ": " + exception.Message}).ToList]</InArgument>
+                                            </ui:AssignOperation.Value>
+                                          </ui:AssignOperation>
+                                        </scg:List>
+                                      </ui:MultipleAssign.AssignOperations>
+                                    </ui:MultipleAssign>
+                                  </Sequence>
+                                </ActivityAction>
+                              </Catch>
+                            </TryCatch.Catches>
+                            <TryCatch.Finally>
+                              <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="522,90" sap2010:WorkflowViewState.IdRef="Sequence_40">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </Sequence>
+                            </TryCatch.Finally>
+                          </TryCatch>
+                        </Sequence>
+                      </ActivityAction>
+                    </ui:ForEachRow.Body>
+                  </ui:ForEachRow>
+                  <If Condition="[out_Written &gt; 0]" DisplayName="If - anything written" sap:VirtualizedContainerService.HintSize="592,390" sap2010:WorkflowViewState.IdRef="If_15">
+                    <If.Then>
+                      <Sequence DisplayName="Then - checkpoint and publish" sap:VirtualizedContainerService.HintSize="590,400" sap2010:WorkflowViewState.IdRef="Sequence_47">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:InvokeCode ContinueOnError="{x:Null}" Code="' Checkpoint - fold the -wal side file into store.db and release every&#xA;' pooled connection handle, so the publish copy sees a complete, free file.&#xA;' Contract: sets out_Success/out_ErrorMessage; the CheckTrue after throws.&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;Try&#xA;    ' Drop idle pooled connections from the write loop so the checkpoint can&#xA;    ' fully truncate and the file can be copied with no open handle.&#xA;    Microsoft.Data.Sqlite.SqliteConnection.ClearAllPools()&#xA;&#xA;    Using conn As New Microsoft.Data.Sqlite.SqliteConnection(&quot;Data Source=&quot; &amp; in_LocalDbPath &amp; &quot;;Pooling=False&quot;)&#xA;        conn.Open()&#xA;        Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xA;            cmd.CommandText = &quot;PRAGMA wal_checkpoint(TRUNCATE);&quot;   ' merge + delete -wal&#xA;            cmd.ExecuteNonQuery()&#xA;        End Using&#xA;        conn.Close()&#xA;    End Using&#xA;&#xA;    ' Release THIS connection's handle too, so the publish copy sees store.db free.&#xA;    Microsoft.Data.Sqlite.SqliteConnection.ClearAllPools()&#xA;&#xA;    out_Success = True&#xA;Catch ex As System.Exception&#xA;    out_ErrorMessage = &quot;Checkpoint failed: &quot; &amp; ex.Message&#xA;    If ex.InnerException IsNot Nothing Then out_ErrorMessage &amp;= &quot; | Inner: &quot; &amp; ex.InnerException.Message&#xA;End Try" DisplayName="Invoke Code - Checkpoint" sap:VirtualizedContainerService.HintSize="592,197" sap2010:WorkflowViewState.IdRef="InvokeCode_6">
+                          <ui:InvokeCode.Arguments>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_LocalDbPath">[in_LocalDbPath]</InArgument>
+                            <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[opOk]</OutArgument>
+                            <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[opErr]</OutArgument>
+                          </ui:InvokeCode.Arguments>
+                        </ui:InvokeCode>
+                        <ui:CheckTrue DisplayName="Check True - Checkpoint" ErrorMessage="[opErr]" Expression="[opOk]" sap:VirtualizedContainerService.HintSize="592,163" sap2010:WorkflowViewState.IdRef="CheckTrue_102" />
+                        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="helpers\PublishDatabase.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="592,137" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_24" UnSafe="False" WorkflowFileName="helpers\PublishDatabase.xaml">
+                          <ui:InvokeWorkflowFile.Arguments>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_LocalDbPath">[in_LocalDbPath]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_SharePath">[in_SharePath]</InArgument>
+                          </ui:InvokeWorkflowFile.Arguments>
+                        </ui:InvokeWorkflowFile>
+                      </Sequence>
+                    </If.Then>
+                    <If.Else>
+                      <Sequence DisplayName="Else - nothing changed" sap:VirtualizedContainerService.HintSize="590,166" sap2010:WorkflowViewState.IdRef="Sequence_48">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:LogMessage DisplayName="Log Message - skip publish" sap:VirtualizedContainerService.HintSize="590,166" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;All docs unchanged - skipping checkpoint and publish.&quot;]" />
+                      </Sequence>
+                    </If.Else>
+                  </If>
+                </Sequence>
+              </TryCatch.Try>
+              <TryCatch.Catches>
+                <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_6">
+                  <ActivityAction x:TypeArguments="s:Exception">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                    </ActivityAction.Argument>
+                    <Sequence DisplayName="Catch" sap:VirtualizedContainerService.HintSize="626,226" sap2010:WorkflowViewState.IdRef="Sequence_43">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Assign DisplayName="Assign - abort error" sap:VirtualizedContainerService.HintSize="592,166" sap2010:WorkflowViewState.IdRef="Assign_12">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="scg:List(x:String)">[out_Errors]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="scg:List(x:String)">[out_Errors.AsEnumerable.Concat({"INGEST ABORTED: " &amp; exception.Message}).ToList]</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                    </Sequence>
+                  </ActivityAction>
+                </Catch>
+              </TryCatch.Catches>
+              <TryCatch.Finally>
+                <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="626,197" sap2010:WorkflowViewState.IdRef="Sequence_44">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="helpers\ReleaseWriteLock.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="592,137" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_25" UnSafe="False" WorkflowFileName="helpers\ReleaseWriteLock.xaml">
+                    <ui:InvokeWorkflowFile.Arguments>
+                      <InOutArgument x:TypeArguments="si:FileStream" x:Key="io_LockStream">[lockStream]</InOutArgument>
+                    </ui:InvokeWorkflowFile.Arguments>
+                  </ui:InvokeWorkflowFile>
+                </Sequence>
+              </TryCatch.Finally>
+            </TryCatch>
+          </If.Then>
+          <If.Else>
+            <Sequence DisplayName="Else - no lock" sap:VirtualizedContainerService.HintSize="628,226" sap2010:WorkflowViewState.IdRef="Sequence_45">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <Assign DisplayName="Assign - lock error" sap:VirtualizedContainerService.HintSize="594,166" sap2010:WorkflowViewState.IdRef="Assign_8">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="scg:List(x:String)">[out_Errors]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="scg:List(x:String)">[out_Errors.AsEnumerable.Concat({"LOCK NOT ACQUIRED: " &amp; lockErr}).ToList]</InArgument>
+                </Assign.Value>
+              </Assign>
+            </Sequence>
+          </If.Else>
+        </If>
+      </Sequence>
+    </Sequence>
+  </Sequence>
+</Activity>

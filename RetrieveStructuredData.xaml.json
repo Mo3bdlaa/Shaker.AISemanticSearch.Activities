@@ -1,0 +1,129 @@
+{
+  "DisplayName": "Retrieve Structured Data (Hybrid)",
+  "Tooltip": "Per-field hybrid search: query with a JSON object of field/value pairs. Exact-mode fields match by string equality (score 1.0); semantic-mode fields match by similarity. A row's score is the average across the queried keys, so rows matching more keys rank higher. Returns whole rows.",
+  "HelpLink": null,
+  "Color": null,
+  "OriginalIconFileName": null,
+  "Arguments": [
+    {
+      "Name": "in_QueryJson",
+      "DisplayName": "Query (JSON)",
+      "Category": "Input",
+      "Tooltip": "JSON object of field/value pairs, e.g. {\"Name\":\"جامعة هارفارد\",\"Rank\":\"5\"}. Keys must match ingested column names (case-insensitive). Each key is scored by its stored mode: exact = string equality, semantic = similarity.",
+      "Placeholder": "{\"Name\":\"جامعة هارفارد\"}",
+      "Widget": null,
+      "IsRequired": true,
+      "IsPrincipal": true,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_SharePath",
+      "DisplayName": "Store Path (Canonical)",
+      "Category": "Vector Store",
+      "Tooltip": "Full path of the canonical store.db (usually on a network share). Never opened directly - a local copy is synced first, only when the share is newer.",
+      "Placeholder": "\\\\server\\share\\rag\\store.db",
+      "Widget": "FilePicker",
+      "IsRequired": true,
+      "IsPrincipal": false,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_LocalDbPath",
+      "DisplayName": "Local Copy Path",
+      "Category": "Vector Store",
+      "Tooltip": "Where this machine keeps its local read copy of the store, e.g. C:\\rag\\read\\store.db. Created automatically.",
+      "Placeholder": "C:\\rag\\read\\store.db",
+      "Widget": "FilePicker",
+      "IsRequired": true,
+      "IsPrincipal": false,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_EmbeddingUrl",
+      "DisplayName": "Embedding Endpoint",
+      "Category": "Embedding Service",
+      "Tooltip": "OpenAI-compatible embeddings endpoint (POST .../v1/embeddings). Only semantic query keys are embedded; an all-exact query makes no HTTP calls.",
+      "Placeholder": "http://host:port/v1/embeddings",
+      "Widget": null,
+      "IsRequired": true,
+      "IsPrincipal": false,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_ApiKey",
+      "DisplayName": "API Key",
+      "Category": "Embedding Service",
+      "Tooltip": "Bearer token for the embedding endpoint. Leave empty for anonymous endpoints. Source from an Orchestrator Credential asset - never hardcode.",
+      "Placeholder": null,
+      "Widget": null,
+      "IsRequired": false,
+      "IsPrincipal": false,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_Model",
+      "DisplayName": "Embedding Model",
+      "Category": "Embedding Service",
+      "Tooltip": "Model name sent to the endpoint. MUST match the model the store was ingested with (stored in the meta table, e.g. BAAI/bge-m3) or scores are meaningless.",
+      "Placeholder": "BAAI/bge-m3",
+      "Widget": null,
+      "IsRequired": true,
+      "IsPrincipal": false,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_TopK",
+      "DisplayName": "Top K Results",
+      "Category": "Tuning",
+      "Tooltip": "How many best-matching rows to return. Typical: 5.",
+      "Placeholder": "5",
+      "Widget": null,
+      "IsRequired": true,
+      "IsPrincipal": true,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_TimeoutSec",
+      "DisplayName": "Timeout (sec)",
+      "Category": "Tuning",
+      "Tooltip": "HTTP timeout per embedding call. Allow extra headroom for cold model starts (e.g. 120).",
+      "Placeholder": "120",
+      "Widget": null,
+      "IsRequired": false,
+      "IsPrincipal": false,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_MaxRetries",
+      "DisplayName": "Max Retries",
+      "Category": "Tuning",
+      "Tooltip": "Retries for transient embedding failures (5xx, timeouts, 429). Permanent 4xx errors fail immediately without retrying.",
+      "Placeholder": "2",
+      "Widget": null,
+      "IsRequired": false,
+      "IsPrincipal": false,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "out_dt_Results",
+      "DisplayName": "Results",
+      "Category": "Output",
+      "Tooltip": "DataTable ranked best-first. Columns: Rank (Int32), DocId (String), ChunkIndex (Int32), Content (the FULL row JSON - every column of the matched record), Score (Double, average across queried keys).",
+      "Placeholder": null,
+      "Widget": null,
+      "IsRequired": false,
+      "IsPrincipal": true,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    }
+  ]
+}

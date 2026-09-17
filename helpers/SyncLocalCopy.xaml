@@ -1,0 +1,111 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="SyncLocalCopy" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_SharePath" Type="InArgument(x:String)" />
+    <x:Property Name="in_LocalDbPath" Type="InArgument(x:String)" />
+    <x:Property Name="out_LocalDbPath" Type="OutArgument(x:String)" />
+  </x:Members>
+  <this:SyncLocalCopy.in_SharePath>
+    <InArgument x:TypeArguments="x:String" />
+  </this:SyncLocalCopy.in_SharePath>
+  <this:SyncLocalCopy.in_LocalDbPath>
+    <InArgument x:TypeArguments="x:String" />
+  </this:SyncLocalCopy.in_LocalDbPath>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>SyncLocalCopy_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Reflection</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="SyncLocalCopy" sap:VirtualizedContainerService.HintSize="1081,813.6566666666666" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:Boolean" Name="boolSuccess" />
+      <Variable x:TypeArguments="x:String" Name="strErrorMessage" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,175" sap2010:WorkflowViewState.IdRef="LogMessage_1" Message="[&quot;Syncing Local Copy...&quot;]" />
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="' ================================================================&#xA;' SyncLocalCopy  (PRIVATE - called at start of retrieval)&#xA;' Ensures this machine has the latest committed db LOCALLY, then hands&#xA;' back the local path to open. Readers NEVER open the share directly.&#xA;' Copy-on-change: only copy when the share's file is newer, so most&#xA;' retrievals pay nothing. Whole-file copy over SMB is safe; running the&#xA;' engine over SMB is not - that's the line we never cross.&#xA;' Structured note: the file carries chunk_fields too; copying is&#xA;' format-agnostic, so nothing changes for the structured path.&#xA;' Reads are never blocked by writers: if the share or the local copy is&#xA;' briefly held (a publish in progress, an AV scan, another reader), we&#xA;' retry with an interval instead of failing the retrieval.&#xA;' On failure: out_Success=False + out_ErrorMessage; caller aborts the&#xA;' retrieval (Check-True). out_LocalDbPath is still set for completeness.&#xA;' ================================================================&#xA;&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;out_LocalDbPath = in_LocalDbPath&#xA;&#xA;Try&#xA;    ' If the share file is missing, surface a clear error rather than a&#xA;    ' confusing SQLite &quot;file is not a database&quot; later.&#xA;    If Not System.IO.File.Exists(in_SharePath) Then&#xA;        Throw New System.Exception(&quot;Canonical database not found on share: &quot; &amp; in_SharePath)&#xA;    End If&#xA;&#xA;    Dim needCopy As Boolean = True&#xA;    If System.IO.File.Exists(in_LocalDbPath) Then&#xA;        Dim shareTime As DateTime = System.IO.File.GetLastWriteTimeUtc(in_SharePath)&#xA;        Dim localTime As DateTime = System.IO.File.GetLastWriteTimeUtc(in_LocalDbPath)&#xA;        ' Only refresh if the share has a strictly newer version.&#xA;        If shareTime &lt;= localTime Then&#xA;            needCopy = False&#xA;        End If&#xA;    End If&#xA;&#xA;    If needCopy Then&#xA;        Dim localDir As String = System.IO.Path.GetDirectoryName(in_LocalDbPath)&#xA;        If Not String.IsNullOrEmpty(localDir) AndAlso Not System.IO.Directory.Exists(localDir) Then&#xA;            System.IO.Directory.CreateDirectory(localDir)&#xA;        End If&#xA;        Dim deadline As DateTime = DateTime.UtcNow.AddMilliseconds(30000)&#xA;        Dim lastErr As System.Exception = Nothing&#xA;        Dim done As Boolean = False&#xA;        Do&#xA;            Try&#xA;                ' Copy to a temp local name then move into place, so a reader on&#xA;                ' THIS machine never opens a half-copied file either.&#xA;                Dim tmp As String = in_LocalDbPath &amp; &quot;.tmp&quot;&#xA;                System.IO.File.Copy(in_SharePath, tmp, True)&#xA;                ' Stale WAL side-files of the OLD local copy must not be&#xA;                ' replayed onto the new file - clear them before the swap.&#xA;                For Each ext As String In New String() {&quot;-wal&quot;, &quot;-shm&quot;}&#xA;                    Dim side As String = in_LocalDbPath &amp; ext&#xA;                    If System.IO.File.Exists(side) Then System.IO.File.Delete(side)&#xA;                Next&#xA;                If System.IO.File.Exists(in_LocalDbPath) Then&#xA;                    System.IO.File.Replace(tmp, in_LocalDbPath, Nothing)&#xA;                Else&#xA;                    System.IO.File.Move(tmp, in_LocalDbPath)&#xA;                End If&#xA;                done = True&#xA;            Catch ioex As System.IO.IOException&#xA;                ' Publish in progress or copy briefly held - wait, then retry.&#xA;                lastErr = ioex&#xA;                System.Threading.Thread.Sleep(1000)&#xA;            Catch uaex As System.UnauthorizedAccessException&#xA;                lastErr = uaex&#xA;                System.Threading.Thread.Sleep(1000)&#xA;            End Try&#xA;        Loop Until done OrElse DateTime.UtcNow &gt;= deadline&#xA;        If Not done Then&#xA;            Dim detail As String = &quot;&quot;&#xA;            If lastErr IsNot Nothing Then detail = &quot; Last error: &quot; &amp; lastErr.Message&#xA;            Throw New System.Exception(&quot;Could not refresh local copy after 30000ms of retries.&quot; &amp; detail)&#xA;        End If&#xA;    End If&#xA;&#xA;    out_Success = True&#xA;&#xA;Catch ex As System.Exception&#xA;    out_Success = False&#xA;    out_ErrorMessage = &quot;SyncLocalCopy failed (share='&quot; &amp; in_SharePath &amp;&#xA;        &quot;', local='&quot; &amp; in_LocalDbPath &amp; &quot;'): &quot; &amp; ex.Message&#xA;    If ex.InnerException IsNot Nothing Then&#xA;        out_ErrorMessage &amp;= &quot; | Inner: &quot; &amp; ex.InnerException.Message&#xA;    End If&#xA;End Try&#xA;" DisplayName="Invoke Code - SyncLocalCopy" sap:VirtualizedContainerService.HintSize="450,197" sap2010:WorkflowViewState.IdRef="InvokeCode_2">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_SharePath">[in_SharePath]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_LocalDbPath">[in_LocalDbPath]</InArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_LocalDbPath">[out_LocalDbPath]</OutArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[boolSuccess]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[strErrorMessage]</OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:CheckTrue DisplayName="Check True - strErrorMessage" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap:VirtualizedContainerService.HintSize="450,163" sap2010:WorkflowViewState.IdRef="CheckTrue_1" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="450,166" sap2010:WorkflowViewState.IdRef="LogMessage_2" Message="[&quot;Synced.&quot;]" />
+  </Sequence>
+</Activity>
