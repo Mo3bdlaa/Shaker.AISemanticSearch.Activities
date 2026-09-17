@@ -51,8 +51,7 @@
         "helpers/ScoreChunks.xaml",
         "helpers/WriteStructuredChunks.xaml",
         "helpers/BuildFieldTable.xaml",
-        "helpers/EnsureSqliteNative.xaml",
-        "docs/AGENTS.md"
+        "helpers/EnsureSqliteNative.xaml"
       ]
     },
     "processOptions": {

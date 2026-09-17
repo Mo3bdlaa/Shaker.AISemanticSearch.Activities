@@ -1,6 +1,6 @@
 {
   "DisplayName": "Retrieve Structured Data (Hybrid)",
-  "Tooltip": "Per-field hybrid search: query with a JSON object of field/value pairs. Exact-mode fields match by string equality (score 1.0); semantic-mode fields match by similarity. A row's score is the average across the queried keys, so rows matching more keys rank higher. Returns whole rows.",
+  "Tooltip": "Per-field hybrid search: query with a JSON object of field/value pairs. Exact-mode fields match by string equality (score 1.0); semantic-mode fields match by similarity. A row's score is the average across the scored keys, so rows matching more keys rank higher. Keys listed in Filter Columns are hard filters: non-matching rows are excluded rather than ranked lower. Returns whole rows.",
   "HelpLink": null,
   "Color": null,
   "OriginalIconFileName": null,
@@ -14,6 +14,18 @@
       "Widget": null,
       "IsRequired": true,
       "IsPrincipal": true,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_FilterColumns",
+      "DisplayName": "Filter Columns (Hard Match)",
+      "Category": "Input",
+      "Tooltip": "Optional. Query keys listed here act as hard filters instead of score contributors: a row is returned only if every listed key matches the queried value exactly (trimmed, case-insensitive), whatever mode it was ingested in. Filter keys do not affect the score, which is averaged across the remaining keys. Leave empty to score every key (the original behaviour).",
+      "Placeholder": null,
+      "Widget": null,
+      "IsRequired": false,
+      "IsPrincipal": false,
       "ArgumentType": 0,
       "DataSourceItems": null
     },

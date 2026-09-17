@@ -54,6 +54,18 @@
       "DataSourceItems": null
     },
     {
+      "Name": "in_FilterKeys",
+      "DisplayName": "in_FilterKeys",
+      "Category": null,
+      "Tooltip": "Subset of in_QueryKeys treated as hard predicates: a chunk is returned only if every one of these keys matches exactly (trimmed, case-insensitive), whatever mode it was ingested in. These keys do not contribute to the score.",
+      "Placeholder": null,
+      "Widget": null,
+      "IsRequired": false,
+      "IsPrincipal": false,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
       "Name": "in_QueryKeys",
       "DisplayName": "in_QueryKeys",
       "Category": null,

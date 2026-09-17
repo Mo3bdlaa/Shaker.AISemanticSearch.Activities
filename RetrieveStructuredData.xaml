@@ -11,6 +11,7 @@
     <x:Property Name="in_LocalDbPath" Type="InArgument(x:String)" />
     <x:Property Name="in_SharePath" Type="InArgument(x:String)" />
     <x:Property Name="in_QueryJson" Type="InArgument(x:String)" />
+    <x:Property Name="in_FilterColumns" Type="InArgument(scg:List(x:String))" />
   </x:Members>
   <this:RetrieveStructuredData.in_QueryJson>
     <InArgument x:TypeArguments="x:String" />
@@ -186,6 +187,7 @@
           <InArgument x:TypeArguments="scg:List(s:Double[])" x:Key="in_QueryVectors">[qVecs]</InArgument>
           <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_QueryValues">[qValues]</InArgument>
           <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_QueryKeys">[qKeys]</InArgument>
+          <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_FilterKeys">[in_FilterColumns]</InArgument>
           <InArgument x:TypeArguments="x:String" x:Key="in_Model">[in_Model]</InArgument>
           <InArgument x:TypeArguments="x:String" x:Key="in_DbPath">[localRead]</InArgument>
         </ui:InvokeWorkflowFile.Arguments>
