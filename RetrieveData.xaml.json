@@ -3,7 +3,7 @@
   "Tooltip": "Semantic free-text search over the whole store. Embeds the query, scores every chunk by cosine similarity, returns the top-K rows. Multilingual: Arabic queries match English data and vice versa.",
   "HelpLink": null,
   "Color": null,
-  "OriginalIconFileName": "icons/RetrieveData.svg",
+  "OriginalIconFileName": "RetrieveData.xaml.svg",
   "Arguments": [
     {
       "Name": "in_Query",

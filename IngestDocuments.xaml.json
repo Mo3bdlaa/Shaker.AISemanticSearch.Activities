@@ -3,7 +3,7 @@
   "Tooltip": "Ingests free-text documents into the semantic store: each document is chunked (sliding window), embedded, and written. Unchanged documents (same content hash) are skipped. Safe for multiple machines (file lock + atomic publish).",
   "HelpLink": null,
   "Color": null,
-  "OriginalIconFileName": "icons/IngestDocuments.svg",
+  "OriginalIconFileName": "IngestDocuments.xaml.svg",
   "Arguments": [
     {
       "Name": "in_dt_Documents",

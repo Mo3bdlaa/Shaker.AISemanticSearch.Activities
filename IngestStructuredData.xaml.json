@@ -3,7 +3,7 @@
   "Tooltip": "Ingests a tabular sheet (one record per row) into the semantic store. Each row becomes one embedded chunk (its row JSON) plus one chunk_fields entry per non-empty cell - exact columns match by string, all other columns are embedded for semantic matching. Safe for multiple machines (file lock + atomic publish). Unchanged documents are skipped entirely on re-runs.",
   "HelpLink": null,
   "Color": null,
-  "OriginalIconFileName": "icons/IngestStructuredData.svg",
+  "OriginalIconFileName": "IngestStructuredData.xaml.svg",
   "Arguments": [
     {
       "Name": "in_dt_Sheet",
