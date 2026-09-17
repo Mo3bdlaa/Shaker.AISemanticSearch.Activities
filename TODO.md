@@ -1,88 +1,73 @@
 # TODO
 
-Backlog for `AI_SemanticSearch`, roughly in priority order. Items marked **behaviour change**
-alter results for existing consumers and need a version bump + release note.
+Backlog for `AI_SemanticSearch`. Completed items are kept, checked, for context.
 
-## 1. Correctness & API
+## Done
 
-- [ ] **Let exact keys filter, not just score** — *behaviour change*, highest impact.
-      In `helpers/ScoreFieldsSemantic.xaml` a row's score is the sum over queried keys ÷ key
-      count, so an exact key contributes 1.0 or 0 but never excludes. A query of
-      `{"Rank":"5","Name":"..."}` still returns rows whose `Rank` is not 5, just ranked lower —
-      which is not what most people writing that query mean.
-      Proposal: add an opt-in `in_FilterColumns` (or a `!` key prefix) that turns a key into a
-      hard predicate, and renormalise the score across the remaining scoring keys.
-      Document the default in `docs/public-api.md` either way — today it is a silent surprise.
+- [x] **Exact keys can now filter, not just score.** `RetrieveStructuredData` takes
+      `in_FilterColumns`; keys listed there are hard predicates (exact, trimmed,
+      case-insensitive, whatever mode they were ingested in) and contribute nothing to the
+      score. Leaving it empty reproduces the old behaviour, so existing consumers are
+      unaffected. Guarded by `Test/SmokeTest.xaml`.
+- [x] **Chunking ends on natural boundaries.** `helpers/ChunkText.xaml` snaps each cut back to
+      the nearest paragraph break, else sentence end, else whitespace (Latin and Arabic
+      terminators), accepting a boundary only if it still leaves more than half a window.
+      *(Correction to an earlier note: it already avoided splitting words — the gap was
+      mid-sentence cuts.)*
+- [x] **Native loader failures are now explicit.** `helpers/EnsureSqliteNative.xaml` used to
+      fall through silently when the engine could not be found or copied, surfacing later as
+      an opaque SQLite error. It now names the probed paths, calls out the robot account's
+      write access when a copy is refused, and reports the x64 requirement when `Init()` fails.
+- [x] **Package size fixed: 130 MB → ~2 MB.** *(Correction: this was never UiPath's dependency
+      bundling.* The CI job downloaded the UiPath CLI into the checkout, and `uipcli` packs the
+      whole working directory into `content/` — so `v1.1.0` shipped a 114 MB `uipcli.zip` plus
+      an 87 MB extracted copy inside the library.) The CLI now lives in `RUNNER_TEMP`, and the
+      build fails if the package exceeds 25 MB so it cannot regress.
+- [x] **MIT license added**, Copyright (c) 2026 Mohamed Shaker; author stamped into the package
+      metadata and credited in the README.
+- [x] **Argument-driven smoke test** (`Test/SmokeTest.xaml`) replacing the one removed before
+      publishing. No environment-specific values: every path and endpoint is an argument and
+      the fixture is built in memory.
+- [x] **Dropped the stale `docs/AGENTS.md`** entry from `privateWorkflows`.
 
-- [ ] **Per-key weighting** — follow-on from the above. Averaging treats a matched ID and a
-      fuzzy name match as equally important. Optional weights per key would help hybrid queries.
-
-## 2. Repository hygiene
+## Needs you (no API access from here)
 
 - [ ] **Rename the repo: `Shaker.AISemenitcSearch.Activities` → `Shaker.AISemanticSearch.Activities`.**
-      "Semenitc" is a typo. The project itself is spelled correctly (`AI_SemanticSearch`), so it is
-      only the repo name. Cheap now, annoying once anyone has cloned or referenced it.
-      GitHub redirects the old URL, but update the remote afterwards.
+      "Semenitc" is a typo; the project itself is spelled correctly. *Settings → General →
+      Repository name.* GitHub redirects the old URL, but update your local remote afterwards.
+- [ ] **Make `main` the default branch.** *Settings → General → Default branch.*
+- [ ] **Replace or delete the `v1.1.0` release.** Its `.nupkg` is the 130 MB one containing a
+      copy of the UiPath CLI. It installs and runs correctly, but it is 65× larger than it
+      should be. `v1.2.0` supersedes it.
 
-- [ ] **Create a `main` branch and make it the default.** GitHub set the default to
-      `claude/magical-wright-hnbxsc` because it was the first branch pushed. A feature-branch name
-      as the public default is confusing, and `workflow_dispatch` only appears on the default branch.
+## Open
 
-- [ ] **Drop the stale `docs/AGENTS.md` entry** from `privateWorkflows` in `project.json` —
-      the file is not in the package.
+- [ ] **Per-key weighting for structured queries.** Deliberately *not* done: hard filters
+      addressed the actual problem, and an unused knob is permanent API surface on a published
+      library. Worth adding only given a concrete case where averaging ranks badly.
+- [ ] **Extend the smoke test to the identity guards** — model mismatch, dimension mismatch, and
+      skip-unchanged returning `out_RowsWritten = 0`. It currently covers ingest errors and the
+      filter behaviour only.
+- [ ] **Guard the doc-hash invariant.** `docs/architecture.md` warns that the doc-level hash is
+      computed in two places (`IngestStructuredData.xaml` → *FilterUnchanged*, and
+      `helpers/WriteStructuredChunks.xaml` → pass 0) that must stay in sync. Drift fails safe
+      (always rewrite, never wrongly skip), but nothing detects it.
+- [ ] *(optional)* **Workflow Analyzer warnings.** The build is error-free; the rest are
+      cosmetic — default activity names (`ST-MRD-002`), `dt` prefix conventions
+      (`ST-NMG-009/011`), duplicate display names (`ST-NMG-004`), nesting depth over 7
+      (`ST-MRD-009`). Mechanical churn across most files for no functional gain.
 
-- [ ] **Add a LICENSE.** The repo is public with none, so by default nobody may legally reuse it.
+## Deferred until measured
 
-## 3. Testing
+Both are gated on store size — they only pay off well past ~100k chunks, and neither is worth
+the disruption before that. Measure your real store first.
 
-- [ ] **Rebuild a test workflow without hardcoded values.** The original `Test/TestStructured.xaml`
-      was removed before publishing because it embedded an internal host and path. Nothing now
-      guards the invariant `docs/architecture.md` explicitly warns about: the doc-level hash is
-      computed in **two** places (`IngestStructuredData.xaml` → *FilterUnchanged*, and
-      `helpers/WriteStructuredChunks.xaml` → pass 0) and they must stay in sync.
-      Take endpoint/paths as arguments or from Orchestrator assets.
-
-- [ ] **Cover the identity guards**: model mismatch, dim mismatch, and skip-unchanged returning
-      `out_RowsWritten = 0`. These are the behaviours most likely to regress silently.
-
-## 4. Scaling (only when the store grows)
-
-- [ ] **Vector scoring is a full scan.** `helpers/ScoreChunks.xaml` dot-products the query against
-      every chunk embedding. At 1024 dims (4 KB/vector): ~10k chunks is imperceptible, ~100k means
-      ~400 MB read per query, ~1M is not viable. There is no ANN index.
-      When it hurts, `sqlite-vec` is the natural upgrade and keeps the single-file model.
-
+- [ ] **Vector scoring is a full scan.** `helpers/ScoreChunks.xaml` dot-products the query
+      against every chunk embedding. At 1024 dims (4 KB/vector): ~10k chunks is imperceptible,
+      ~100k means ~400 MB read per query, ~1M is not viable. `sqlite-vec` is the natural
+      upgrade and keeps the single-file model, but it changes the store format.
 - [ ] **Retrieval sync copies the whole `store.db`** whenever the share is newer
-      (`helpers/SyncLocalCopy.xaml`). Hourly ingest into a large store means every robot re-copies
-      it hourly. Store size drives both this and the item above — measure it before optimising.
-
+      (`helpers/SyncLocalCopy.xaml`). Hourly ingest into a large store means every robot
+      re-copies it hourly.
 - [ ] **Single global write lock** serialises all ingest. Correct for the design, but ingest
-      throughput will not improve by adding robots. Fine unless ingest becomes the bottleneck.
-
-## 5. Retrieval quality
-
-- [ ] **Chunking cuts mid-word.** `helpers/ChunkText.xaml` uses fixed character windows — a
-      deliberate trade (no tokenizer dependency, works for Arabic), but it splits sentences.
-      Try paragraph/sentence boundaries first, falling back to a hard window. Cheap, and usually
-      a real retrieval-quality win.
-
-## 6. Packaging & CI
-
-- [ ] **The package is ~130 MB.** UiPath bundles the full dependency closure
-      (`SeparateRuntimeDependencies` + `IncludeSources` in `.project/design.json`). Slow to upload
-      to Orchestrator. Try `IncludeSources: false`, or `--splitOutput` to separate runtime and
-      design packages, and measure.
-
-- [ ] **Harden `EnsureSqliteNative`.** It copies `lib/e_sqlite3.dll` next to the running process,
-      probing several roots — this needs write permission to that directory, which is exactly what
-      gets locked down for hardened robot service accounts. Also x64-only. Worth a clear error
-      message when the copy fails, rather than a downstream SQLite load failure.
-
-- [ ] **Decide the release trigger.** Releases are currently cut by CI from `projectVersion` in
-      `project.json`, because tag pushes were rejected for the account that set this up. If you can
-      push tags, the workflow already handles `v*` tags too — pick one and simplify
-      `.github/workflows/build.yml`.
-
-- [ ] *(optional)* **Workflow Analyzer warnings.** The build is error-free; remaining warnings are
-      cosmetic — default activity names (`ST-MRD-002`), `dt` prefix conventions (`ST-NMG-009/011`),
-      duplicate display names (`ST-NMG-004`), nesting depth over 7 (`ST-MRD-009`).
+      throughput will not improve by adding robots.

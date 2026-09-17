@@ -62,18 +62,24 @@ jobs:
           Write-Host "version=$version  tag=$tag  publish-release=$release"
           exit 0
 
+      # The CLI must live OUTSIDE the project directory: uipcli packs the whole
+      # working directory into the package's content/ folder, so a CLI left here
+      # ships inside the library. That is what made the v1.1.0 package 130 MB.
       - name: Download UiPath CLI
         shell: pwsh
         run: |
-          $url = "$env:UIPATH_FEED/uipath.cli.windows/$env:UIPCLI_VERSION/uipath.cli.windows.$env:UIPCLI_VERSION.nupkg"
-          Invoke-WebRequest -Uri $url -OutFile uipcli.zip
-          Expand-Archive uipcli.zip -DestinationPath uipcli -Force
+          $zip  = Join-Path $env:RUNNER_TEMP 'uipcli.nupkg'
+          $dest = Join-Path $env:RUNNER_TEMP 'uipcli'
+          $url  = "$env:UIPATH_FEED/uipath.cli.windows/$env:UIPCLI_VERSION/uipath.cli.windows.$env:UIPCLI_VERSION.nupkg"
+          Invoke-WebRequest -Uri $url -OutFile $zip
+          Expand-Archive $zip -DestinationPath $dest -Force
+          "UIPCLI_DLL=$dest/tools/net8.0/any/uipcli.dll" >> $env:GITHUB_ENV
 
       - name: Pack
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path output | Out-Null
-          dotnet uipcli/tools/net8.0/any/uipcli.dll package pack project.json `
+          dotnet "$env:UIPCLI_DLL" package pack project.json `
             -o output `
             -v "${{ steps.ver.outputs.version }}" `
             --repositoryUrl "${{ github.server_url }}/${{ github.repository }}" `
@@ -84,7 +90,12 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "uipcli pack failed with exit code $LASTEXITCODE" }
           $pkg = Get-ChildItem output -Filter *.nupkg
           if (-not $pkg) { throw "pack reported success but produced no .nupkg" }
-          Write-Host "Built $($pkg.Name)"
+          $mb = [math]::Round($pkg.Length / 1MB, 1)
+          Write-Host "Built $($pkg.Name) ($mb MB)"
+          # Guard against build tooling leaking into the package again.
+          if ($mb -gt 25) {
+            throw "Package is $mb MB - far larger than this library (~2 MB). Something in the working directory is being packed into content/."
+          }
 
       - uses: actions/upload-artifact@v4
         with:
