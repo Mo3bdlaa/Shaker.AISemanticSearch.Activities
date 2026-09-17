@@ -13,6 +13,7 @@ Multi-machine safe: many robots can share one store on a network path.
 | [public-api.md](docs/public-api.md) | Use the 4 public activities — arguments, behavior, examples, failure modes |
 | [helpers.md](docs/helpers.md) | Fix or extend an internal helper — what each one does and how |
 | [error-handling.md](docs/error-handling.md) | Follow (or debug) the error-handling conventions used everywhere |
+| [TODO.md](TODO.md) | See known limitations and what is planned next |
 
 ## Public API (what consumers see)
 
