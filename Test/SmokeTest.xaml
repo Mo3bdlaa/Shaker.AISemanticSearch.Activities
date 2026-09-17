@@ -108,6 +108,9 @@
       <Variable x:TypeArguments="scg:List(x:String)" Name="lsFilterColumns" />
       <Variable x:TypeArguments="scg:List(x:String)" Name="lsIngestErrors" />
       <Variable x:TypeArguments="x:String" Name="strQueryJson" />
+      <Variable x:TypeArguments="x:String" Name="strExactQueryJson" />
+      <Variable x:TypeArguments="x:String" Name="strBadUrl" />
+      <Variable x:TypeArguments="x:String" Name="strCaught" />
       <Variable x:TypeArguments="x:String" Name="strWrongModel" />
       <Variable x:TypeArguments="x:Int32" Name="intWrongDim" />
       <Variable x:TypeArguments="x:Int32" Name="intRowsWritten" />
@@ -115,7 +118,7 @@
       <Variable x:TypeArguments="x:String" Name="strErrorMessage" />
     </Sequence.Variables>
     <ui:LogMessage DisplayName="Log Message - building in-memory fixture..." sap2010:WorkflowViewState.IdRef="LogMessage_S1" Message="[&quot;SmokeTest: building in-memory fixture...&quot;]" />
-    <ui:InvokeCode ContinueOnError="{x:Null}" Code="' Builds the smoke-test fixture in memory, so the test needs no Excel file&#xA;' and no values baked into the workflow. Two single-row documents:&#xA;'   smoke-1  Rank=5  Harvard University&#xA;'   smoke-2  Rank=9  Stanford University&#xA;' &quot;Rank&quot; is ingested exact and then used as a FILTER at retrieval, so only&#xA;' smoke-1 may come back. &quot;Name&quot; stays semantic.&#xA;' Also derives the deliberately-wrong model and dimension used to prove the&#xA;' identity guards abort an ingest before anything is written.&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;out_Sheet = New System.Data.DataTable()&#xA;out_ExactColumns = New System.Collections.Generic.List(Of String)()&#xA;out_FilterColumns = New System.Collections.Generic.List(Of String)()&#xA;out_QueryJson = &quot;&quot;&#xA;out_WrongModel = &quot;&quot;&#xA;out_WrongDim = 0&#xA;Try&#xA;    out_Sheet.Columns.Add(&quot;docId&quot;, GetType(String))&#xA;    out_Sheet.Columns.Add(&quot;Rank&quot;, GetType(String))&#xA;    out_Sheet.Columns.Add(&quot;Name&quot;, GetType(String))&#xA;    out_Sheet.Rows.Add(&quot;smoke-1&quot;, &quot;5&quot;, &quot;Harvard University&quot;)&#xA;    out_Sheet.Rows.Add(&quot;smoke-2&quot;, &quot;9&quot;, &quot;Stanford University&quot;)&#xA;&#xA;    out_ExactColumns.Add(&quot;docId&quot;)&#xA;    out_ExactColumns.Add(&quot;Rank&quot;)&#xA;    out_FilterColumns.Add(&quot;Rank&quot;)&#xA;&#xA;    ' Name is deliberately a loose match: semantic scoring should still rank it,&#xA;    ' while Rank as a filter must exclude smoke-2 outright.&#xA;    out_QueryJson = &quot;{&quot;&quot;Rank&quot;&quot;:&quot;&quot;5&quot;&quot;,&quot;&quot;Name&quot;&quot;:&quot;&quot;university&quot;&quot;}&quot;&#xA;&#xA;    ' Model names compare with the provider prefix stripped, so a suffix is&#xA;    ' what makes this reliably a different model.&#xA;    out_WrongModel = If(in_Model, &quot;&quot;) &amp; &quot;-smoketest-not-the-real-model&quot;&#xA;    out_WrongDim = in_EmbeddingDim + 8&#xA;&#xA;    out_Success = True&#xA;Catch ex As System.Exception&#xA;    out_ErrorMessage = &quot;BuildFixture failed: &quot; &amp; ex.Message&#xA;End Try&#xA;" DisplayName="Invoke Code - Build Fixture" sap2010:WorkflowViewState.IdRef="InvokeCode_S1">
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="' Builds the smoke-test fixture in memory, so the test needs no Excel file&#xA;' and no values baked into the workflow. Two single-row documents:&#xA;'   smoke-1  Rank=5  Harvard University&#xA;'   smoke-2  Rank=9  Stanford University&#xA;' &quot;Rank&quot; is ingested exact and then used as a FILTER at retrieval, so only&#xA;' smoke-1 may come back. &quot;Name&quot; stays semantic.&#xA;' Also derives the deliberately-wrong model and dimension used to prove the&#xA;' identity guards abort an ingest before anything is written.&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;out_Sheet = New System.Data.DataTable()&#xA;out_ExactColumns = New System.Collections.Generic.List(Of String)()&#xA;out_FilterColumns = New System.Collections.Generic.List(Of String)()&#xA;out_QueryJson = &quot;&quot;&#xA;out_BadUrl = &quot;&quot;&#xA;out_ExactQueryJson = &quot;&quot;&#xA;out_WrongModel = &quot;&quot;&#xA;out_WrongDim = 0&#xA;Try&#xA;    out_Sheet.Columns.Add(&quot;docId&quot;, GetType(String))&#xA;    out_Sheet.Columns.Add(&quot;Rank&quot;, GetType(String))&#xA;    out_Sheet.Columns.Add(&quot;Name&quot;, GetType(String))&#xA;    out_Sheet.Rows.Add(&quot;smoke-1&quot;, &quot;5&quot;, &quot;Harvard University&quot;)&#xA;    out_Sheet.Rows.Add(&quot;smoke-2&quot;, &quot;9&quot;, &quot;Stanford University&quot;)&#xA;&#xA;    out_ExactColumns.Add(&quot;docId&quot;)&#xA;    out_ExactColumns.Add(&quot;Rank&quot;)&#xA;    out_FilterColumns.Add(&quot;Rank&quot;)&#xA;&#xA;    ' Name is deliberately a loose match: semantic scoring should still rank it,&#xA;    ' while Rank as a filter must exclude smoke-2 outright.&#xA;    out_QueryJson = &quot;{&quot;&quot;Rank&quot;&quot;:&quot;&quot;5&quot;&quot;,&quot;&quot;Name&quot;&quot;:&quot;&quot;university&quot;&quot;}&quot;&#xA;&#xA;    ' All-exact/all-filter query plus a deliberately unusable endpoint: if the&#xA;    ' retrieval still succeeds, no embedding request was made. Port 9 is the&#xA;    ' discard port, so a call would fail fast rather than hang.&#xA;    out_ExactQueryJson = &quot;{&quot;&quot;Rank&quot;&quot;:&quot;&quot;5&quot;&quot;}&quot;&#xA;    out_BadUrl = &quot;http://127.0.0.1:9/embeddings-must-not-be-called&quot;&#xA;&#xA;    ' Model names compare with the provider prefix stripped, so a suffix is&#xA;    ' what makes this reliably a different model.&#xA;    out_WrongModel = If(in_Model, &quot;&quot;) &amp; &quot;-smoketest-not-the-real-model&quot;&#xA;    out_WrongDim = in_EmbeddingDim + 8&#xA;&#xA;    out_Success = True&#xA;Catch ex As System.Exception&#xA;    out_ErrorMessage = &quot;BuildFixture failed: &quot; &amp; ex.Message&#xA;End Try&#xA;" DisplayName="Invoke Code - Build Fixture" sap2010:WorkflowViewState.IdRef="InvokeCode_S1">
       <ui:InvokeCode.Arguments>
         <InArgument x:TypeArguments="x:String" x:Key="in_Model">[in_Model]</InArgument>
         <InArgument x:TypeArguments="x:Int32" x:Key="in_EmbeddingDim">[in_EmbeddingDim]</InArgument>
@@ -123,6 +126,8 @@
         <OutArgument x:TypeArguments="scg:List(x:String)" x:Key="out_ExactColumns">[lsExactColumns]</OutArgument>
         <OutArgument x:TypeArguments="scg:List(x:String)" x:Key="out_FilterColumns">[lsFilterColumns]</OutArgument>
         <OutArgument x:TypeArguments="x:String" x:Key="out_QueryJson">[strQueryJson]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ExactQueryJson">[strExactQueryJson]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_BadUrl">[strBadUrl]</OutArgument>
         <OutArgument x:TypeArguments="x:String" x:Key="out_WrongModel">[strWrongModel]</OutArgument>
         <OutArgument x:TypeArguments="x:Int32" x:Key="out_WrongDim">[intWrongDim]</OutArgument>
         <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[boolSuccess]</OutArgument>
@@ -130,7 +135,7 @@
       </ui:InvokeCode.Arguments>
     </ui:InvokeCode>
     <ui:CheckTrue DisplayName="Check True - Build Fixture" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap2010:WorkflowViewState.IdRef="CheckTrue_S1" />
-    <ui:LogMessage DisplayName="Log Message - 1/5 ingesting fixture..." sap2010:WorkflowViewState.IdRef="LogMessage_S2" Message="[&quot;SmokeTest: 1/5 ingesting fixture...&quot;]" />
+    <ui:LogMessage DisplayName="Log Message - 1/7 ingesting fixture..." sap2010:WorkflowViewState.IdRef="LogMessage_S2" Message="[&quot;SmokeTest: 1/7 ingesting fixture...&quot;]" />
     <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="IngestStructuredData.xaml - Ingest" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_S1" UnSafe="False" WorkflowFileName="IngestStructuredData.xaml">
       <ui:InvokeWorkflowFile.Arguments>
         <InArgument x:TypeArguments="x:String" x:Key="in_SharePath">[in_SharePath]</InArgument>
@@ -160,7 +165,7 @@
       </ui:InvokeCode.Arguments>
     </ui:InvokeCode>
     <ui:CheckTrue DisplayName="Check True - Assert Ingest" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap2010:WorkflowViewState.IdRef="CheckTrue_S2" />
-    <ui:LogMessage DisplayName="Log Message - 2/5 retrieving with Rank as a filter column..." sap2010:WorkflowViewState.IdRef="LogMessage_S3" Message="[&quot;SmokeTest: 2/5 retrieving with Rank as a filter column...&quot;]" />
+    <ui:LogMessage DisplayName="Log Message - 2/7 retrieving with Rank as a filter column..." sap2010:WorkflowViewState.IdRef="LogMessage_S3" Message="[&quot;SmokeTest: 2/7 retrieving with Rank as a filter column...&quot;]" />
     <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="RetrieveStructuredData.xaml - Retrieve" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_S2" UnSafe="False" WorkflowFileName="RetrieveStructuredData.xaml">
       <ui:InvokeWorkflowFile.Arguments>
         <InArgument x:TypeArguments="x:String" x:Key="in_QueryJson">[strQueryJson]</InArgument>
@@ -184,7 +189,7 @@
       </ui:InvokeCode.Arguments>
     </ui:InvokeCode>
     <ui:CheckTrue DisplayName="Check True - Assert Retrieve" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap2010:WorkflowViewState.IdRef="CheckTrue_S3" />
-    <ui:LogMessage DisplayName="Log Message - 3/5 re-ingesting unchanged data (must write nothing)..." sap2010:WorkflowViewState.IdRef="LogMessage_S4" Message="[&quot;SmokeTest: 3/5 re-ingesting unchanged data (must write nothing)...&quot;]" />
+    <ui:LogMessage DisplayName="Log Message - 3/7 re-ingesting unchanged data (must write nothing)..." sap2010:WorkflowViewState.IdRef="LogMessage_S4" Message="[&quot;SmokeTest: 3/7 re-ingesting unchanged data (must write nothing)...&quot;]" />
     <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="IngestStructuredData.xaml - Re-ingest Unchanged" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_S3" UnSafe="False" WorkflowFileName="IngestStructuredData.xaml">
       <ui:InvokeWorkflowFile.Arguments>
         <InArgument x:TypeArguments="x:String" x:Key="in_SharePath">[in_SharePath]</InArgument>
@@ -215,7 +220,7 @@
       </ui:InvokeCode.Arguments>
     </ui:InvokeCode>
     <ui:CheckTrue DisplayName="Check True - Assert Skip Unchanged" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap2010:WorkflowViewState.IdRef="CheckTrue_S4" />
-    <ui:LogMessage DisplayName="Log Message - 4/5 ingesting with a wrong model (must abort)..." sap2010:WorkflowViewState.IdRef="LogMessage_S5" Message="[&quot;SmokeTest: 4/5 ingesting with a wrong model (must abort)...&quot;]" />
+    <ui:LogMessage DisplayName="Log Message - 4/7 ingesting with a wrong model (must abort)..." sap2010:WorkflowViewState.IdRef="LogMessage_S5" Message="[&quot;SmokeTest: 4/7 ingesting with a wrong model (must abort)...&quot;]" />
     <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="IngestStructuredData.xaml - Ingest Wrong Model" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_S4" UnSafe="False" WorkflowFileName="IngestStructuredData.xaml">
       <ui:InvokeWorkflowFile.Arguments>
         <InArgument x:TypeArguments="x:String" x:Key="in_SharePath">[in_SharePath]</InArgument>
@@ -247,7 +252,7 @@
       </ui:InvokeCode.Arguments>
     </ui:InvokeCode>
     <ui:CheckTrue DisplayName="Check True - Assert Model Guard" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap2010:WorkflowViewState.IdRef="CheckTrue_S5" />
-    <ui:LogMessage DisplayName="Log Message - 5/5 ingesting with a wrong dimension (must abort)..." sap2010:WorkflowViewState.IdRef="LogMessage_S6" Message="[&quot;SmokeTest: 5/5 ingesting with a wrong dimension (must abort)...&quot;]" />
+    <ui:LogMessage DisplayName="Log Message - 5/7 ingesting with a wrong dimension (must abort)..." sap2010:WorkflowViewState.IdRef="LogMessage_S6" Message="[&quot;SmokeTest: 5/7 ingesting with a wrong dimension (must abort)...&quot;]" />
     <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="IngestStructuredData.xaml - Ingest Wrong Dim" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_S5" UnSafe="False" WorkflowFileName="IngestStructuredData.xaml">
       <ui:InvokeWorkflowFile.Arguments>
         <InArgument x:TypeArguments="x:String" x:Key="in_SharePath">[in_SharePath]</InArgument>
@@ -279,6 +284,75 @@
       </ui:InvokeCode.Arguments>
     </ui:InvokeCode>
     <ui:CheckTrue DisplayName="Check True - Assert Dim Guard" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap2010:WorkflowViewState.IdRef="CheckTrue_S6" />
+    <ui:LogMessage DisplayName="Log Message - phase6" sap2010:WorkflowViewState.IdRef="LogMessage_S8" Message="[&quot;SmokeTest: 6/7 all-exact query against an unusable endpoint (must make no embedding call)...&quot;]" />
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="RetrieveStructuredData.xaml - Retrieve All-Exact No-HTTP" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_S6" UnSafe="False" WorkflowFileName="RetrieveStructuredData.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_QueryJson">[strExactQueryJson]</InArgument>
+        <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_FilterColumns">[lsFilterColumns]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_SharePath">[in_SharePath]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_LocalDbPath">[in_LocalReadDbPath]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_EmbeddingUrl">[strBadUrl]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_ApiKey">[in_ApiKey]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Model">[in_Model]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_TopK">[in_TopK]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_TimeoutSec">[in_TimeoutSec]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_MaxRetries">[in_MaxRetries]</InArgument>
+        <OutArgument x:TypeArguments="sd:DataTable" x:Key="out_dt_Results">[dtResults]</OutArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="' Regression guard for filter keys. Rank=5 is passed as a FILTER, so smoke-2&#xA;' (Rank=9) must be absent entirely - not merely ranked lower. If filter keys&#xA;' ever revert to scoring, this returns 2 rows and the test fails here.&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;Try&#xA;    If in_Results Is Nothing Then&#xA;        Throw New System.Exception(&quot;retrieval returned no table.&quot;)&#xA;    End If&#xA;    If in_Results.Rows.Count &lt;&gt; 1 Then&#xA;        Throw New System.Exception(&#xA;            &quot;expected exactly 1 row (only smoke-1 has Rank=5) but got &quot; &amp;&#xA;            in_Results.Rows.Count.ToString() &amp;&#xA;            &quot;. Filter columns appear to be scoring instead of excluding.&quot;)&#xA;    End If&#xA;    Dim docId As String = If(in_Results.Rows(0)(&quot;DocId&quot;), &quot;&quot;).ToString()&#xA;    If Not String.Equals(docId, &quot;smoke-1&quot;, StringComparison.OrdinalIgnoreCase) Then&#xA;        Throw New System.Exception(&quot;expected DocId 'smoke-1' but got '&quot; &amp; docId &amp; &quot;'.&quot;)&#xA;    End If&#xA;    out_Success = True&#xA;Catch ex As System.Exception&#xA;    out_ErrorMessage = &quot;AssertRetrieve failed: &quot; &amp; ex.Message&#xA;End Try&#xA;" DisplayName="Invoke Code - Assert Retrieve No-HTTP" sap2010:WorkflowViewState.IdRef="InvokeCode_S8">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_Results">[dtResults]</InArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[boolSuccess]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[strErrorMessage]</OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:CheckTrue DisplayName="Check True - Assert Retrieve No-HTTP" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap2010:WorkflowViewState.IdRef="CheckTrue_S8" />
+    <ui:LogMessage DisplayName="Log Message - phase7" sap2010:WorkflowViewState.IdRef="LogMessage_S9" Message="[&quot;SmokeTest: 7/7 retrieving with a wrong model (must abort on the guard)...&quot;]" />
+    <TryCatch DisplayName="Try Catch - Retrieve Wrong Model" sap2010:WorkflowViewState.IdRef="TryCatch_S1">
+      <TryCatch.Try>
+        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="RetrieveStructuredData.xaml - Retrieve Wrong Model" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_S7" UnSafe="False" WorkflowFileName="RetrieveStructuredData.xaml">
+              <ui:InvokeWorkflowFile.Arguments>
+            <InArgument x:TypeArguments="x:String" x:Key="in_QueryJson">[strQueryJson]</InArgument>
+            <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_FilterColumns">[lsFilterColumns]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_SharePath">[in_SharePath]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_LocalDbPath">[in_LocalReadDbPath]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_EmbeddingUrl">[in_EmbeddingUrl]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_ApiKey">[in_ApiKey]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_Model">[strWrongModel]</InArgument>
+            <InArgument x:TypeArguments="x:Int32" x:Key="in_TopK">[in_TopK]</InArgument>
+            <InArgument x:TypeArguments="x:Int32" x:Key="in_TimeoutSec">[in_TimeoutSec]</InArgument>
+            <InArgument x:TypeArguments="x:Int32" x:Key="in_MaxRetries">[in_MaxRetries]</InArgument>
+            <OutArgument x:TypeArguments="sd:DataTable" x:Key="out_dt_Results">[dtResults]</OutArgument>
+          </ui:InvokeWorkflowFile.Arguments>
+        </ui:InvokeWorkflowFile>
+      </TryCatch.Try>
+      <TryCatch.Catches>
+        <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_S1">
+          <ActivityAction x:TypeArguments="s:Exception">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="retrieveEx" />
+            </ActivityAction.Argument>
+            <Assign DisplayName="Assign - capture guard message" sap2010:WorkflowViewState.IdRef="Assign_S1">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[strCaught]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[retrieveEx.Message]</InArgument>
+              </Assign.Value>
+            </Assign>
+          </ActivityAction>
+        </Catch>
+      </TryCatch.Catches>
+    </TryCatch>
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="' The retrieval model guard must now fire BEFORE the embedding call, because&#xA;' PlanQueryEmbedding reads the store first. If it ever moves back after the&#xA;' embedding request, this assertion sees an endpoint error instead.&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;Try&#xA;    If String.IsNullOrEmpty(in_Caught) Then&#xA;        Throw New System.Exception(&quot;expected retrieval to fail with a model mismatch but it succeeded.&quot;)&#xA;    End If&#xA;    If in_Caught.IndexOf(&quot;model mismatch&quot;, StringComparison.OrdinalIgnoreCase) &lt; 0 Then&#xA;        Throw New System.Exception(&quot;expected a model mismatch error but got: &quot; &amp; in_Caught)&#xA;    End If&#xA;    out_Success = True&#xA;Catch ex As System.Exception&#xA;    out_ErrorMessage = &quot;AssertRetrieveGuard failed: &quot; &amp; ex.Message&#xA;End Try&#xA;" DisplayName="Invoke Code - Assert Retrieve Guard" sap2010:WorkflowViewState.IdRef="InvokeCode_S9">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Caught">[strCaught]</InArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[boolSuccess]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[strErrorMessage]</OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:CheckTrue DisplayName="Check True - Assert Retrieve Guard" ErrorMessage="[strErrorMessage]" Expression="[boolSuccess]" sap2010:WorkflowViewState.IdRef="CheckTrue_S9" />
     <ui:LogMessage DisplayName="Log Message - PASSED" sap2010:WorkflowViewState.IdRef="LogMessage_S7" Message="[&quot;SmokeTest: PASSED&quot;]" />
   </Sequence>
 </Activity>

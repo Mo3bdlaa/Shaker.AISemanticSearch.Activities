@@ -95,9 +95,12 @@ Leaving `in_FilterColumns` empty reproduces the original behaviour exactly.
 Tips:
 - Combine a semantic key with filter keys to filter+search in one call.
 - Filter by `docId` to scope results to one source workbook.
-- Every queried value is embedded, including exact and filter keys. The stored mode is only
-  known once `chunk_fields` is read, which happens after embedding, so a query cannot skip the
-  HTTP call by being all-exact.
+- **An all-exact / all-filter query makes no embedding HTTP call.** Retrieval reads the stored
+  modes from the local copy first, then embeds only the values that need a vector: keys stored
+  `semantic` that are not filter keys. Keys absent from the store are skipped too, since they
+  cannot match anything.
+- The model-identity check runs in that same pre-pass, so a mismatch fails **before** the
+  embedding request rather than after it.
 
 ---
 

@@ -92,6 +92,11 @@ The free-text path (`IngestDocuments`) has per-document change detection instead
 
 - **Free-text** (`helpers/ScoreChunks.xaml`): dot product between the query vector and every
   chunk embedding; top-N by score. `Content` returned is the stored chunk text / row JSON.
+- **Query planning** (`RetrieveStructuredData` → *PlanQueryEmbedding*): before embedding, the
+  local copy is read for `meta.embedding_model` and for each queried key's stored `field_mode`.
+  Only semantic, non-filter keys are embedded, so an all-exact query costs no HTTP call, and the
+  model guard fires before any request. If the store cannot be read yet, it falls back to
+  embedding every non-filter key.
 - **Structured** (`helpers/ScoreFieldsSemantic.xaml`): scans `chunk_fields` for the queried keys
   only (parameterized IN-list). Per key: exact → 1.0 on case-insensitive equality;
   semantic → dot product. A chunk's score = sum of key contributions ÷ number of **scored** keys,

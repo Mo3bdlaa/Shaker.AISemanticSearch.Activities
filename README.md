@@ -5,7 +5,7 @@ ingest free-text documents or tabular sheets, embed them with any OpenAI-compati
 endpoint, and retrieve by meaning (semantic), by precise value (exact), or both (hybrid).
 Multi-machine safe: many robots can share one store on a network path.
 
-By **Mohamed Shaker**. Released under the [MIT License](LICENSE).
+By **Mohammed Shaker**. Released under the [MIT License](LICENSE).
 
 ## Documentation map
 
@@ -79,7 +79,7 @@ Releases are cut from `projectVersion` in `project.json`, not by pushing a tag:
 To build locally instead, on a Windows machine with the UiPath CLI:
 
 ```powershell
-uipcli package pack project.json -o output -v 1.2.1
+uipcli package pack project.json -o output -v 1.3.0
 ```
 
 Consume the resulting `.nupkg` by adding its folder as a custom NuGet feed in UiPath Studio

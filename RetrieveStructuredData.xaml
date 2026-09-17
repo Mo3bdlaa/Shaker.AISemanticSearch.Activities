@@ -119,6 +119,9 @@
         <Variable x:TypeArguments="scg:List(x:String)" Name="qKeys" />
         <Variable x:TypeArguments="scg:List(x:String)" Name="qValues" />
         <Variable x:TypeArguments="scg:List(s:Double[])" Name="qVecs" />
+        <Variable x:TypeArguments="scg:List(x:String)" Name="lsEmbedTexts" />
+        <Variable x:TypeArguments="scg:List(x:Int32)" Name="lsEmbedIndex" />
+        <Variable x:TypeArguments="scg:List(s:Double[])" Name="lsRawVecs" />
         <Variable x:TypeArguments="x:Boolean" Name="childOk" />
         <Variable x:TypeArguments="x:String" Name="childErr" />
       </Sequence.Variables>
@@ -154,32 +157,43 @@
           <OutArgument x:TypeArguments="scg:List(x:String)" x:Key="out_Values">[qValues]</OutArgument>
         </ui:InvokeCode.Arguments>
       </ui:InvokeCode>
+      <ui:InvokeCode ContinueOnError="{x:Null}" Code="' Decide which queried values actually need a vector, BEFORE any HTTP call.&#xA;' A key needs one only when it is stored 'semantic' AND is not a filter key -&#xA;' filters match by exact string equality whatever their stored mode. A query&#xA;' that is all-exact or all-filter therefore makes no embedding call at all.&#xA;' The store's model identity is checked here too, so a mismatch fails before a&#xA;' pointless embedding request instead of after it.&#xA;' If the store cannot be read (not initialised yet), fall back to embedding&#xA;' every non-filter key and let ScoreFieldsSemantic report the real problem.&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;out_EmbedTexts = New System.Collections.Generic.List(Of String)()&#xA;out_EmbedIndex = New System.Collections.Generic.List(Of Integer)()&#xA;Try&#xA;    Dim filterSet As New System.Collections.Generic.HashSet(Of String)(System.StringComparer.OrdinalIgnoreCase)&#xA;    If in_FilterKeys IsNot Nothing Then&#xA;        For Each fk As String In in_FilterKeys&#xA;            If Not String.IsNullOrWhiteSpace(fk) Then filterSet.Add(fk.Trim())&#xA;        Next&#xA;    End If&#xA;&#xA;    Dim storedModel As String = Nothing&#xA;    Dim modes As New System.Collections.Generic.Dictionary(Of String, String)(System.StringComparer.OrdinalIgnoreCase)&#xA;    Dim modesKnown As Boolean = False&#xA;&#xA;    Try&#xA;        Using conn As New Microsoft.Data.Sqlite.SqliteConnection(&quot;Data Source=&quot; &amp; in_DbPath &amp; &quot;;Pooling=False&quot;)&#xA;            conn.Open()&#xA;&#xA;            Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xA;                cmd.CommandText = &quot;SELECT value FROM meta WHERE key = 'embedding_model';&quot;&#xA;                Dim o As Object = cmd.ExecuteScalar()&#xA;                If o IsNot Nothing AndAlso Not Convert.IsDBNull(o) Then storedModel = o.ToString()&#xA;            End Using&#xA;&#xA;            ' one row per (key, mode) actually stored; keys are user input, so&#xA;            ' the IN-list is parameterized rather than concatenated&#xA;            Using cmd As Microsoft.Data.Sqlite.SqliteCommand = conn.CreateCommand()&#xA;                Dim names As New System.Collections.Generic.List(Of String)()&#xA;                For i As Integer = 0 To in_QueryKeys.Count - 1&#xA;                    Dim pn As String = &quot;$k&quot; &amp; i.ToString()&#xA;                    names.Add(pn)&#xA;                    cmd.Parameters.AddWithValue(pn, in_QueryKeys(i))&#xA;                Next&#xA;                cmd.CommandText = &quot;SELECT DISTINCT field_key, field_mode FROM chunk_fields WHERE field_key IN (&quot; &amp; String.Join(&quot;,&quot;, names) &amp; &quot;);&quot;&#xA;                Using rd As Microsoft.Data.Sqlite.SqliteDataReader = cmd.ExecuteReader()&#xA;                    Do While rd.Read()&#xA;                        Dim k As String = rd.GetString(0)&#xA;                        Dim m As String = rd.GetString(1)&#xA;                        ' if a key is stored in both modes, semantic wins: the&#xA;                        ' vector is then available and exact rows ignore it&#xA;                        If (Not modes.ContainsKey(k)) OrElse String.Equals(m, &quot;semantic&quot;, StringComparison.OrdinalIgnoreCase) Then&#xA;                            modes(k) = m&#xA;                        End If&#xA;                    Loop&#xA;                End Using&#xA;            End Using&#xA;        End Using&#xA;        modesKnown = True&#xA;    Catch dbEx As System.Exception&#xA;        modesKnown = False&#xA;    End Try&#xA;&#xA;    ' Outside the Catch above, so a real mismatch is never swallowed.&#xA;    If modesKnown AndAlso Not String.IsNullOrWhiteSpace(storedModel) Then&#xA;        Dim have As String = storedModel.Trim().ToLowerInvariant()&#xA;        If have.LastIndexOf(&quot;/&quot;c) &gt;= 0 Then have = have.Substring(have.LastIndexOf(&quot;/&quot;c) + 1)&#xA;        Dim want As String = If(in_Model, &quot;&quot;).Trim().ToLowerInvariant()&#xA;        If want.LastIndexOf(&quot;/&quot;c) &gt;= 0 Then want = want.Substring(want.LastIndexOf(&quot;/&quot;c) + 1)&#xA;        If have &lt;&gt; want Then&#xA;            Throw New System.Exception(&#xA;                &quot;Embedding model mismatch. This store was built with '&quot; &amp; storedModel &amp;&#xA;                &quot;' but this query was embedded with '&quot; &amp; If(in_Model, &quot;&quot;) &amp;&#xA;                &quot;'. Scores across two different models are meaningless - &quot; &amp;&#xA;                &quot;retrieve with the model the store was ingested with.&quot;)&#xA;        End If&#xA;    End If&#xA;&#xA;    For i As Integer = 0 To in_QueryKeys.Count - 1&#xA;        Dim k As String = in_QueryKeys(i)&#xA;        If filterSet.Contains(k) Then Continue For&#xA;        If modesKnown Then&#xA;            Dim m As String = Nothing&#xA;            If modes.TryGetValue(k, m) Then&#xA;                If String.Equals(m, &quot;semantic&quot;, StringComparison.OrdinalIgnoreCase) Then&#xA;                    out_EmbedTexts.Add(in_QueryValues(i))&#xA;                    out_EmbedIndex.Add(i)&#xA;                End If&#xA;            End If&#xA;            ' a key absent from the store cannot match anything, so it needs no vector&#xA;        Else&#xA;            out_EmbedTexts.Add(in_QueryValues(i))&#xA;            out_EmbedIndex.Add(i)&#xA;        End If&#xA;    Next&#xA;&#xA;    out_Success = True&#xA;Catch ex As System.Exception&#xA;    out_ErrorMessage = &quot;PlanQueryEmbedding failed: &quot; &amp; ex.Message&#xA;    If ex.InnerException IsNot Nothing Then out_ErrorMessage &amp;= &quot; | Inner: &quot; &amp; ex.InnerException.Message&#xA;End Try&#xA;" DisplayName="Invoke Code - PlanQueryEmbedding" sap2010:WorkflowViewState.IdRef="InvokeCode_Plan_1">
+        <ui:InvokeCode.Arguments>
+          <InArgument x:TypeArguments="x:String" x:Key="in_DbPath">[localRead]</InArgument>
+          <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_QueryKeys">[qKeys]</InArgument>
+          <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_QueryValues">[qValues]</InArgument>
+          <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_FilterKeys">[in_FilterColumns]</InArgument>
+          <InArgument x:TypeArguments="x:String" x:Key="in_Model">[in_Model]</InArgument>
+          <OutArgument x:TypeArguments="scg:List(x:String)" x:Key="out_EmbedTexts">[lsEmbedTexts]</OutArgument>
+          <OutArgument x:TypeArguments="scg:List(x:Int32)" x:Key="out_EmbedIndex">[lsEmbedIndex]</OutArgument>
+          <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[childOk]</OutArgument>
+          <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[childErr]</OutArgument>
+        </ui:InvokeCode.Arguments>
+      </ui:InvokeCode>
+      <ui:CheckTrue DisplayName="Check True - PlanQueryEmbedding" ErrorMessage="[childErr]" Expression="[childOk]" sap2010:WorkflowViewState.IdRef="CheckTrue_Plan_1" />
       <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="helpers\EmbedTexts.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="452,146" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_11" UnSafe="False" WorkflowFileName="helpers\EmbedTexts.xaml">
         <ui:InvokeWorkflowFile.Arguments>
-          <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_Texts">[qValues]</InArgument>
+          <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_Texts">[lsEmbedTexts]</InArgument>
           <InArgument x:TypeArguments="x:String" x:Key="in_EmbeddingUrl">[in_EmbeddingUrl]</InArgument>
           <InArgument x:TypeArguments="x:String" x:Key="in_ApiKey">[in_ApiKey]</InArgument>
           <InArgument x:TypeArguments="x:String" x:Key="in_Model">[in_Model]</InArgument>
           <InArgument x:TypeArguments="x:Int32" x:Key="in_BatchSize">16</InArgument>
           <InArgument x:TypeArguments="x:Int32" x:Key="in_TimeoutSec">[in_TimeoutSec]</InArgument>
           <InArgument x:TypeArguments="x:Int32" x:Key="in_MaxRetries">[in_MaxRetries]</InArgument>
-          <OutArgument x:TypeArguments="scg:List(s:Double[])" x:Key="out_Embeddings">[qVecs]</OutArgument>
+          <OutArgument x:TypeArguments="scg:List(s:Double[])" x:Key="out_Embeddings">[lsRawVecs]</OutArgument>
         </ui:InvokeWorkflowFile.Arguments>
       </ui:InvokeWorkflowFile>
-      <If Condition="[qVecs Is Nothing OrElse qVecs.Count = 0]" DisplayName="Guard - empty embedding" sap:VirtualizedContainerService.HintSize="452,342" sap2010:WorkflowViewState.IdRef="If_8">
-        <If.Then>
-          <Throw DisplayName="Guard - empty embedding" Exception="[New System.Exception(&quot;EmbedTexts returned no vectors for the query values.&quot;)]" sap:VirtualizedContainerService.HintSize="450,91" sap2010:WorkflowViewState.IdRef="Throw_10" />
-        </If.Then>
-        <If.Else>
-          <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,90" sap2010:WorkflowViewState.IdRef="Sequence_15">
-            <sap:WorkflowViewStateService.ViewState>
-              <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-              </scg:Dictionary>
-            </sap:WorkflowViewStateService.ViewState>
-          </Sequence>
-        </If.Else>
-      </If>
+      <ui:InvokeCode ContinueOnError="{x:Null}" Code="' Scatter the vectors that were actually requested back into a list aligned to&#xA;' the query keys. Keys that needed none stay Nothing, which ScoreFieldsSemantic&#xA;' already tolerates (exact and filter keys ignore their vector slot).&#xA;out_Success = False&#xA;out_ErrorMessage = &quot;&quot;&#xA;out_QueryVectors = New System.Collections.Generic.List(Of Double())()&#xA;Try&#xA;    For i As Integer = 0 To in_KeyCount - 1&#xA;        out_QueryVectors.Add(Nothing)&#xA;    Next&#xA;&#xA;    Dim want As Integer = 0&#xA;    If in_EmbedIndex IsNot Nothing Then want = in_EmbedIndex.Count&#xA;    Dim got As Integer = 0&#xA;    If in_Embeddings IsNot Nothing Then got = in_Embeddings.Count&#xA;    If got &lt;&gt; want Then&#xA;        Throw New System.Exception(&#xA;            &quot;expected &quot; &amp; want.ToString() &amp; &quot; vector(s) for the semantic query keys but got &quot; &amp;&#xA;            got.ToString() &amp; &quot;.&quot;)&#xA;    End If&#xA;&#xA;    For j As Integer = 0 To want - 1&#xA;        out_QueryVectors(in_EmbedIndex(j)) = in_Embeddings(j)&#xA;    Next&#xA;&#xA;    out_Success = True&#xA;Catch ex As System.Exception&#xA;    out_ErrorMessage = &quot;ScatterVectors failed: &quot; &amp; ex.Message&#xA;End Try&#xA;" DisplayName="Invoke Code - ScatterVectors" sap2010:WorkflowViewState.IdRef="InvokeCode_Scatter_1">
+        <ui:InvokeCode.Arguments>
+          <InArgument x:TypeArguments="x:Int32" x:Key="in_KeyCount">[qKeys.Count]</InArgument>
+          <InArgument x:TypeArguments="scg:List(x:Int32)" x:Key="in_EmbedIndex">[lsEmbedIndex]</InArgument>
+          <InArgument x:TypeArguments="scg:List(s:Double[])" x:Key="in_Embeddings">[lsRawVecs]</InArgument>
+          <OutArgument x:TypeArguments="scg:List(s:Double[])" x:Key="out_QueryVectors">[qVecs]</OutArgument>
+          <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[childOk]</OutArgument>
+          <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[childErr]</OutArgument>
+        </ui:InvokeCode.Arguments>
+      </ui:InvokeCode>
+      <ui:CheckTrue DisplayName="Check True - ScatterVectors" ErrorMessage="[childErr]" Expression="[childOk]" sap2010:WorkflowViewState.IdRef="CheckTrue_Scatter_1" />
       <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="helpers\ScoreFieldsSemantic.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="452,146" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_12" UnSafe="False" WorkflowFileName="helpers\ScoreFieldsSemantic.xaml">
         <ui:InvokeWorkflowFile.Arguments>
           <OutArgument x:TypeArguments="sd:DataTable" x:Key="out_Results">[out_dt_Results]</OutArgument>

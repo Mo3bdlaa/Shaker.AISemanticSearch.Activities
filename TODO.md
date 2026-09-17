@@ -23,12 +23,20 @@ Backlog for `AI_SemanticSearch`. Completed items are kept, checked, for context.
       whole working directory into `content/` — so `v1.1.0` shipped a 114 MB `uipcli.zip` plus
       an 87 MB extracted copy inside the library.) The CLI now lives in `RUNNER_TEMP`, and the
       build fails if the package exceeds 25 MB so it cannot regress.
-- [x] **MIT license added**, Copyright (c) 2026 Mohamed Shaker; author stamped into the package
+- [x] **MIT license added**, Copyright (c) 2026 Mohammed Shaker; author stamped into the package
       metadata and credited in the README.
 - [x] **Argument-driven smoke test** (`Test/SmokeTest.xaml`) replacing the one removed before
       publishing. No environment-specific values: every path and endpoint is an argument and
       the fixture is built in memory.
 - [x] **Dropped the stale `docs/AGENTS.md`** entry from `privateWorkflows`.
+- [x] **All-exact queries no longer embed, and the retrieval guard fires first.**
+      `RetrieveStructuredData` now plans the query against the store before embedding
+      (*PlanQueryEmbedding*): it reads `meta.embedding_model` and each queried key's stored
+      `field_mode`, checks the model there, and sends only semantic non-filter values to
+      `EmbedTexts`. An all-exact or all-filter query therefore makes no HTTP call, and a model
+      mismatch fails before the request instead of after it. Both are asserted by the smoke test —
+      the no-HTTP case by pointing retrieval at an unusable endpoint and requiring it to succeed.
+      If the store cannot be read yet, it falls back to embedding every non-filter key.
 - [x] **Smoke test extended to the ingest identity guards.** Five phases now: ingest, filtered
       retrieval, unchanged re-ingest (`out_RowsWritten = 0`), wrong model, wrong dimension. The
       last two assert that the ingest aborts, that the message names the specific mismatch, and
@@ -55,12 +63,6 @@ Backlog for `AI_SemanticSearch`. Completed items are kept, checked, for context.
 - [ ] **Per-key weighting for structured queries.** Deliberately *not* done: hard filters
       addressed the actual problem, and an unused knob is permanent API surface on a published
       library. Worth adding only given a concrete case where averaging ranks badly.
-- [ ] **Model-mismatch guard at *retrieval* is not covered by the smoke test.** The ingest-side
-      guards are (see Done), but `RetrieveStructuredData` embeds the query *before*
-      `ScoreFieldsSemantic` reads `meta`, so a wrong-model retrieval hits the embedding endpoint
-      first and the outcome depends on how that server treats an unknown model name. Testing it
-      deterministically needs either a stub endpoint or a mode-aware pre-pass that skips embedding
-      for exact keys — which would also make the "all-exact query" case genuinely free.
 - [ ] *(optional)* **Workflow Analyzer warnings.** The build is error-free; the rest are
       cosmetic — default activity names (`ST-MRD-002`), `dt` prefix conventions
       (`ST-NMG-009/011`), duplicate display names (`ST-NMG-004`), nesting depth over 7
