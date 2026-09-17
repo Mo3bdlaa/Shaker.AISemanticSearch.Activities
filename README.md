@@ -79,7 +79,7 @@ Releases are cut from `projectVersion` in `project.json`, not by pushing a tag:
 To build locally instead, on a Windows machine with the UiPath CLI:
 
 ```powershell
-uipcli package pack project.json -o output -v 1.2.0
+uipcli package pack project.json -o output -v 1.2.1
 ```
 
 Consume the resulting `.nupkg` by adding its folder as a custom NuGet feed in UiPath Studio

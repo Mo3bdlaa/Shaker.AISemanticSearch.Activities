@@ -95,7 +95,9 @@ Leaving `in_FilterColumns` empty reproduces the original behaviour exactly.
 Tips:
 - Combine a semantic key with filter keys to filter+search in one call.
 - Filter by `docId` to scope results to one source workbook.
-- An all-exact query makes no embedding HTTP calls at all.
+- Every queried value is embedded, including exact and filter keys. The stored mode is only
+  known once `chunk_fields` is read, which happens after embedding, so a query cannot skip the
+  HTTP call by being all-exact.
 
 ---
 

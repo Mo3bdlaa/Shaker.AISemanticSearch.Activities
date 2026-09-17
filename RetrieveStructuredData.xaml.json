@@ -57,7 +57,7 @@
       "Name": "in_EmbeddingUrl",
       "DisplayName": "Embedding Endpoint",
       "Category": "Embedding Service",
-      "Tooltip": "OpenAI-compatible embeddings endpoint (POST .../v1/embeddings). Only semantic query keys are embedded; an all-exact query makes no HTTP calls.",
+      "Tooltip": "OpenAI-compatible embeddings endpoint (POST .../v1/embeddings). Every queried value is embedded, including exact and filter keys - the stored mode is only known after the embedding call.",
       "Placeholder": "http://host:port/v1/embeddings",
       "Widget": null,
       "IsRequired": true,

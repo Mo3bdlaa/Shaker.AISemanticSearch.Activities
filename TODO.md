@@ -29,6 +29,16 @@ Backlog for `AI_SemanticSearch`. Completed items are kept, checked, for context.
       publishing. No environment-specific values: every path and endpoint is an argument and
       the fixture is built in memory.
 - [x] **Dropped the stale `docs/AGENTS.md`** entry from `privateWorkflows`.
+- [x] **Smoke test extended to the ingest identity guards.** Five phases now: ingest, filtered
+      retrieval, unchanged re-ingest (`out_RowsWritten = 0`), wrong model, wrong dimension. The
+      last two assert that the ingest aborts, that the message names the specific mismatch, and
+      that nothing was written — `InitializeStore` runs before any embedding call, so the guards
+      fire without needing the endpoint. The unchanged re-ingest doubles as the only automated
+      check that the doc-level hash is computed consistently in its two places.
+- [x] **Fixed a wrong claim in the docs.** `docs/public-api.md` and the `in_EmbeddingUrl` tooltip
+      both said an all-exact query makes no embedding HTTP call. It does: `RetrieveStructuredData`
+      passes every queried value to `EmbedTexts`, because stored modes are only known after
+      `chunk_fields` is read.
 
 ## Needs you (no API access from here)
 
@@ -45,13 +55,12 @@ Backlog for `AI_SemanticSearch`. Completed items are kept, checked, for context.
 - [ ] **Per-key weighting for structured queries.** Deliberately *not* done: hard filters
       addressed the actual problem, and an unused knob is permanent API surface on a published
       library. Worth adding only given a concrete case where averaging ranks badly.
-- [ ] **Extend the smoke test to the identity guards** — model mismatch, dimension mismatch, and
-      skip-unchanged returning `out_RowsWritten = 0`. It currently covers ingest errors and the
-      filter behaviour only.
-- [ ] **Guard the doc-hash invariant.** `docs/architecture.md` warns that the doc-level hash is
-      computed in two places (`IngestStructuredData.xaml` → *FilterUnchanged*, and
-      `helpers/WriteStructuredChunks.xaml` → pass 0) that must stay in sync. Drift fails safe
-      (always rewrite, never wrongly skip), but nothing detects it.
+- [ ] **Model-mismatch guard at *retrieval* is not covered by the smoke test.** The ingest-side
+      guards are (see Done), but `RetrieveStructuredData` embeds the query *before*
+      `ScoreFieldsSemantic` reads `meta`, so a wrong-model retrieval hits the embedding endpoint
+      first and the outcome depends on how that server treats an unknown model name. Testing it
+      deterministically needs either a stub endpoint or a mode-aware pre-pass that skips embedding
+      for exact keys — which would also make the "all-exact query" case genuinely free.
 - [ ] *(optional)* **Workflow Analyzer warnings.** The build is error-free; the rest are
       cosmetic — default activity names (`ST-MRD-002`), `dt` prefix conventions
       (`ST-NMG-009/011`), duplicate display names (`ST-NMG-004`), nesting depth over 7
