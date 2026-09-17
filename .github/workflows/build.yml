@@ -44,7 +44,11 @@ jobs:
           } else {
             $tag = "v$proj"
             gh release view $tag --repo $env:GITHUB_REPOSITORY *> $null
-            if ($LASTEXITCODE -eq 0) {
+            $alreadyReleased = ($LASTEXITCODE -eq 0)
+            # gh exits non-zero when the release is absent, which is the normal
+            # first-release case - clear it so it is not taken as step failure.
+            $global:LASTEXITCODE = 0
+            if ($alreadyReleased) {
               $version = "$proj-ci.${{ github.run_number }}"
               $release = "false"
             } else {
@@ -56,6 +60,7 @@ jobs:
           "tag=$tag"         >> $env:GITHUB_OUTPUT
           "release=$release" >> $env:GITHUB_OUTPUT
           Write-Host "version=$version  tag=$tag  publish-release=$release"
+          exit 0
 
       - name: Download UiPath CLI
         shell: pwsh
