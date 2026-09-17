@@ -5,6 +5,8 @@ ingest free-text documents or tabular sheets, embed them with any OpenAI-compati
 endpoint, and retrieve by meaning (semantic), by precise value (exact), or both (hybrid).
 Multi-machine safe: many robots can share one store on a network path.
 
+By **Mohamed Shaker**. Released under the [MIT License](LICENSE).
+
 ## Documentation map
 
 | File | Read it when you want to... |
@@ -40,6 +42,8 @@ the "share" can be any folder.
    - Check `out_Errors` — empty means success. `out_RowsWritten = 0` means everything was unchanged (skipped).
 3. **Retrieve**:
    - Structured/hybrid: `in_QueryJson = "{""Name"":""جامعة هارفارد"",""Rank"":""5""}"` → whole rows back.
+     Add `in_ExactColumns`-style keys to `in_FilterColumns` (e.g. `{"Rank"}`) to make them hard
+     filters instead of score contributors.
    - Free-text: `in_Query = "أفضل جامعة في أمريكا"` → best-matching chunks/rows.
    - Results DataTable: `Rank, DocId, ChunkIndex, Content, Score` (best first).
 
@@ -53,7 +57,9 @@ the "share" can be any folder.
   before any embedding call.
 - **Multilingual**: with bge-m3, Arabic queries match English data and vice versa.
 - **Scores**: semantic = cosine similarity (~0.5–1.0 useful range); exact = 1.0 or 0;
-  structured queries average across the queried keys.
+  structured queries average across the scored keys.
+- **Scoring is not filtering**: by default a structured query ranks non-matching rows lower rather
+  than excluding them. List a key in `in_FilterColumns` to make it a hard filter.
 
 ## Building the package
 

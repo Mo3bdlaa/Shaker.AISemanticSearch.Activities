@@ -79,6 +79,7 @@ jobs:
             --repositoryUrl "${{ github.server_url }}/${{ github.repository }}" `
             --repositoryCommit "${{ github.sha }}" `
             --repositoryType git `
+            --author "Mohamed Shaker" `
             --traceLevel Information
           if ($LASTEXITCODE -ne 0) { throw "uipcli pack failed with exit code $LASTEXITCODE" }
           $pkg = Get-ChildItem output -Filter *.nupkg

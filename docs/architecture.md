@@ -80,6 +80,11 @@ Consequences:
 - If the two formulas ever drift apart, the failure mode is SAFE: documents are always
   rewritten (never wrongly skipped).
 
+The free-text path chunks with `helpers/ChunkText.xaml`: fixed character windows with overlap,
+snapped back to the nearest paragraph break, else sentence end, else whitespace (Latin and Arabic
+terminators both recognised). A candidate boundary is only taken if it still leaves more than half
+a window, so text with no boundaries falls back to the hard window rather than degenerating.
+
 The free-text path (`IngestDocuments`) has per-document change detection instead:
 `helpers/CheckDocument.xaml` compares `SHA256(text)` against `documents.content_hash`.
 
@@ -89,8 +94,12 @@ The free-text path (`IngestDocuments`) has per-document change detection instead
   chunk embedding; top-N by score. `Content` returned is the stored chunk text / row JSON.
 - **Structured** (`helpers/ScoreFieldsSemantic.xaml`): scans `chunk_fields` for the queried keys
   only (parameterized IN-list). Per key: exact → 1.0 on case-insensitive equality;
-  semantic → dot product. A chunk's score = sum of key contributions ÷ number of queried keys,
+  semantic → dot product. A chunk's score = sum of key contributions ÷ number of **scored** keys,
   so matching more keys ranks higher. Winners are joined back to `chunks` to return whole rows.
+  Keys passed in `in_FilterKeys` are *hard predicates* instead: a chunk survives only if every
+  one of them matches exactly (trimmed, case-insensitive) regardless of its stored mode, and
+  they contribute nothing to the score. A chunk matching all filters but no scored key is still
+  returned with score 0; an all-filter query scores 1.0. No filter keys = original behaviour.
 
 ## Native SQLite loading
 

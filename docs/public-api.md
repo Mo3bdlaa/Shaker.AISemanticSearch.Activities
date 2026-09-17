@@ -22,7 +22,9 @@ Content (String), Score (Double)`, best first.
 
 **Behavior**, per document, inside one write-lock session:
 1. `CheckDocument`: hash the text; skip if unchanged (`out_Skipped`).
-2. `ChunkText`: sliding window of `in_ChunkSize` chars with `in_Overlap` overlap.
+2. `ChunkText`: sliding window of `in_ChunkSize` chars with `in_Overlap` overlap. Each cut is
+   snapped back to the nearest paragraph break, else sentence end, else whitespace, so chunks
+   end on a natural boundary when one is available within the window.
 3. `EmbedTexts`: batch-embed all chunks.
 4. `WriteDocumentChunks`: one transaction — delete the doc's old chunks, insert new ones.
 5. Errors on one document do NOT stop the others (`out_Failed` + `out_Errors` accumulate).
@@ -74,12 +76,25 @@ phrasing is not understood — scores measure similarity of meaning, not quality
 
 `in_QueryJson` is a JSON object: `{"Name":"جامعة هارفارد","Rank":"5"}`.
 Keys match ingested column names (case-insensitive); each key scores by its STORED mode
-(exact = equality, semantic = similarity), and a row's score is the average across queried keys.
-Returns whole rows (`Content` = full row JSON).
+(exact = equality, semantic = similarity). Returns whole rows (`Content` = full row JSON).
+
+**Scoring vs filtering** — the distinction that matters:
+
+- By default **every** queried key only *scores*. A row whose `Rank` is not 5 is still returned
+  for `{"Rank":"5","Name":"..."}`, just ranked lower. The score is the average across the
+  scored keys, so rows matching more keys rank higher.
+- `in_FilterColumns` (optional) turns the keys listed in it into **hard filters**: a row is
+  returned only if every listed key matches the queried value exactly (trimmed,
+  case-insensitive), *whatever mode it was ingested in*. Filter keys contribute nothing to the
+  score, which is then averaged over the remaining keys. A query that is all filters scores 1.0.
+
+So `in_QueryJson = {"Rank":"5","Name":"..."}` with `in_FilterColumns = ["Rank"]` means
+*Rank must be 5, then rank those rows by name similarity* — usually what such a query intends.
+Leaving `in_FilterColumns` empty reproduces the original behaviour exactly.
 
 Tips:
-- Combine a semantic key with exact keys to filter+search in one call.
-- Query by `docId` (exact) to scope results to one source workbook.
+- Combine a semantic key with filter keys to filter+search in one call.
+- Filter by `docId` to scope results to one source workbook.
 - An all-exact query makes no embedding HTTP calls at all.
 
 ---
