@@ -12,6 +12,13 @@ on:
 permissions:
   contents: write
 
+# Two builds of the same version must not race to publish it: without this,
+# a run that starts while another is mid-build sees no release yet and both
+# try to create the tag.
+concurrency:
+  group: pack-${{ github.workflow }}
+  cancel-in-progress: false
+
 env:
   UIPCLI_VERSION: "25.10.22"
   UIPATH_FEED: "https://uipath.pkgs.visualstudio.com/Public.Feeds/_packaging/UiPath-Official/nuget/v3/flat2"
@@ -112,6 +119,16 @@ jobs:
           SHA: ${{ github.sha }}
         run: |
           $pkg = (Get-ChildItem output/*.nupkg).FullName
+
+          # Re-check right before creating: the plan was resolved before the
+          # pack, and another run may have published this version since.
+          gh release view "${{ steps.ver.outputs.tag }}" --repo $env:GITHUB_REPOSITORY *> $null
+          if ($LASTEXITCODE -eq 0) {
+            Write-Host "Release ${{ steps.ver.outputs.tag }} already exists - nothing to publish."
+            exit 0
+          }
+          $global:LASTEXITCODE = 0
+
           $notes = @(
             'UiPath library package for Windows targets, built from commit ' + $env:SHA + '.'
             ''
